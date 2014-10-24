@@ -1,9 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenTK;
-using SharpLib2D.Entities;
+﻿using SharpLib2D.Entities;
 
 namespace Circuitry.Components
 {

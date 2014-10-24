@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Circuitry.States;
-using Gwen.Control;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;

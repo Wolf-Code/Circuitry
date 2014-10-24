@@ -1,5 +1,4 @@
-﻿using System;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Input;
 
 namespace Circuitry.Components
@@ -7,7 +6,6 @@ namespace Circuitry.Components
     public abstract class IONode : CircuitryEntity
     {
         private static readonly SharpLib2D.Graphics.Texture NodeTexture;
-        private static IONode StartNode;
 
         #region Enums
 
@@ -144,7 +142,7 @@ namespace Circuitry.Components
                 switch ( Button )
                 {
                     case OpenTK.Input.MouseButton.Left:
-                        StartNode = this;
+                        
                         break;
 
                     case OpenTK.Input.MouseButton.Right:
@@ -171,8 +169,6 @@ namespace Circuitry.Components
                             if ( CanConnect( Node ) )
                                 ConnectTo( Node );
                         }
-
-                        StartNode = null;
                     }
                     break;
             }

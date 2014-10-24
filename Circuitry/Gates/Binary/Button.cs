@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Circuitry.Gates.Binary
 {
     public class Button : Components.Gate
     {
+        private static readonly SharpLib2D.Graphics.Texture Off, On;
+
         public bool Down
         {
             private set;
             get;
+        }
+
+        static Button( )
+        {
+            Off = SharpLib2D.Graphics.Texture.Load( @"Resources\Textures\Components\Button\Normal\Button_Off.png" );
+            On = SharpLib2D.Graphics.Texture.Load( @"Resources\Textures\Components\Button\Normal\Button_On.png" );
         }
 
         public Button( )
@@ -22,15 +25,13 @@ namespace Circuitry.Gates.Binary
 
         public override void Draw( OpenTK.FrameEventArgs e )
         {
-            this.DrawIOConnectors( );
+            DrawIOConnectors( );
 
-            if ( this.Down )
-                SharpLib2D.Graphics.Color.Set( 0f, 1f, 0f, 1f );
-            else
-                SharpLib2D.Graphics.Color.Set( 1f, 0f, 0f, 1f );
+            SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f );
 
-            //DrawTexturedSelf( );
-            SharpLib2D.Graphics.Rectangle.Draw( TopLeft.X, TopLeft.Y, Size.X, Size.Y );
+            ( Down ? On : Off ).Bind( );
+
+            DrawTexturedSelf( );
             base.Draw( e );
         }
 

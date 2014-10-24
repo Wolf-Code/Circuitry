@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Circuitry.Gates.Binary
 {
     public class OR : Components.Gate
     {
-        static SharpLib2D.Graphics.Texture T;
+        static readonly SharpLib2D.Graphics.Texture T;
 
         static OR( )
         {
