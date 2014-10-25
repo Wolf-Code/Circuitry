@@ -1,7 +1,7 @@
 ﻿
 using SharpLib2D.Graphics;
 
-namespace Circuitry.Gates.Binary
+namespace Circuitry.Gates
 {
     public class Splitter : Components.Gate
     {

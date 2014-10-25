@@ -100,7 +100,7 @@ namespace Circuitry.Components
         /// <summary>
         /// The size each node has.
         /// </summary>
-        public const int NodeSize = 20;
+        public const int NodeSize = 15;
 
         /// <summary>
         /// The gate this node belongs to.

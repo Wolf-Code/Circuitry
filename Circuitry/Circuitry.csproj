@@ -57,7 +57,7 @@
     <Compile Include="Gates\Binary\NOT.cs" />
     <Compile Include="Gates\Binary\OR.cs" />
     <Compile Include="Gates\Binary\Switch.cs" />
-    <Compile Include="Gates\Binary\Splitter.cs" />
+    <Compile Include="Gates\Splitter.cs" />
     <Compile Include="Gates\Binary\AND.cs" />
     <Compile Include="Gates\Binary\LED.cs" />
     <Compile Include="Gates\Binary\Button.cs" />

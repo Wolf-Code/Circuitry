@@ -42,39 +42,42 @@ namespace SharpLib2D.Graphics
         {
             if ( LoadedTextures.ContainsKey( Path ) )
                 return LoadedTextures[ Path ];
-            else
+
+
+            Texture T = new Texture
             {
-                Texture T = new Texture
+                ID = GL.GenTexture( )
+            };
+            GL.BindTexture( TextureTarget.Texture2D, T.ID );
+
+            System.IO.FileInfo Info = new System.IO.FileInfo( Path );
+            if ( Info.Exists )
+            {
+                using ( Bitmap B = new Bitmap( Path ) )
                 {
-                    ID = GL.GenTexture( )
-                };
-                GL.BindTexture( TextureTarget.Texture2D, T.ID );
+                    T.Width = B.Width;
+                    T.Height = B.Height;
 
-                System.IO.FileInfo Info = new System.IO.FileInfo( Path );
-                if ( Info.Exists )
-                {
-                    using ( Bitmap B = new Bitmap( Path ) )
-                    {
-                        T.Width = B.Width;
-                        T.Height = B.Height;
+                    BitmapData bmp_data = B.LockBits( new System.Drawing.Rectangle( 0, 0, B.Width, B.Height ),
+                        ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
 
-                        BitmapData bmp_data = B.LockBits( new System.Drawing.Rectangle( 0, 0, B.Width, B.Height ), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
+                    GL.TexImage2D( TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height,
+                        0,
+                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0 );
 
-                        GL.TexImage2D( TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0,
-                            OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0 );
-
-                        B.UnlockBits( bmp_data );
-                    }
-                    GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, ( int )TextureMinFilter.Linear );
-                    GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, ( int )TextureMagFilter.Linear );
+                    B.UnlockBits( bmp_data );
                 }
-                else
-                    throw new System.IO.FileNotFoundException( "Unable to load texture '" + Path + "'" );
-
-                LoadedTextures.Add( Path, T );
-
-                return T;
+                GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+                    ( int ) TextureMinFilter.Linear );
+                GL.TexParameter( TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+                    ( int ) TextureMagFilter.Linear );
             }
+            else
+                throw new System.IO.FileNotFoundException( "Unable to load texture '" + Path + "'" );
+
+            LoadedTextures.Add( Path, T );
+
+            return T;
         }
 
         public void Bind( )
