@@ -46,6 +46,9 @@ namespace Circuitry.Components
             get;
         }
 
+        /// <summary>
+        /// Returns true if the node is connected to another node, false otherwise.
+        /// </summary>
         public bool IsConnected
         {
             get
@@ -54,24 +57,36 @@ namespace Circuitry.Components
             }
         }
 
+        /// <summary>
+        /// The node's identifying name.
+        /// </summary>
         public string Name
         {
             protected set;
             get;
         }
 
+        /// <summary>
+        /// A description of this node's purpose.
+        /// </summary>
         public string Description
         {
             protected set;
             get;
         }
 
+        /// <summary>
+        /// The node's value.
+        /// </summary>
         public float Value
         {
             private set;
             get;
         }
 
+        /// <summary>
+        /// The node's binary value.
+        /// </summary>
         public bool BinaryValue
         {
             get
@@ -82,8 +97,14 @@ namespace Circuitry.Components
             }
         }
 
+        /// <summary>
+        /// The size each node has.
+        /// </summary>
         public const int NodeSize = 20;
 
+        /// <summary>
+        /// The gate this node belongs to.
+        /// </summary>
         public Gate Gate
         {
             get
@@ -92,7 +113,7 @@ namespace Circuitry.Components
             }
         }
 
-        private bool Connecting = false;
+        private bool Connecting;
 
         #endregion
 
@@ -110,11 +131,19 @@ namespace Circuitry.Components
             SetSize( NodeSize, NodeSize );
         }
 
+        /// <summary>
+        /// Sets the node's value.
+        /// </summary>
+        /// <param name="NewValue">The new value.</param>
         public void SetValue( float NewValue )
         {
             this.Value = NewValue;
         }
 
+        /// <summary>
+        /// Sets the node's binary value.
+        /// </summary>
+        /// <param name="NewValue">The new value.</param>
         public void SetValue( bool NewValue )
         {
             this.Value = NewValue ? 1f : 0f;
