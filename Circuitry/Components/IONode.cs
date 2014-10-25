@@ -1,11 +1,14 @@
 ﻿using OpenTK;
 using OpenTK.Input;
+using SharpLib2D.Entities;
+using SharpLib2D.Graphics;
+using Mouse = SharpLib2D.Info.Mouse;
 
 namespace Circuitry.Components
 {
     public abstract class IONode : CircuitryEntity
     {
-        private static readonly SharpLib2D.Graphics.Texture NodeTexture;
+        private static readonly Texture NodeTexture;
 
         #region Enums
 
@@ -47,7 +50,7 @@ namespace Circuitry.Components
         {
             get
             {
-                return this.Connection != null;
+                return Connection != null;
             }
         }
 
@@ -73,6 +76,8 @@ namespace Circuitry.Components
         {
             get
             {
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                // If the value is equal to 1f, then we're one. Zero otherwise.
                 return Value == 1f;
             }
         }
@@ -83,15 +88,17 @@ namespace Circuitry.Components
         {
             get
             {
-                return this.Parent as Gate;
+                return Parent as Gate;
             }
         }
+
+        private bool Connecting = false;
 
         #endregion
 
         static IONode( )
         {
-            NodeTexture = SharpLib2D.Graphics.Texture.Load( "Resources\\Textures\\Components\\Node.png" );
+            NodeTexture = Texture.Load( "Resources\\Textures\\Components\\Node.png" );
         }
 
         protected IONode( NodeType Type, string Name, string Description )
@@ -103,21 +110,25 @@ namespace Circuitry.Components
             SetSize( NodeSize, NodeSize );
         }
 
-        public void SetValue( float Value )
+        public void SetValue( float NewValue )
         {
-            this.Value = Value;
+            this.Value = NewValue;
         }
 
-        public void SetValue( bool Value )
+        public void SetValue( bool NewValue )
         {
-            this.Value = Value ? 1f : 0f;
+            this.Value = NewValue ? 1f : 0f;
         }
 
         public override void Draw( FrameEventArgs e )
         {
-            SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f );
-            SharpLib2D.Graphics.Texture.Set( NodeTexture );
-            SharpLib2D.Graphics.Rectangle.DrawTextured( TopLeft.X, TopLeft.Y, Size.X, Size.Y );
+            if ( !Connecting )
+                Color.Set( 1f, 1f, 1f );
+            else
+                Color.Set( 0f, 1f, 0f );
+
+            Texture.Set( NodeTexture );
+            Rectangle.DrawTextured( TopLeft.X, TopLeft.Y, Size.X, Size.Y );
 
             base.Draw( e );
         }
@@ -135,17 +146,18 @@ namespace Circuitry.Components
             base.OnMouseExit( );
         }
 
-        public override void OnButtonPressed( OpenTK.Input.MouseButton Button )
+        public override void OnButtonPressed( MouseButton Button )
         {
             if ( Gate.Circuit.CurrentState == Circuit.State.Build && MouseCanSelect( ) )
             {
                 switch ( Button )
                 {
-                    case OpenTK.Input.MouseButton.Left:
-                        
+                    case MouseButton.Left:
+                        if ( !IsConnected )
+                            Connecting = true;
                         break;
 
-                    case OpenTK.Input.MouseButton.Right:
+                    case MouseButton.Right:
                         Disconnect( );
                         break;
                 }
@@ -160,8 +172,8 @@ namespace Circuitry.Components
                 case MouseButton.Left:
                     if ( Gate.Circuit.CurrentState == Circuit.State.Build )
                     {
-                        SharpLib2D.Entities.MouseEntity Top =
-                            this.Container.GetTopChild( this.ParentState.Camera.ToWorld( SharpLib2D.Info.Mouse.Position ) );
+                        MouseEntity Top =
+                            Container.GetTopChild( ParentState.Camera.ToWorld( Mouse.Position ) );
 
                         if ( Top is IONode )
                         {
@@ -169,6 +181,8 @@ namespace Circuitry.Components
                             if ( CanConnect( Node ) )
                                 ConnectTo( Node );
                         }
+
+                        Connecting = false;
                     }
                     break;
             }
@@ -180,7 +194,7 @@ namespace Circuitry.Components
 
         protected override void OnRemove( )
         {
-            this.Disconnect( );
+            Disconnect( );
 
             base.OnRemove( );
         }
@@ -206,7 +220,7 @@ namespace Circuitry.Components
             Connection = Node;
             Node.Connection = this;
 
-            IONode Output = this.Direction == NodeDirection.Out ? this : Node;
+            IONode Output = Direction == NodeDirection.Out ? this : Node;
 
             Output.Gate.SetOutput( Output.Name, Output.Value );
         }
@@ -214,11 +228,11 @@ namespace Circuitry.Components
         public bool CanConnect( IONode Node )
         {
             // Input can't connect to input, output can't connect to output.
-            if ( this.Direction == Node.Direction )
+            if ( Direction == Node.Direction )
                 return false;
 
-            IONode Input = this.Direction == NodeDirection.In ? this : Node;
-            IONode Output = this.Direction == NodeDirection.Out ? this : Node;
+            IONode Input = Direction == NodeDirection.In ? this : Node;
+            IONode Output = Direction == NodeDirection.Out ? this : Node;
 
             return ( ( Input.Type != NodeType.Binary ) ||
                    ( Input.Type == Output.Type ) ) && !Input.IsConnected;
