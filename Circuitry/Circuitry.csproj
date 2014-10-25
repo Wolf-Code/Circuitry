@@ -56,8 +56,8 @@
     <Compile Include="Gates\Binary\NAND.cs" />
     <Compile Include="Gates\Binary\NOT.cs" />
     <Compile Include="Gates\Binary\OR.cs" />
-    <Compile Include="Gates\Binary\ButtonToggle.cs" />
-    <Compile Include="Gates\Binary\Divider.cs" />
+    <Compile Include="Gates\Binary\Switch.cs" />
+    <Compile Include="Gates\Binary\Splitter.cs" />
     <Compile Include="Gates\Binary\AND.cs" />
     <Compile Include="Gates\Binary\LED.cs" />
     <Compile Include="Gates\Binary\Button.cs" />
@@ -120,6 +120,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\Components\OR.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\Components\Splitter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\UI\DefaultSkin.png">

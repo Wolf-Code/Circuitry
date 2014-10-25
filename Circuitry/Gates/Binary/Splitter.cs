@@ -1,17 +1,26 @@
 ﻿
+using SharpLib2D.Graphics;
+
 namespace Circuitry.Gates.Binary
 {
-    public class Divider : Components.Gate
+    public class Splitter : Components.Gate
     {
-        public Divider( )
+        static readonly Texture T;
+
+        static Splitter( )
+        {
+            T = Texture.Load( @"Resources\Textures\Components\Splitter.png" );
+        }
+
+        public Splitter( )
             : this( 2 )
         {
 
         }
 
-        public Divider( int Amount = 2 )
+        public Splitter( int Amount = 2 )
         {
-            this.AddInput( Components.IONode.NodeType.Binary, "Input", "The input to divide" );
+            this.AddInput( Components.IONode.NodeType.Binary, "Input", "The input to split." );
 
             for ( int X = 0; X < Amount; X++ )
             {
@@ -31,8 +40,11 @@ namespace Circuitry.Gates.Binary
         {
             this.DrawIOConnectors( );
 
-            SharpLib2D.Graphics.Color.Set( 0.3f, 0.3f, 0.3f, 1f );
-            SharpLib2D.Graphics.Rectangle.Draw( TopLeft.X, TopLeft.Y, Size.X, Size.Y );
+            Color.Set( 1f, 1f, 1f );
+
+            T.Bind( );
+
+            DrawTexturedSelf( );
             base.Draw( e );
         }
     }

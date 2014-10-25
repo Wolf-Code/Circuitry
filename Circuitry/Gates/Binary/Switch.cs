@@ -3,7 +3,7 @@ using SharpLib2D.States;
 
 namespace Circuitry.Gates.Binary
 {
-    public class ButtonToggle : Components.Gate
+    public class Switch : Components.Gate
     {
         private static readonly SharpLib2D.Graphics.Texture Off, On;
 
@@ -17,20 +17,19 @@ namespace Circuitry.Gates.Binary
         {
             get
             {
-                return "Toggleable Button";
+                return "Switch";
             }
         }
 
-        static ButtonToggle( )
+        static Switch( )
         {
             Off = SharpLib2D.Graphics.Texture.Load( "Resources\\Textures\\Components\\Button\\Toggle\\Button_Toggle_Off.png" );
             On = SharpLib2D.Graphics.Texture.Load( "Resources\\Textures\\Components\\Button\\Toggle\\Button_Toggle_On.png" );
         }
 
-        public ButtonToggle( )
+        public Switch( )
         {
             this.AddOutput( Components.IONode.NodeType.Binary, "Value", "1 when the button is toggled, 0 otherwise." );
-            this.SetSize( On.Width, On.Height );
             this.Category = "Input";
         }
 

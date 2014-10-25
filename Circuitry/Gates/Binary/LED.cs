@@ -14,7 +14,6 @@ namespace Circuitry.Gates.Binary
         public LED( )
         {
             this.AddInput( Components.IONode.NodeType.Binary, "Enabled", "Emits light when 1, is off otherwise." );
-            this.SetSize( On.Width, On.Height );
 
             this.Category = "Output";
         }
