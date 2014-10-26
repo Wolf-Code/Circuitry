@@ -134,6 +134,7 @@ namespace Circuitry.Components
                             if ( !UI.Manager.MouseInsideUI( ) )
                             {
                                 AddGate( GateToPlace );
+                                GateToPlace.Active = true;
                                 GateToPlace = null;
                                 CurrentState = State.Build;
                             }

@@ -6,6 +6,7 @@ using OpenTK;
 
 namespace SharpLib2D.Graphics
 {
+    #region Helper Classes
     static class FontCollection
     {
         private static readonly Dictionary<string, Dictionary<float, Font>> Fonts = new Dictionary<string, Dictionary<float, Font>>( );
@@ -104,6 +105,8 @@ namespace SharpLib2D.Graphics
             }
         }
     }
+
+    #endregion
 
     public static class Text
     {

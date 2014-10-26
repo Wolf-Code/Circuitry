@@ -54,6 +54,8 @@ namespace Circuitry.Components
             }
         }
 
+        public bool Active { internal set; get; }
+
         public const int IODistance = 40;
 
         #endregion
@@ -137,7 +139,7 @@ namespace Circuitry.Components
             return null;
         }
 
-        public void SetOutput( string OutputName, float Value )
+        public void SetOutput( string OutputName, double Value )
         {
             Output O = GetOutput( OutputName );
             O.SetValue( Value );
@@ -165,7 +167,7 @@ namespace Circuitry.Components
 
             for( int X = 0; X < Inputs.Count; X++ )
             {
-                Inputs[ X ].SetPosition( -IODistance - Size.X / 2, Diff * ( X + 1 ) - Size.Y / 2 );
+                Inputs[ X ].SetPosition( -( IODistance + Size.X / 2 ), Diff * ( X + 1 ) - Size.Y / 2 );
             }
         }
 
@@ -233,7 +235,7 @@ namespace Circuitry.Components
         {
             this.DrawIOConnectors( );
 
-            Color.Set( 1f, 1f, 1f, 1f );
+            Color.Set( 1f, 1f, 1f );
             T.Bind( );
 
             DrawTexturedSelf( );

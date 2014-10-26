@@ -78,7 +78,7 @@ namespace Circuitry.Components
         /// <summary>
         /// The node's value.
         /// </summary>
-        public float Value
+        public double Value
         {
             private set;
             get;
@@ -93,7 +93,7 @@ namespace Circuitry.Components
             {
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
                 // If the value is equal to 1f, then we're one. Zero otherwise.
-                return Value == 1f;
+                return Value == 1.0;
             }
         }
 
@@ -135,7 +135,7 @@ namespace Circuitry.Components
         /// Sets the node's value.
         /// </summary>
         /// <param name="NewValue">The new value.</param>
-        public void SetValue( float NewValue )
+        public void SetValue( double NewValue )
         {
             this.Value = NewValue;
         }
@@ -146,7 +146,7 @@ namespace Circuitry.Components
         /// <param name="NewValue">The new value.</param>
         public void SetValue( bool NewValue )
         {
-            this.Value = NewValue ? 1f : 0f;
+            this.Value = NewValue ? 1.0 : 0.0;
         }
 
         public override void Draw( FrameEventArgs e )
