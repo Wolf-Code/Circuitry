@@ -7,14 +7,14 @@ namespace SharpLib2D.Graphics
     {
         #region DrawRect
 
-        private static void DrawRect( float X, float Y, float W, float H )
+        private static void DrawRect( float X, float Y, float W, float H, float U1 = 0f, float V1 = 0f, float U2 = 1f, float V2 = 1f )
         {
             PrimitiveBatch.Begin( );
             {
-                PrimitiveBatch.AddVertex( new Vector2( X, Y + H ), Color.ActiveColor, Vector2.UnitY );
-                PrimitiveBatch.AddVertex( new Vector2( X, Y ), Color.ActiveColor, Vector2.Zero );
-                PrimitiveBatch.AddVertex( new Vector2( X + W, Y + H ), Color.ActiveColor, Vector2.One );
-                PrimitiveBatch.AddVertex( new Vector2( X + W, Y ), Color.ActiveColor, Vector2.UnitX );
+                PrimitiveBatch.AddVertex( new Vector2( X, Y + H ), Color.ActiveColor, new Vector2( U1, V2) );
+                PrimitiveBatch.AddVertex( new Vector2( X, Y ), Color.ActiveColor, new Vector2( U1, V1 ) );
+                PrimitiveBatch.AddVertex( new Vector2( X + W, Y + H ), Color.ActiveColor, new Vector2( U2, V2 ) );
+                PrimitiveBatch.AddVertex( new Vector2( X + W, Y ), Color.ActiveColor, new Vector2( U2, V1 ) );
             }
             PrimitiveBatch.End( );
         }
