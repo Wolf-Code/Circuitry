@@ -5,76 +5,94 @@ namespace SharpLib2D.Graphics
 {
     public static class Rectangle
     {
-        #region New OpenGL
-        /*
-         * TODO: Use non-deprecated OpenGL
-        private static int iVBO;
-
-        static Rectangle( )
-        {
-            iVBO = GL.GenBuffer( );
-
-            Vertex [ ] Vertices = new Vertex[ 4 ];
-
-            Vertices[ 0 ] = new Vertex
-            {
-                Normal = new Vector3( 0, 0, 1 ),
-                Position = new Vector3( 0, 0, 0 ),
-                UV = new Vector2( 0, 0 )
-            };
-
-            Vertices[ 1 ] = new Vertex
-            {
-                Normal = new Vector3( 0, 0, 1 ),
-                Position = new Vector3( 1, 0, 0 ),
-                UV = new Vector2( 1, 0 )
-            };
-
-            Vertices[ 2 ] = new Vertex
-            {
-                Normal = new Vector3( 0, 0, 1 ),
-                Position = new Vector3( 1, 1, 0 ),
-                UV = new Vector2( 1, 1 )
-            };
-
-            Vertices[ 3 ] = new Vertex
-            {
-                Normal = new Vector3( 0, 0, 1 ),
-                Position = new Vector3( 0, 1, 0 ),
-                UV = new Vector2( 0, 1 )
-            };
-
-            GL.BindBuffer( BufferTarget.ArrayBuffer, iVBO );
-            {
-                GL.BufferData( BufferTarget.ArrayBuffer,
-                    ( IntPtr ) ( Vertices.Length * 8 * sizeof ( float ) ),
-                    Vertices, BufferUsageHint.StaticDraw );
-            }
-            GL.BindBuffer( BufferTarget.ArrayBuffer, 0 );
-        }
-        */
-        #endregion
-
         #region DrawRect
 
         private static void DrawRect( float X, float Y, float W, float H )
         {
-            GL.Color4( Color.ActiveColor );
-            GL.Begin( PrimitiveType.Quads );
+            PrimitiveBatch.Begin( );
             {
-                GL.TexCoord2( 0.0f, 0.0f );
-                GL.Vertex2( X, Y );
-
-                GL.TexCoord2( 1.0f, 0.0f );
-                GL.Vertex2( X + W, Y );
-
-                GL.TexCoord2( 1.0f, 1.0f );
-                GL.Vertex2( X + W, Y + H );
-
-                GL.TexCoord2( 0.0f, 1.0f );
-                GL.Vertex2( X, Y + H );
+                PrimitiveBatch.AddVertex( new Vector2( X, Y + H ), Color.ActiveColor, Vector2.UnitY );
+                PrimitiveBatch.AddVertex( new Vector2( X, Y ), Color.ActiveColor, Vector2.Zero );
+                PrimitiveBatch.AddVertex( new Vector2( X + W, Y + H ), Color.ActiveColor, Vector2.One );
+                PrimitiveBatch.AddVertex( new Vector2( X + W, Y ), Color.ActiveColor, Vector2.UnitX );
             }
-            GL.End( );
+            PrimitiveBatch.End( );
+        }
+
+        #endregion
+
+        #region DrawRoundedRect
+
+        public static void DrawRounded( float X, float Y, float W, float H, int Size, int Quality )
+        {
+            if ( Size < 0 )
+                Size = 0;
+
+            if ( Size == 0 )
+            {
+                DrawRect( X, Y, W, H );
+                return;
+            }
+
+            Vector2 TopLeft = new Vector2( X + Size, Y + Size );
+            Vector2 BottomRight = new Vector2( X + W - Size, Y + H - Size );
+
+            // Center
+            DrawRect( X, TopLeft.Y, W, H - Size * 2 );
+
+            // Top
+            DrawRect( X + Size, Y, W - Size * 2, Size );
+
+            // Bottom
+            DrawRect( X + Size, Y + H - Size, W - Size * 2, Size );
+
+            float PiDiv = ( float )( System.Math.PI / 2f / Quality );
+
+            // Top Left
+            for ( int Q = 0; Q < 4; Q++ )
+            {
+                Vector2 Start = TopLeft;
+                int MulX = -1, MulY = -1;
+
+                switch ( Q )
+                {
+                        // Top Right
+                    case 1:
+                        Start = new Vector2( BottomRight.X, TopLeft.Y );
+                        MulX = 1;
+                        break;
+
+                        // Bottom Right
+                    case 2:
+                        Start = BottomRight;
+                        MulX = 1;
+                        MulY = 1;
+                        break;
+
+                        // Bottom Left
+                    case 3:
+                        Start = new Vector2( TopLeft.X, BottomRight.Y );
+                        MulY = 1;
+                        break;
+                }
+
+                PrimitiveBatch.Begin( );
+                {
+                    PrimitiveBatch.AddVertex( Start, Color.ActiveColor, Vector2.Zero,
+                        PrimitiveType.TriangleFan );
+                    for ( int I = 0; I < Quality + 1; I++ )
+                    {
+                        float Cx = ( float ) System.Math.Cos( I * PiDiv );
+                        float Cy = ( float ) System.Math.Sin( I * PiDiv );
+
+                        PrimitiveBatch.AddVertex( Start + new Vector2( Cx * Size * MulX, Cy * Size * MulY ),
+                            Color.ActiveColor,
+                            Vector2.Zero,
+                            PrimitiveType.TriangleFan );
+                    }
+                }
+                PrimitiveBatch.End( );
+            }
         }
 
         #endregion

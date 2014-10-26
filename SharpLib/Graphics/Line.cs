@@ -9,28 +9,27 @@ namespace SharpLib2D.Graphics
 
         public static void Draw( Vector2 Start, Vector2 End, float Width = 1f )
         {
-            GL.Color4( Color.ActiveColor );
             if ( Width <= 1f )
             {
-                GL.Begin( PrimitiveType.Lines );
+                PrimitiveBatch.Begin( );
                 {
-                    GL.Vertex2( Start );
-                    GL.Vertex2( End );
+                    PrimitiveBatch.AddVertex( Start, Color.ActiveColor, Vector2.Zero, PrimitiveType.LineStrip );
+                    PrimitiveBatch.AddVertex( End, Color.ActiveColor, Vector2.One, PrimitiveType.LineStrip );
                 }
-                GL.End( );
+                PrimitiveBatch.End( );
             }
             else
             {
                 Vector2 Normal = Math.Vector.Normal( Start, End );
 
-                GL.Begin( PrimitiveType.Quads );
+                PrimitiveBatch.Begin( );
                 {
-                    GL.Vertex2( Start + Normal * Width * 0.5f );
-                    GL.Vertex2( End + Normal * Width * 0.5f );
-                    GL.Vertex2( End - Normal * Width * 0.5f );
-                    GL.Vertex2( Start - Normal * Width * 0.5f );
+                    PrimitiveBatch.AddVertex( Start + Normal * Width * 0.5f, Color.ActiveColor, Vector2.Zero );
+                    PrimitiveBatch.AddVertex( End + Normal * Width * 0.5f, Color.ActiveColor, Vector2.Zero );
+                    PrimitiveBatch.AddVertex( Start - Normal * Width * 0.5f, Color.ActiveColor, Vector2.Zero );
+                    PrimitiveBatch.AddVertex( End - Normal * Width * 0.5f, Color.ActiveColor, Vector2.Zero );
                 }
-                GL.End( );
+                PrimitiveBatch.End( );
             }
         }
 
@@ -38,7 +37,7 @@ namespace SharpLib2D.Graphics
 
         #region Draw - Points
 
-        public static void DrawConnected( Vector2[ ] Points, float Width = 1f )
+        public static void DrawConnected( Vector2 [ ] Points, float Width = 1f )
         {
             if ( Points.Length <= 1 )
                 return;
@@ -46,25 +45,25 @@ namespace SharpLib2D.Graphics
             GL.Color4( Color.ActiveColor );
             if ( Width <= 1f )
             {
-                GL.Begin( PrimitiveType.Lines );
+                PrimitiveBatch.Begin( );
                 {
                     for ( int X = 0; X < Points.Length - 1; X++ )
                     {
-                        GL.Vertex2( Points[ X ] );
-                        GL.Vertex2( Points[ X + 1 ] );
+                        PrimitiveBatch.AddVertex( Points[ X ], Color.ActiveColor, Vector2.Zero, PrimitiveType.LineStrip );
+                        //PrimitiveBatch.AddVertex( Points[ X + 1 ], Color.ActiveColor, Vector2.Zero );
                     }
                 }
-                GL.End( );
+                PrimitiveBatch.End( );
             }
             else
             {
                 float Div = Width * 0.5f;
-                GL.Begin( PrimitiveType.Quads );
-                {
-                    Vector2 P1 = Points[ 0 ], P2 = Points[ 1 ];
-                    Vector2 Normal = Math.Vector.Normal( P1, P2 );
-                    Vector2 PreviousTop = P1 + Normal * Div, PreviousBottom = P1 - Normal * Div;
 
+                Vector2 P1 = Points[ 0 ], P2 = Points[ 1 ];
+                Vector2 Normal = Math.Vector.Normal( P1, P2 );
+                Vector2 PreviousTop = P1 + Normal * Div, PreviousBottom = P1 - Normal * Div;
+                PrimitiveBatch.Begin( );
+                {
                     for ( int X = 0; X < Points.Length - 1; X++ )
                     {
                         P1 = Points[ X ];
@@ -73,16 +72,16 @@ namespace SharpLib2D.Graphics
                         Vector2 Top = P2 + Normal * Div;
                         Vector2 Bottom = P2 - Normal * Div;
 
-                        GL.Vertex2( PreviousTop );
-                        GL.Vertex2( Top );
-                        GL.Vertex2( Bottom );
-                        GL.Vertex2( PreviousBottom );
+                        PrimitiveBatch.AddVertex( PreviousTop, Color.ActiveColor, Vector2.Zero );
+                        PrimitiveBatch.AddVertex( Top, Color.ActiveColor, Vector2.Zero );
+                        PrimitiveBatch.AddVertex( PreviousBottom, Color.ActiveColor, Vector2.Zero );
+                        PrimitiveBatch.AddVertex( Bottom, Color.ActiveColor, Vector2.Zero );
 
                         PreviousTop = Top;
                         PreviousBottom = Bottom;
                     }
                 }
-                GL.End( );
+                PrimitiveBatch.End( );
             }
         }
 

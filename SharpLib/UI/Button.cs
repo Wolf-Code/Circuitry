@@ -1,8 +1,6 @@
 ﻿using System;
 using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Input;
-using SharpLib2D.Entities;
 
 namespace SharpLib2D.UI
 {

@@ -156,7 +156,7 @@ namespace Circuitry.Components
             else
                 Color.Set( 0f, 1f, 0f );
 
-            Texture.Set( NodeTexture );
+            NodeTexture.Bind( );
             Rectangle.DrawTextured( TopLeft.X, TopLeft.Y, Size.X, Size.Y );
 
             base.Draw( e );
