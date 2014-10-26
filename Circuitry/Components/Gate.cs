@@ -58,14 +58,21 @@ namespace Circuitry.Components
 
         public const int IODistance = 40;
 
+        public const int SizeUnit = 60;
+
         #endregion
 
         protected Gate( )
         {
             Inputs = new List<Input>( );
             Outputs = new List<Output>( );
-            SetSize( 60, 60 );
+            SetGateSize( 1, 1 );
             Category = "Miscellaneous";
+        }
+
+        protected void SetGateSize( float W, float H )
+        {
+            this.SetSize( SizeUnit * W, SizeUnit * H );    
         }
 
         public virtual void Reset( )
@@ -121,7 +128,14 @@ namespace Circuitry.Components
         public override void Update( FrameEventArgs e )
         {
             if ( Dragging )
-                SetPosition( SharpLib2D.Info.Mouse.Position - DragPosition );
+            {
+                Vector2 DPos = SharpLib2D.Info.Mouse.Position - DragPosition;
+                Vector2 Pos = !this.Circuit.SnapToGrid
+                        ? ParentState.Camera.ToWorld( DPos )
+                        : this.Circuit.SnapPositionToGrid( ParentState.Camera.ToWorld( DPos + new Vector2( this.Circuit.GridSize / 2f ) ) );
+
+                this.SetPosition( Pos );
+            }
 
             base.Update( e );
         }

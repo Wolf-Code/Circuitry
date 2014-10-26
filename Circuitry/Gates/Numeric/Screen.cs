@@ -23,7 +23,7 @@ namespace Circuitry.Gates.Numeric
 
         public Screen( )
         {
-            this.SetSize( 150, 75 );
+            this.SetGateSize( 2, 1 );
             this.AddInput( Components.IONode.NodeType.Numeric, "Value", "The value to display." );
 
             this.Category = "Output";

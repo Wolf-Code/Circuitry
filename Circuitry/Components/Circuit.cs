@@ -25,6 +25,10 @@ namespace Circuitry.Components
     {
         private readonly List<Signal> Signals = new List<Signal>( );
 
+        public int GridSize { set; get; }
+        public bool ShowGrid { set; get; }
+        public bool SnapToGrid { set; get; }
+
         public enum State
         {
             Build,
@@ -51,6 +55,9 @@ namespace Circuitry.Components
         public Circuit( )
         {
             CurrentState = State.Active;
+            this.GridSize = 60;
+            this.ShowGrid = false;
+            this.SnapToGrid = true;
         }
 
         public void ToggleState( )
@@ -85,6 +92,14 @@ namespace Circuitry.Components
             }
         }
 
+        public Vector2 SnapPositionToGrid( Vector2 SnapPosition )
+        {
+            float X = ( float )Math.Floor( SnapPosition.X / GridSize ) * GridSize;
+            float Y = ( float )Math.Floor( SnapPosition.Y / GridSize ) * GridSize;
+
+            return new Vector2( X, Y );
+        }
+
         #region Gate Management
 
         public void StartGatePlacing( Type G )
@@ -110,8 +125,9 @@ namespace Circuitry.Components
         {
             if ( !O.IsConnected )
                 return;
-
-            Signals.Add( new Signal( O, O.Connection as Input ) );
+            Signal S = new Signal( O, O.Connection as Input );
+            if ( !Signals.Contains( S ) )
+                Signals.Add( S );
         }
 
         public void ClearSignals( )
@@ -217,7 +233,12 @@ namespace Circuitry.Components
                     break;
 
                 case State.Build_Placing:
-                    GateToPlace.SetPosition( ParentState.Camera.ToWorld( SharpLib2D.Info.Mouse.Position ) );
+                    Vector2 Pos = !SnapToGrid 
+                        ? ParentState.Camera.ToWorld( SharpLib2D.Info.Mouse.Position ) 
+                        : this.SnapPositionToGrid( ParentState.Camera.ToWorld( SharpLib2D.Info.Mouse.Position + new Vector2( GridSize / 2f ) ) );
+                    
+                    GateToPlace.SetPosition( Pos );
+                        
                     break;
             }
 
@@ -226,6 +247,11 @@ namespace Circuitry.Components
 
         public override void Draw( FrameEventArgs e )
         {
+            //if( ShowGrid )
+            //{
+            // TODO: Draw grid
+            //}
+
             SharpLib2D.Graphics.Texture.EnableTextures( false );
 
             foreach ( Gate E in Children.OfType<Gate>( ) )
@@ -240,7 +266,7 @@ namespace Circuitry.Components
                     SharpLib2D.Graphics.Line.DrawCubicBezierCurve( O.Position, O.Connection.Position, O.Position + new Vector2( Math.Abs( Diff.X ), 0 ), O.Connection.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 6f );
 
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
-                    if ( O.Value == 0f )
+                    if ( !O.BinaryValue )
                         SharpLib2D.Graphics.Color.Set( 0.2f, 0.2f, 1f );
                     else
                         SharpLib2D.Graphics.Color.Set( 0.2f, 1f, 0.2f );

@@ -13,11 +13,12 @@ namespace Circuitry.Gates.Binary
         public OR( )
         {
             this.Category = "Logic";
+            this.SetSize( T.Width, T.Height );
+
             this.AddInput( Components.IONode.NodeType.Binary, "Input 1", "The first input." );
             this.AddInput( Components.IONode.NodeType.Binary, "Input 2", "The second input." );
 
             this.AddOutput( Components.IONode.NodeType.Binary, "Output", "Returns 1 if either input is 1 or if they're both 1, 0 otherwise." );
-            this.SetSize( T.Width, T.Height );
         }
 
         public override void OnInputChanged( Components.Input I )

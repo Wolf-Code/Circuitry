@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using Circuitry.Components;
+using Gwen;
+using Gwen.Control;
 
 namespace Circuitry.States
 {
     public class Game : GwenState
     {
-        protected Components.Circuit Circuit
+        protected Circuit Circuit
         {
             private set;
             get;
@@ -15,17 +19,19 @@ namespace Circuitry.States
         {
             base.OnStart( );
 
-            Circuit = new Components.Circuit( );
+            Circuit = new Circuit( );
 
-            Gwen.Control.WindowControl ControlWindow = new Gwen.Control.WindowControl( GwenCanvas, "Controls" )
+            #region Control Window
+
+            WindowControl ControlWindow = new WindowControl( GwenCanvas, "Controls" )
             {
                 Height = 100,
-                Dock = Gwen.Pos.Bottom,
+                Dock = Pos.Bottom,
                 IsClosable = false
             };
             ControlWindow.DisableResizing( );
             
-            Gwen.Control.Button Mode = new Gwen.Control.Button( ControlWindow );
+            Button Mode = new Button( ControlWindow );
             Mode.SetText( Circuit.CurrentState.ToString( ) );
             Mode.Clicked += sender =>
             {
@@ -33,41 +39,58 @@ namespace Circuitry.States
                 Mode.SetText( Circuit.CurrentState.ToString( ) );
             };
 
-            Gwen.Control.WindowControl GateWindow = new Gwen.Control.WindowControl( GwenCanvas, "Gates" )
+            LabeledCheckBox SnapToGrid = new LabeledCheckBox( ControlWindow )
             {
-                Width = 100,
-                Dock = Gwen.Pos.Left,
+                Text = "Snap to grid",
+                IsChecked = Circuit.SnapToGrid
+            };
+            SnapToGrid.CheckChanged += sender => { Circuit.SnapToGrid = SnapToGrid.IsChecked; };
+            SnapToGrid.SetPosition( Mode.X, Mode.Y + Mode.Height + 5 );
+            #endregion
+
+            #region Gate Window
+
+            WindowControl GateWindow = new WindowControl( GwenCanvas, "Gates" )
+            {
+                Width = 150,
+                Dock = Pos.Left,
                 IsClosable = false
             };
             GateWindow.DisableResizing( );
 
-            Gwen.Control.CollapsibleList GateList = new Gwen.Control.CollapsibleList( GateWindow )
+            CollapsibleList GateList = new CollapsibleList( GateWindow )
             {
-                Dock = Gwen.Pos.Fill
+                Dock = Pos.Fill
             };
 
-            Dictionary<string, Gwen.Control.CollapsibleCategory> Categories = new Dictionary<string, Gwen.Control.CollapsibleCategory>( );
+            #region Adding Gates and Categories
 
-            foreach ( Type T in System.Reflection.Assembly.GetExecutingAssembly( ).GetTypes( ) )
+            Dictionary<string, CollapsibleCategory> Categories = new Dictionary<string, CollapsibleCategory>( );
+
+            foreach ( Type T in Assembly.GetExecutingAssembly( ).GetTypes( ) )
             {
-                if ( !T.IsSubclassOf( typeof ( Components.Gate ) ) ) continue;
+                if ( !T.IsSubclassOf( typeof ( Gate ) ) ) continue;
 
-                Components.Gate G = Activator.CreateInstance( T ) as Components.Gate;
+                Gate G = Activator.CreateInstance( T ) as Gate;
 
                 // ReSharper disable once PossibleNullReferenceException
                 if ( !Categories.ContainsKey( G.Category ) )
                     Categories.Add( G.Category, GateList.Add( G.Category ) );
 
-                Gwen.Control.Button GateButton = Categories[ G.Category ].Add( G.Name );
+                Button GateButton = Categories[ G.Category ].Add( G.Name );
                 GateButton.UserData = T;
                 GateButton.Clicked += GateButton_Clicked;
                 G.Remove( );
             }
+
+            #endregion
+
+            #endregion
         }
 
-        void GateButton_Clicked( Gwen.Control.Base control )
+        void GateButton_Clicked( Base control )
         {
-            if ( Circuit.CurrentState == Components.Circuit.State.Active ) return;
+            if ( Circuit.CurrentState == Circuit.State.Active ) return;
 
             Circuit.StartGatePlacing( control.UserData as Type );
         }

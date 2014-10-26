@@ -53,6 +53,7 @@
     <Compile Include="Components\IONode.cs" />
     <Compile Include="Components\Signal.cs" />
     <Compile Include="Engine.cs" />
+    <Compile Include="Gates\BinaryNumeric\BitsToByte.cs" />
     <Compile Include="Gates\Binary\NAND.cs" />
     <Compile Include="Gates\Binary\NOT.cs" />
     <Compile Include="Gates\Binary\OR.cs" />
@@ -89,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Textures\Components\AND.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Textures\Components\BinaryNumeric\BitsToByte.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Textures\Components\Button\Normal\Button_Off.png">
