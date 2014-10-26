@@ -156,6 +156,7 @@ namespace SharpLib2D.States
         protected virtual void OnStart( )
         {
             Camera = new DefaultCamera( );
+            Camera.SetSize( Info.Screen.Size );
         }
 
         /// <summary>
@@ -193,7 +194,7 @@ namespace SharpLib2D.States
         /// </summary>
         protected virtual void OnResize( )
         {
-
+            this.Camera.SetSize( Info.Screen.Size );
         }
 
         #endregion

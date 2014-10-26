@@ -46,6 +46,17 @@ namespace Circuitry.States
             };
             SnapToGrid.CheckChanged += sender => { Circuit.SnapToGrid = SnapToGrid.IsChecked; };
             SnapToGrid.SetPosition( Mode.X, Mode.Y + Mode.Height + 5 );
+
+            LabeledCheckBox ShowGrid = new LabeledCheckBox( ControlWindow )
+            {
+                Text = "Show grid",
+                IsChecked = Circuit.ShowGrid
+            };
+            ShowGrid.CheckChanged += sender =>
+            {
+                Circuit.ShowGrid = ShowGrid.IsChecked;
+            };
+            ShowGrid.SetPosition( SnapToGrid.X, SnapToGrid.Y + SnapToGrid.Height + 5 );
             #endregion
 
             #region Gate Window

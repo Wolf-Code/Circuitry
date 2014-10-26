@@ -12,7 +12,7 @@ namespace SharpLib2D.Entities.Camera
 
         public virtual Matrix4 View
         {
-            get { return Matrix4.CreateTranslation( -Position.X, -Position.Y, 0 ); }
+            get { return Matrix4.CreateTranslation( -Position.X + Size.X / 2, -Position.Y + Size.Y / 2, 0 ); }
         }
 
         /// <summary>

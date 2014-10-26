@@ -12,9 +12,13 @@ namespace SharpLib2D
     {
         private DefaultCamera Cam;
 
-        protected override void OnLoad( EventArgs e )
+        public Engine( )
         {
             Input.Initialize( this );
+        }
+
+        protected override void OnLoad( EventArgs e )
+        {
             Cam = new DefaultCamera( );
 
             base.OnLoad( e );

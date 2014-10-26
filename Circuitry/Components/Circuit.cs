@@ -56,7 +56,7 @@ namespace Circuitry.Components
         {
             CurrentState = State.Active;
             this.GridSize = 60;
-            this.ShowGrid = false;
+            this.ShowGrid = true;
             this.SnapToGrid = true;
         }
 
@@ -247,12 +247,24 @@ namespace Circuitry.Components
 
         public override void Draw( FrameEventArgs e )
         {
-            //if( ShowGrid )
-            //{
-            // TODO: Draw grid
-            //}
-
             SharpLib2D.Graphics.Texture.EnableTextures( false );
+
+            if( ShowGrid )
+            {
+                SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f );
+
+                SharpLib2D.Entities.Camera.DefaultCamera Cam = SharpLib2D.States.State.ActiveState.Camera;
+                Vector2 P = this.SnapPositionToGrid( Cam.TopLeft );
+                for ( float X = P.X; X < P.X + Cam.Size.X; X += GridSize )
+                {
+                    SharpLib2D.Graphics.Line.Draw( new Vector2( X, Cam.TopLeft.Y ), new Vector2( X, Cam.TopLeft.Y + Cam.Size.Y ) );
+                }
+
+                for ( float Y = P.Y; Y < P.Y + Cam.Size.Y; Y += GridSize )
+                {
+                    SharpLib2D.Graphics.Line.Draw( new Vector2( Cam.TopLeft.X, Y ), new Vector2( Cam.TopLeft.X + Cam.Size.X, Y ) );
+                }
+            }
 
             foreach ( Gate E in Children.OfType<Gate>( ) )
             {

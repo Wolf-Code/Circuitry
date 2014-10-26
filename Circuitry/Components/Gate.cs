@@ -104,7 +104,7 @@ namespace Circuitry.Components
                     if ( Circuit.CurrentState == Circuit.State.Build && MouseCanSelect( ) )
                     {
                         Dragging = true;
-                        DragPosition = ToLocal( SharpLib2D.Info.Mouse.Position );
+                        DragPosition = ToLocal( ParentState.Camera.ToWorld( SharpLib2D.Info.Mouse.Position ) );
                     }
                     break;
 
