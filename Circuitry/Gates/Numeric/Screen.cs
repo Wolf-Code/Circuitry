@@ -14,7 +14,7 @@ namespace Circuitry.Gates.Numeric
         }
 
         private const string Font = "Arial";
-        private readonly float TextSize = 10;
+        private const float TextSize = 10;
 
         static Screen( )
         {

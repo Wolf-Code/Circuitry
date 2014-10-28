@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using SharpLib2D.Graphics;
+using SharpLib2D.Objects;
 
 namespace Circuitry.Components
 {

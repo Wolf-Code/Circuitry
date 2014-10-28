@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
+using SharpLib2D.Objects;
 
 namespace SharpLib2D.Entities
 {
@@ -30,6 +31,11 @@ namespace SharpLib2D.Entities
             {
                 return Position + Size / 2;
             }
+        }
+
+        public virtual BoundingBox BoundingBox
+        {
+            get { return new BoundingBox( TopLeft, BottomRight ); }
         }
 
         #region SetSize

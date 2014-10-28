@@ -255,14 +255,16 @@ namespace Circuitry.Components
 
                 SharpLib2D.Entities.Camera.DefaultCamera Cam = SharpLib2D.States.State.ActiveState.Camera;
                 Vector2 P = this.SnapPositionToGrid( Cam.TopLeft );
-                for ( float X = P.X; X < P.X + Cam.Size.X; X += GridSize )
-                {
-                    SharpLib2D.Graphics.Line.Draw( new Vector2( X, Cam.TopLeft.Y ), new Vector2( X, Cam.TopLeft.Y + Cam.Size.Y ) );
-                }
+                float Off = GridSize / 6f;
+                Vector2 S = new Vector2( Cam.Size.X + Off, Cam.Size.Y + Off );
 
-                for ( float Y = P.Y; Y < P.Y + Cam.Size.Y; Y += GridSize )
+                for ( float X = P.X; X < P.X + S.X; X += GridSize )
                 {
-                    SharpLib2D.Graphics.Line.Draw( new Vector2( Cam.TopLeft.X, Y ), new Vector2( Cam.TopLeft.X + Cam.Size.X, Y ) );
+                    for ( float Y = P.Y; Y < P.Y + S.Y; Y += GridSize )
+                    {
+                        SharpLib2D.Graphics.Line.Draw( new Vector2( X - Off, Y ), new Vector2( X + Off, Y ) );
+                        SharpLib2D.Graphics.Line.Draw( new Vector2( X, Y - Off ), new Vector2( X, Y + Off ) );
+                    }
                 }
             }
 

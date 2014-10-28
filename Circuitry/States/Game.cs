@@ -4,6 +4,9 @@ using System.Reflection;
 using Circuitry.Components;
 using Gwen;
 using Gwen.Control;
+using OpenTK;
+using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL;
 
 namespace Circuitry.States
 {
@@ -57,6 +60,21 @@ namespace Circuitry.States
                 Circuit.ShowGrid = ShowGrid.IsChecked;
             };
             ShowGrid.SetPosition( SnapToGrid.X, SnapToGrid.Y + SnapToGrid.Height + 5 );
+
+            Label GridSliderLabel = new Label( ControlWindow );
+            GridSliderLabel.SetText( "Grid size" );
+            GridSliderLabel.SizeToContents( );
+            GridSliderLabel.SetPosition( Mode.Right + 25, Mode.Y );
+
+            HorizontalSlider GridSize = new HorizontalSlider( ControlWindow )
+            {
+                Min = 16,
+                Max = 256,
+                Value = Circuit.GridSize
+            };
+            GridSize.ValueChanged += Control => { Circuit.GridSize = ( int ) GridSize.Value; };
+            GridSize.SetPosition( GridSliderLabel.X, GridSliderLabel.Bottom );
+            GridSize.SetSize( 100, 20 );
             #endregion
 
             #region Gate Window
