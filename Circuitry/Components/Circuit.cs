@@ -25,24 +25,6 @@ namespace Circuitry.Components
     {
         private readonly List<Signal> Signals = new List<Signal>( );
 
-        public int GridSize { set; get; }
-        public bool ShowGrid { set; get; }
-        public bool SnapToGrid { set; get; }
-
-        public enum State
-        {
-            Build,
-            Build_Placing,
-            Active,
-            Paused
-        }
-
-        public State CurrentState
-        {
-            private set;
-            get;
-        }
-
         protected Gate GateToPlace
         {
             private set;
@@ -60,20 +42,7 @@ namespace Circuitry.Components
             this.SnapToGrid = true;
         }
 
-        public void ToggleState( )
-        {
-            if ( CurrentState != State.Build )
-            {
-                CurrentState = State.Build;
-                // ReSharper disable once PossibleInvalidCastExceptionInForeachLoop
-                ClearSignals( );
-
-                foreach ( Gate M in Children )
-                    M.Reset( );
-            }
-            else
-                CurrentState = State.Active;
-        }
+        #region Menu
 
         public void ShowMenu( params MenuEntry[ ] Items )
         {
@@ -92,6 +61,79 @@ namespace Circuitry.Components
             }
         }
 
+        #endregion
+
+        #region State
+
+        /// <summary>
+        /// The possible game states.
+        /// </summary>
+        public enum State
+        {
+            Build,
+            Build_Placing,
+            Active,
+            Paused
+        }
+
+        /// <summary>
+        /// The current game state.
+        /// </summary>
+        public State CurrentState
+        {
+            private set;
+            get;
+        }
+
+        /// <summary>
+        /// Toggles the game's state.
+        /// </summary>
+        public void ToggleState( )
+        {
+            if ( CurrentState != State.Build )
+            {
+                CurrentState = State.Build;
+                // ReSharper disable once PossibleInvalidCastExceptionInForeachLoop
+                ClearSignals( );
+
+                foreach ( Gate M in Children )
+                    M.Reset( );
+            }
+            else
+                CurrentState = State.Active;
+        }
+
+        #endregion
+
+        #region Grid
+
+        /// <summary>
+        /// The size of the grid.
+        /// </summary>
+        public int GridSize
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// Whether or not to show the grid.
+        /// </summary>
+        public bool ShowGrid
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// Whether or not to snap new gates to the grid.
+        /// </summary>
+        public bool SnapToGrid
+        {
+            set;
+            get;
+        }
+
         public Vector2 SnapPositionToGrid( Vector2 SnapPosition )
         {
             float X = ( float )Math.Floor( SnapPosition.X / GridSize ) * GridSize;
@@ -99,6 +141,8 @@ namespace Circuitry.Components
 
             return new Vector2( X, Y );
         }
+
+        #endregion
 
         #region Gate Management
 
@@ -245,30 +289,30 @@ namespace Circuitry.Components
             base.Update( e );
         }
 
-        public override void Draw( FrameEventArgs e )
+        private void DrawGrid( )
         {
-            SharpLib2D.Graphics.Texture.EnableTextures( false );
+            if ( !ShowGrid ) return;
 
-            if( ShowGrid )
+            SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f, 0.2f );
+
+            SharpLib2D.Entities.Camera.DefaultCamera Cam = SharpLib2D.States.State.ActiveState.Camera;
+            Vector2 P = this.SnapPositionToGrid( Cam.TopLeft );
+            float Off = GridSize / 6f;
+            Vector2 S = new Vector2( Cam.Size.X + Off, Cam.Size.Y + Off );
+            Vector2 LocalP = Cam.TopLeft - P;
+
+            for ( float X = P.X; X < P.X + S.X + LocalP.X; X += GridSize )
             {
-                SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f, 0.2f );
-
-                SharpLib2D.Entities.Camera.DefaultCamera Cam = SharpLib2D.States.State.ActiveState.Camera;
-                Vector2 P = this.SnapPositionToGrid( Cam.TopLeft );
-                float Off = GridSize / 6f;
-                Vector2 S = new Vector2( Cam.Size.X + Off, Cam.Size.Y + Off );
-                Vector2 LocalP = Cam.TopLeft - P;
-
-                for ( float X = P.X; X < P.X + S.X + LocalP.X; X += GridSize )
+                for ( float Y = P.Y; Y < P.Y + S.Y + LocalP.Y; Y += GridSize )
                 {
-                    for ( float Y = P.Y; Y < P.Y + S.Y + LocalP.Y; Y += GridSize )
-                    {
-                        SharpLib2D.Graphics.Line.Draw( new Vector2( X - Off, Y ), new Vector2( X + Off, Y ) );
-                        SharpLib2D.Graphics.Line.Draw( new Vector2( X, Y - Off ), new Vector2( X, Y + Off ) );
-                    }
+                    SharpLib2D.Graphics.Line.Draw( new Vector2( X - Off, Y ), new Vector2( X + Off, Y ) );
+                    SharpLib2D.Graphics.Line.Draw( new Vector2( X, Y - Off ), new Vector2( X, Y + Off ) );
                 }
             }
+        }
 
+        private void DrawConnections( )
+        {
             foreach ( Gate E in Children.OfType<Gate>( ) )
             {
                 foreach ( Output O in E.Outputs )
@@ -280,7 +324,6 @@ namespace Circuitry.Components
                     SharpLib2D.Graphics.Color.Set( 0.2f, 0.2f, 0.2f );
                     SharpLib2D.Graphics.Line.DrawCubicBezierCurve( O.Position, O.Connection.Position, O.Position + new Vector2( Math.Abs( Diff.X ), 0 ), O.Connection.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 6f );
 
-                    // ReSharper disable once CompareOfFloatsByEqualityOperator
                     if ( !O.BinaryValue )
                         SharpLib2D.Graphics.Color.Set( 0.2f, 0.2f, 1f );
                     else
@@ -289,6 +332,15 @@ namespace Circuitry.Components
                     SharpLib2D.Graphics.Line.DrawCubicBezierCurve( O.Position, O.Connection.Position, O.Position + new Vector2( Math.Abs( Diff.X ), 0 ), O.Connection.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 4f );
                 }
             }
+        }
+
+        public override void Draw( FrameEventArgs e )
+        {
+            SharpLib2D.Graphics.Texture.EnableTextures( false );
+
+            this.DrawGrid( );
+            this.DrawConnections( );
+            
             base.Draw( e );
         }
 

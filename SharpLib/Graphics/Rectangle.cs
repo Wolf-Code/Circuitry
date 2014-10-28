@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 
 namespace SharpLib2D.Graphics
@@ -21,7 +22,7 @@ namespace SharpLib2D.Graphics
 
         #endregion
 
-        #region DrawRoundedRect
+        #region DrawRounded
 
         public static void DrawRounded( float X, float Y, float W, float H, int Size, int Quality )
         {
@@ -93,6 +94,20 @@ namespace SharpLib2D.Graphics
                 }
                 PrimitiveBatch.End( );
             }
+        }
+
+        #endregion
+
+        #region DrawRoundedOutlined
+
+        public static void DrawRoundedOutlined( float X, float Y, float W, float H, Color4 OutlineColor,
+            Color4 InsideColor, int Outline, int Size = 8, int Quality = 8 )
+        {
+            Color.Set( OutlineColor );
+            DrawRounded( X, Y, W, H, Size, Quality );
+
+            Color.Set( InsideColor );
+            DrawRounded( X + Outline, Y + Outline, W - Outline * 2, H - Outline * 2, Size / 2, Quality / 2 );
         }
 
         #endregion

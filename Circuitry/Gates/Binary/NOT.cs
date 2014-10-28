@@ -4,17 +4,9 @@ namespace Circuitry.Gates.Binary
 {
     public class NOT : Components.Gate
     {
-        static SharpLib2D.Graphics.Texture T;
-
-        static NOT( )
-        {
-            T = SharpLib2D.Graphics.Texture.Load( "Resources\\Textures\\Components\\NOT.png" );
-        }
-
         public NOT( )
         {
             this.Category = "Logic";
-            this.SetSize( T.Width, T.Height );
             this.AddInput( Components.IONode.NodeType.Binary, "Input", "The input." );
 
             this.AddOutput( Components.IONode.NodeType.Binary, "Output", "Returns 1 if the input is 0, and 1 otherwise." );
@@ -29,7 +21,7 @@ namespace Circuitry.Gates.Binary
 
         public override void Draw( FrameEventArgs e )
         {
-            this.DefaultDraw( T );
+            this.DefaultDraw( );
 
             base.Draw( e );
         }

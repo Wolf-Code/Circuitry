@@ -55,7 +55,10 @@
     <Compile Include="Engine.cs" />
     <Compile Include="Gates\BinaryNumeric\BitsToByte.cs" />
     <Compile Include="Gates\Binary\NAND.cs" />
+    <Compile Include="Gates\Binary\XNOR.cs" />
+    <Compile Include="Gates\Binary\XOR.cs" />
     <Compile Include="Gates\Binary\NOT.cs" />
+    <Compile Include="Gates\Binary\NOR.cs" />
     <Compile Include="Gates\Binary\OR.cs" />
     <Compile Include="Gates\Binary\Switch.cs" />
     <Compile Include="Gates\Numeric\Clock.cs" />
@@ -140,6 +143,9 @@
     <Content Include="Resources\Textures\UI\DefaultSkin.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Textures\Components\Binary\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

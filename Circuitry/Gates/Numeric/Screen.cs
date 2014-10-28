@@ -1,12 +1,14 @@
 ﻿
 using System.Globalization;
+using Circuitry.Components;
 using OpenTK;
+using SharpLib2D.Graphics;
 
 namespace Circuitry.Gates.Numeric
 {
-    public class Screen : Components.Gate
+    public class Screen : Gate
     {
-        static readonly SharpLib2D.Graphics.Texture T;
+        static readonly Texture T;
 
         public override string Name
         {
@@ -18,32 +20,31 @@ namespace Circuitry.Gates.Numeric
 
         static Screen( )
         {
-            T = SharpLib2D.Graphics.Texture.Load( "Resources\\Textures\\Components\\Screen\\Numeric.png" );
+            T = Texture.Load( "Resources\\Textures\\Components\\Screen\\Numeric.png" );
         }
 
         public Screen( )
         {
-            this.SetGateSize( 2, 1 );
-            this.AddInput( Components.IONode.NodeType.Numeric, "Value", "The value to display." );
+            SetGateSize( 2, 1 );
+            AddInput( IONode.NodeType.Numeric, "Value", "The value to display." );
 
-            this.Category = "Output";
+            Category = "Output";
         }
 
         public override void Draw( FrameEventArgs e )
         {
-            this.DrawIOConnectors( );
+            DrawIOConnectors( );
 
-            SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f );
+            Color.Set( 1f, 1f, 1f );
             T.Bind( );
 
             DrawTexturedSelf( );
 
-            string Val = this.GetInput( "Value" ).Value.ToString( CultureInfo.InstalledUICulture);
-            Vector2 S = SharpLib2D.Graphics.Text.MeasureString( Val, Font, TextSize );
-            
-            SharpLib2D.Graphics.Color.Set( 0f, 0f, 0f );
-            SharpLib2D.Graphics.Text.DrawString( Val, Font, TextSize,
-                this.Position - S / 2 );
+            string Val = GetInput( "Value" ).Value.ToString( CultureInfo.InstalledUICulture);
+
+            Color.Set( 0f, 0f, 0f );
+            Text.SetAlignments( Text.HorizontalAlignment.Center, Text.VerticalAlignment.Center );
+            Text.DrawString( Val, Font, TextSize, Position );
 
             base.Draw( e );
         }

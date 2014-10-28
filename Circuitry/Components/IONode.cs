@@ -71,7 +71,7 @@ namespace Circuitry.Components
         /// </summary>
         public string Description
         {
-            protected set;
+            internal set;
             get;
         }
 

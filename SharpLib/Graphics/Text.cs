@@ -24,7 +24,7 @@ namespace SharpLib2D.Graphics
 
         private static Font LoadFont( string Font, float Size )
         {
-            return new Font( Font, Size );
+            return new Font( Font, Size, FontStyle.Regular );
         }
     }
 
@@ -93,7 +93,7 @@ namespace SharpLib2D.Graphics
             {
                 using ( System.Drawing.Graphics G = System.Drawing.Graphics.FromImage( B ) )
                 {
-                    G.TextRenderingHint = TextRenderingHint.SystemDefault;
+                    G.TextRenderingHint = TextRenderingHint.AntiAlias;
                     G.Clear( System.Drawing.Color.Transparent );
                     G.DrawString( Text,
                         Graphics.Text.GetFont( Font, Size ),
@@ -111,6 +111,22 @@ namespace SharpLib2D.Graphics
     public static class Text
     {
         private static readonly System.Drawing.Graphics Gfx;
+        private static HorizontalAlignment HorAlignment = HorizontalAlignment.Left;
+        private static VerticalAlignment VerAlignment = VerticalAlignment.Top;
+
+        public enum HorizontalAlignment
+        {
+            Left,
+            Right,
+            Center
+        }
+
+        public enum VerticalAlignment
+        {
+            Top,
+            Bottom,
+            Center
+        }
 
         /// <summary>
         /// The amount of different text-font-size combinations currently in memory.
@@ -159,6 +175,18 @@ namespace SharpLib2D.Graphics
             return new Vector2( S.Width, S.Height );
         }
 
+        #region Set parameters
+
+        public static void SetAlignments( HorizontalAlignment Horizontal, VerticalAlignment Vertical )
+        {
+            HorAlignment = Horizontal;
+            VerAlignment = Vertical;
+        }
+
+        #endregion
+
+        #region Draw String
+
         /// <summary>
         /// Draws a string using a given font and size.
         /// </summary>
@@ -171,7 +199,33 @@ namespace SharpLib2D.Graphics
             TextObject O = TextObjectContainer.GetTextObject( Text, Font, Size );
             O.Texture.Bind( );
 
+            Vector2 S = MeasureString( Text, Font, Size );
+
+            switch ( HorAlignment )
+            {
+                case HorizontalAlignment.Center:
+                    Position.X -= S.X / 2;
+                    break;
+
+                case HorizontalAlignment.Right:
+                    Position.X -= S.X;
+                    break;
+            }
+
+            switch ( VerAlignment )
+            {
+                case VerticalAlignment.Center:
+                    Position.Y -= S.Y / 2;
+                    break;
+
+                    case VerticalAlignment.Bottom:
+                    Position.Y -= S.Y;
+                    break;
+            }
+
             Rectangle.DrawTextured( Position.X, Position.Y, O.Width, O.Height );
         }
+
+        #endregion
     }
 }

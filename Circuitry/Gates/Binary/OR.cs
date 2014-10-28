@@ -3,17 +3,9 @@ namespace Circuitry.Gates.Binary
 {
     public class OR : Components.Gate
     {
-        static readonly SharpLib2D.Graphics.Texture T;
-
-        static OR( )
-        {
-            T = SharpLib2D.Graphics.Texture.Load( "Resources\\Textures\\Components\\OR.png" );
-        }
-
         public OR( )
         {
             this.Category = "Logic";
-            this.SetSize( T.Width, T.Height );
 
             this.AddInput( Components.IONode.NodeType.Binary, "Input 1", "The first input." );
             this.AddInput( Components.IONode.NodeType.Binary, "Input 2", "The second input." );
@@ -30,7 +22,7 @@ namespace Circuitry.Gates.Binary
 
         public override void Draw( OpenTK.FrameEventArgs e )
         {
-            this.DefaultDraw( T );
+            this.DefaultDraw( );
 
             base.Draw( e );
         }
