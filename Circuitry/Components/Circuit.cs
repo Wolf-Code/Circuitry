@@ -54,7 +54,7 @@ namespace Circuitry.Components
 
         public Circuit( )
         {
-            CurrentState = State.Active;
+            CurrentState = State.Build;
             this.GridSize = 60;
             this.ShowGrid = true;
             this.SnapToGrid = true;
@@ -251,16 +251,17 @@ namespace Circuitry.Components
 
             if( ShowGrid )
             {
-                SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f );
+                SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f, 0.2f );
 
                 SharpLib2D.Entities.Camera.DefaultCamera Cam = SharpLib2D.States.State.ActiveState.Camera;
                 Vector2 P = this.SnapPositionToGrid( Cam.TopLeft );
                 float Off = GridSize / 6f;
                 Vector2 S = new Vector2( Cam.Size.X + Off, Cam.Size.Y + Off );
+                Vector2 LocalP = Cam.TopLeft - P;
 
-                for ( float X = P.X; X < P.X + S.X; X += GridSize )
+                for ( float X = P.X; X < P.X + S.X + LocalP.X; X += GridSize )
                 {
-                    for ( float Y = P.Y; Y < P.Y + S.Y; Y += GridSize )
+                    for ( float Y = P.Y; Y < P.Y + S.Y + LocalP.Y; Y += GridSize )
                     {
                         SharpLib2D.Graphics.Line.Draw( new Vector2( X - Off, Y ), new Vector2( X + Off, Y ) );
                         SharpLib2D.Graphics.Line.Draw( new Vector2( X, Y - Off ), new Vector2( X, Y + Off ) );

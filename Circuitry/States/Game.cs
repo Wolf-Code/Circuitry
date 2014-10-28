@@ -4,9 +4,6 @@ using System.Reflection;
 using Circuitry.Components;
 using Gwen;
 using Gwen.Control;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 
 namespace Circuitry.States
 {
@@ -35,11 +32,11 @@ namespace Circuitry.States
             ControlWindow.DisableResizing( );
             
             Button Mode = new Button( ControlWindow );
-            Mode.SetText( Circuit.CurrentState.ToString( ) );
+            Mode.SetText( "Set Active" );
             Mode.Clicked += sender =>
             {
+                Mode.SetText( "Set " + Circuit.CurrentState );
                 Circuit.ToggleState( );
-                Mode.SetText( Circuit.CurrentState.ToString( ) );
             };
 
             LabeledCheckBox SnapToGrid = new LabeledCheckBox( ControlWindow )
