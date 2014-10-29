@@ -324,10 +324,10 @@ namespace Circuitry.Components
                     SharpLib2D.Graphics.Color.Set( 0.2f, 0.2f, 0.2f );
                     SharpLib2D.Graphics.Line.DrawCubicBezierCurve( O.Position, O.Connection.Position, O.Position + new Vector2( Math.Abs( Diff.X ), 0 ), O.Connection.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 6f );
 
-                    if ( !O.BinaryValue )
+                    //if ( !O.BinaryValue )
                         SharpLib2D.Graphics.Color.Set( 0.2f, 0.2f, 1f );
-                    else
-                        SharpLib2D.Graphics.Color.Set( 0.2f, 1f, 0.2f );
+                    //else
+                    //    SharpLib2D.Graphics.Color.Set( 0.2f, 1f, 0.2f );
 
                     SharpLib2D.Graphics.Line.DrawCubicBezierCurve( O.Position, O.Connection.Position, O.Position + new Vector2( Math.Abs( Diff.X ), 0 ), O.Connection.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 4f );
                 }

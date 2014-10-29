@@ -24,7 +24,20 @@ namespace SharpLib2D.Graphics
 
         #region DrawRounded
 
-        public static void DrawRounded( float X, float Y, float W, float H, int Size, int Quality )
+        /// <summary>
+        /// Draws a rounded rectangle.
+        /// </summary>
+        /// <param name="X">The X-coordinate.</param>
+        /// <param name="Y">The Y-coordinate.</param>
+        /// <param name="W">The width.</param>
+        /// <param name="H">The height.</param>
+        /// <param name="Size">The size of the rounded corner.</param>
+        /// <param name="Quality">The quality of the rounded corner.</param>
+        /// <param name="TopLeft">Whether to draw the top left corner rounded or not.</param>
+        /// <param name="TopRight">Whether to draw the top right corner rounded or not.</param>
+        /// <param name="BottomRight">Whether to draw the bottom right corner rounded or not.</param>
+        /// <param name="BottomLeft">Whether to draw the bottom left corner rounded or not.</param>
+        public static void DrawRounded( float X, float Y, float W, float H, int Size, int Quality, bool TopLeft = true, bool TopRight = true, bool BottomRight = true, bool BottomLeft = true )
         {
             if ( Size < 0 )
                 Size = 0;
@@ -35,11 +48,11 @@ namespace SharpLib2D.Graphics
                 return;
             }
 
-            Vector2 TopLeft = new Vector2( X + Size, Y + Size );
-            Vector2 BottomRight = new Vector2( X + W - Size, Y + H - Size );
+            Vector2 TLeft = new Vector2( X + Size, Y + Size );
+            Vector2 BRight = new Vector2( X + W - Size, Y + H - Size );
 
             // Center
-            DrawRect( X, TopLeft.Y, W, H - Size * 2 );
+            DrawRect( X, TLeft.Y, W, H - Size * 2 );
 
             // Top
             DrawRect( X + Size, Y, W - Size * 2, Size );
@@ -52,27 +65,52 @@ namespace SharpLib2D.Graphics
             // Top Left
             for ( int Q = 0; Q < 4; Q++ )
             {
-                Vector2 Start = TopLeft;
+                Vector2 Start = TLeft;
                 int MulX = -1, MulY = -1;
 
                 switch ( Q )
                 {
+                        // Top Left
+                    case 0:
+                        if ( !TopLeft )
+                        {
+                            Draw( X, Y, Size, Size );
+                            continue;
+                        }
+                        break;
                         // Top Right
                     case 1:
-                        Start = new Vector2( BottomRight.X, TopLeft.Y );
+                        if ( !TopRight )
+                        {
+                            Draw( BRight.X, Y, Size, Size );
+                            continue;
+                        }
+
+                        Start = new Vector2( BRight.X, TLeft.Y );
                         MulX = 1;
                         break;
 
                         // Bottom Right
                     case 2:
-                        Start = BottomRight;
+                        if ( !BottomRight )
+                        {
+                            Draw( BRight.X, BRight.Y, Size, Size );
+                            continue;
+                        }
+
+                        Start = BRight;
                         MulX = 1;
                         MulY = 1;
                         break;
 
                         // Bottom Left
                     case 3:
-                        Start = new Vector2( TopLeft.X, BottomRight.Y );
+                        if ( !BottomLeft )
+                        {
+                            Draw( X, BRight.Y, Size, Size );
+                            continue;
+                        }
+                        Start = new Vector2( TLeft.X, BRight.Y );
                         MulY = 1;
                         break;
                 }

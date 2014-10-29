@@ -117,6 +117,11 @@ namespace SharpLib2D.Graphics
             BoundTexture = T;
         }
 
+        public static void Set( string Texture )
+        {
+            Set( Load( Texture ) );
+        }
+
         public static bool EnableTextures( bool Enabled = true )
         {
             bool Old = GL.IsEnabled( EnableCap.Texture2D );

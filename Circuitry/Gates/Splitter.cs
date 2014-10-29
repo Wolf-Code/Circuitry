@@ -5,17 +5,10 @@ namespace Circuitry.Gates
 {
     public class Splitter : Components.Gate
     {
-        static readonly Texture T;
-
-        static Splitter( )
-        {
-            T = Texture.Load( @"Resources\Textures\Components\Splitter.png" );
-        }
-
         public Splitter( )
             : this( 2 )
         {
-
+            this.Texture = @"Resources\Textures\Components\Splitter.png";
         }
 
         public Splitter( int Amount = 2 )
@@ -38,13 +31,8 @@ namespace Circuitry.Gates
 
         public override void Draw( OpenTK.FrameEventArgs e )
         {
-            this.DrawIOConnectors( );
+            this.DefaultTexturedDraw( );
 
-            Color.Set( 1f, 1f, 1f );
-
-            T.Bind( );
-
-            DrawTexturedSelf( );
             base.Draw( e );
         }
     }

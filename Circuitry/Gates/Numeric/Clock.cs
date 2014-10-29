@@ -7,14 +7,7 @@ namespace Circuitry.Gates.Numeric
 {
     class Clock : Gate
     {
-        private static readonly Texture T;
-
         private int LastTime;
-
-        static Clock( )
-        {
-            T = Texture.Load( @"Resources\Textures\Components\Numeric\Clock.png" );
-        }
 
         public Clock( )
         {
@@ -22,6 +15,7 @@ namespace Circuitry.Gates.Numeric
             LastTime = GetTimeStamp( );
 
             this.Category = "Time";
+            this.Texture = @"Resources\Textures\Components\Numeric\Clock.png";
         }
 
         private static int GetTimeStamp( )
@@ -43,9 +37,9 @@ namespace Circuitry.Gates.Numeric
             base.Update( e );
         }
 
-        public override void Draw( FrameEventArgs e )
+        public override void Draw( OpenTK.FrameEventArgs e )
         {
-            this.DefaultDraw( T );
+            this.DefaultTexturedDraw( );
 
             base.Draw( e );
         }

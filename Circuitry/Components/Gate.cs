@@ -13,6 +13,9 @@ namespace Circuitry.Components
     public abstract class Gate : CircuitryEntity
     {
         #region Properties
+
+        #region IO
+
         public List<Input> Inputs
         {
             protected set;
@@ -25,11 +28,15 @@ namespace Circuitry.Components
             get;
         }
 
+        #endregion
+
         public Circuit Circuit
         {
             set;
             get;
         }
+
+        #region Dragging
 
         protected bool Dragging
         {
@@ -42,6 +49,10 @@ namespace Circuitry.Components
             private set;
             get;
         }
+
+        #endregion
+
+        #region Info
 
         public string Category
         {
@@ -56,6 +67,10 @@ namespace Circuitry.Components
                 return GetType( ).ToString( ).Split( '.' ).Last( );
             }
         }
+
+        protected string Texture { set; get; }
+
+        #endregion
 
         public bool Active { internal set; get; }
 
@@ -233,7 +248,7 @@ namespace Circuitry.Components
         {
             GL.BlendFunc( BlendingFactorSrc.One, BlendingFactorDest.Zero );
             {
-                Texture.EnableTextures( false );
+                SharpLib2D.Graphics.Texture.EnableTextures( false );
 
                 Color.Set( 1f, 1f, 1f );
                 foreach ( Input I in Inputs )
@@ -251,14 +266,19 @@ namespace Circuitry.Components
 
         #endregion
 
-        protected void DefaultDraw( Texture T )
+        private void DefaultDraw( string Path )
         {
             this.DrawIOConnectors( );
 
             Color.Set( 1f, 1f, 1f );
-            T.Bind( );
+            SharpLib2D.Graphics.Texture.Set( Path );
 
             DrawTexturedSelf( );
+        }
+
+        protected void DefaultTexturedDraw( )
+        {
+            this.DefaultDraw( Texture );
         }
 
         protected void DefaultDraw( )

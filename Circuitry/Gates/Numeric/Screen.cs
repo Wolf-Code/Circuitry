@@ -8,8 +8,6 @@ namespace Circuitry.Gates.Numeric
 {
     public class Screen : Gate
     {
-        static readonly Texture T;
-
         public override string Name
         {
             get { return "Numerical Screen"; }
@@ -18,14 +16,11 @@ namespace Circuitry.Gates.Numeric
         private const string Font = "Arial";
         private const float TextSize = 10;
 
-        static Screen( )
-        {
-            T = Texture.Load( "Resources\\Textures\\Components\\Screen\\Numeric.png" );
-        }
-
         public Screen( )
         {
             SetGateSize( 2, 1 );
+            this.Texture = "Resources\\Textures\\Components\\Screen\\Numeric.png";
+
             AddInput( IONode.NodeType.Numeric, "Value", "The value to display." );
 
             Category = "Output";
@@ -33,12 +28,7 @@ namespace Circuitry.Gates.Numeric
 
         public override void Draw( FrameEventArgs e )
         {
-            DrawIOConnectors( );
-
-            Color.Set( 1f, 1f, 1f );
-            T.Bind( );
-
-            DrawTexturedSelf( );
+            this.DefaultTexturedDraw( );
 
             string Val = GetInput( "Value" ).Value.ToString( CultureInfo.InstalledUICulture);
 

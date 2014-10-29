@@ -7,18 +7,12 @@ namespace Circuitry.Gates.BinaryNumeric
 {
     class BitsToByte : Gate
     {
-        private static readonly Texture T;
         private readonly BitArray BArray;
-
-        static BitsToByte( )
-        {
-            T = Texture.Load( @"Resources\Textures\Components\BinaryNumeric\BitsToByte.png" );
-        }
 
         public BitsToByte( )
         {
             this.SetGateSize( 1, 3 );
-
+            this.Texture = @"Resources\Textures\Components\BinaryNumeric\BitsToByte.png";
             this.AddOutput( IONode.NodeType.Numeric, "Value", "The byte made up from the 8 input bits." );
             BArray = new BitArray( 8 );
 
@@ -43,7 +37,7 @@ namespace Circuitry.Gates.BinaryNumeric
 
         public override void Draw( FrameEventArgs e )
         {
-            this.DefaultDraw( T );
+            this.DefaultTexturedDraw(  );
 
             base.Draw( e );
         }
