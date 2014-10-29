@@ -53,6 +53,7 @@
     <Compile Include="Entities\UpdatableEntity.cs" />
     <Compile Include="Events\InputMouseEvents.cs" />
     <Compile Include="Exceptions\SharpException.cs" />
+    <Compile Include="Graphics\Circle.cs" />
     <Compile Include="Graphics\Color.cs" />
     <Compile Include="Graphics\Line.cs" />
     <Compile Include="Graphics\Objects\Vertex.cs" />

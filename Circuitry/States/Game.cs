@@ -56,10 +56,10 @@ namespace Circuitry.States
             {
                 Circuit.ShowGrid = ShowGrid.IsChecked;
             };
-            ShowGrid.SetPosition( SnapToGrid.X, SnapToGrid.Y + SnapToGrid.Height + 5 );
+            ShowGrid.SetPosition( SnapToGrid.X, SnapToGrid.Bottom + 5 );
 
             Label GridSliderLabel = new Label( ControlWindow );
-            GridSliderLabel.SetText( "Grid size" );
+            GridSliderLabel.SetText( "Grid size: " + Circuit.GridSize );
             GridSliderLabel.SizeToContents( );
             GridSliderLabel.SetPosition( Mode.Right + 25, Mode.Y );
 
@@ -69,9 +69,25 @@ namespace Circuitry.States
                 Max = 256,
                 Value = Circuit.GridSize
             };
-            GridSize.ValueChanged += Control => { Circuit.GridSize = ( int ) GridSize.Value; };
+            GridSize.ValueChanged += Control =>
+            {
+                Circuit.GridSize = ( int ) GridSize.Value;
+                GridSliderLabel.SetText( "Grid size: " + Circuit.GridSize );
+                GridSliderLabel.SizeToContents( );
+            };
             GridSize.SetPosition( GridSliderLabel.X, GridSliderLabel.Bottom );
-            GridSize.SetSize( 100, 20 );
+            GridSize.SetSize( 150, 20 );
+
+            LabeledCheckBox ShowGateLabels = new LabeledCheckBox( ControlWindow )
+            {
+                Text = "Show gate labels",
+                IsChecked = Circuit.ShowLabels
+            };
+            ShowGateLabels.CheckChanged += sender =>
+            {
+                Circuit.ShowLabels = ShowGateLabels.IsChecked;
+            };
+            ShowGateLabels.SetPosition( GridSize.X, GridSize.Bottom + 5 );
             #endregion
 
             #region Gate Window

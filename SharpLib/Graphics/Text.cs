@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
@@ -9,17 +10,15 @@ namespace SharpLib2D.Graphics
     #region Helper Classes
     static class FontCollection
     {
-        private static readonly Dictionary<string, Dictionary<float, Font>> Fonts = new Dictionary<string, Dictionary<float, Font>>( );
+        private static readonly Dictionary<Tuple<string,float>, Font> Fonts = new Dictionary<Tuple<string,float>, Font>( );
 
         public static Font GetFont( string Font, float Size )
         {
-            if ( !Fonts.ContainsKey( Font ) )
-                Fonts.Add( Font, new Dictionary<float, Font>( ) );
+            Tuple<string, float > t = new Tuple<string, float>( Font, Size );
+            if ( !Fonts.ContainsKey( t ) )
+                Fonts.Add( t, LoadFont( Font, Size ) );
 
-            if ( !Fonts[ Font ].ContainsKey( Size ) )
-                Fonts[ Font ].Add( Size, LoadFont( Font, Size ) );
-
-            return Fonts[ Font ][ Size ];
+            return Fonts[ t ];
         }
 
         private static Font LoadFont( string Font, float Size )

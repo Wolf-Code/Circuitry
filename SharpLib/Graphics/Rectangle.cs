@@ -37,12 +37,9 @@ namespace SharpLib2D.Graphics
         /// <param name="TopRight">Whether to draw the top right corner rounded or not.</param>
         /// <param name="BottomRight">Whether to draw the bottom right corner rounded or not.</param>
         /// <param name="BottomLeft">Whether to draw the bottom left corner rounded or not.</param>
-        public static void DrawRounded( float X, float Y, float W, float H, int Size, int Quality, bool TopLeft = true, bool TopRight = true, bool BottomRight = true, bool BottomLeft = true )
+        public static void DrawRounded( float X, float Y, float W, float H, float Size, int Quality, bool TopLeft = true, bool TopRight = true, bool BottomRight = true, bool BottomLeft = true )
         {
-            if ( Size < 0 )
-                Size = 0;
-
-            if ( Size == 0 )
+            if ( Size <= 0 )
             {
                 DrawRect( X, Y, W, H );
                 return;
@@ -139,13 +136,13 @@ namespace SharpLib2D.Graphics
         #region DrawRoundedOutlined
 
         public static void DrawRoundedOutlined( float X, float Y, float W, float H, Color4 OutlineColor,
-            Color4 InsideColor, int Outline, int Size = 8, int Quality = 8 )
+            Color4 InsideColor, float Outline, float Size = 8, int Quality = 8, bool TopLeft = true, bool TopRight = true, bool BottomRight = true, bool BottomLeft = true )
         {
             Color.Set( OutlineColor );
-            DrawRounded( X, Y, W, H, Size, Quality );
+            DrawRounded( X, Y, W, H, Size, Quality, TopLeft, TopRight, BottomRight, BottomLeft );
 
             Color.Set( InsideColor );
-            DrawRounded( X + Outline, Y + Outline, W - Outline * 2, H - Outline * 2, Size / 2, Quality / 2 );
+            DrawRounded( X + Outline, Y + Outline, W - Outline * 2, H - Outline * 2, ( Size - Outline ), Quality, TopLeft, TopRight, BottomRight, BottomLeft );
         }
 
         #endregion

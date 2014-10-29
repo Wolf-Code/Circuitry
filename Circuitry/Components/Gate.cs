@@ -74,7 +74,7 @@ namespace Circuitry.Components
 
         public bool Active { internal set; get; }
 
-        public const int IODistance = 20;
+        public const int IODistance = 25;
 
         public const int SizeUnit = 60;
 
@@ -87,7 +87,7 @@ namespace Circuitry.Components
             Inputs = new List<Input>( );
             Outputs = new List<Output>( );
             SetGateSize( 1, 1 );
-            Outline = 5;
+            Outline = 3;
             Category = "Miscellaneous";
         }
 
@@ -281,16 +281,24 @@ namespace Circuitry.Components
             this.DefaultDraw( Texture );
         }
 
+        protected virtual void DrawBody( )
+        {
+            Rectangle.DrawRoundedOutlined( this.TopLeft.X, this.TopLeft.Y, this.Size.X, this.Size.Y, Color4.Black,
+                Color4.White, this.Outline );
+        }
+
         protected void DefaultDraw( )
         {
             DrawIOConnectors( );
 
-            Rectangle.DrawRoundedOutlined( this.TopLeft.X, this.TopLeft.Y, this.Size.X, this.Size.Y, Color4.Black,
-                Color4.White, this.Outline );
+            this.DrawBody( );
 
-            Color.Set( Color4.Black );
-            Text.SetAlignments( Text.HorizontalAlignment.Center, Text.VerticalAlignment.Center );
-            Text.DrawString( this.Name, "Arial", 10f, Position );
+            if ( this.Circuit != null && this.Circuit.ShowLabels )
+            {
+                Color.Set( Color4.Black );
+                Text.SetAlignments( Text.HorizontalAlignment.Center, Text.VerticalAlignment.Center );
+                Text.DrawString( this.Name, "Arial", 10f, Position );
+            }
         }
     }
 }

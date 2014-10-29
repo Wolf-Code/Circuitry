@@ -31,6 +31,8 @@ namespace Circuitry.Components
             get;
         }
 
+        public bool ShowLabels { internal set; get; }
+
         private bool DraggingCamera;
         private Menu Menu;
 

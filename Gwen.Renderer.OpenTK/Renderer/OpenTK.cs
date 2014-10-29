@@ -389,7 +389,7 @@ namespace Gwen.Renderer
                 LoadFont(font);
                 sysFont = font.RendererData as System.Drawing.Font;
             }
-
+            
             var key = new Tuple<String, Font>(text, font);
 
             if (m_StringCache.ContainsKey(key))
