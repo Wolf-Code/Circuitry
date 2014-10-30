@@ -91,6 +91,7 @@ namespace SharpLib2D.Graphics
 
         public static void DrawCubicBezierCurve( Vector2 Start, Vector2 End, Vector2 Anchor1, Vector2 Anchor2, int Points, float Width = 1f )
         {
+            Texture.EnableTextures( false );
             Points += 1;
             Vector2[ ] Curve = new Vector2[ Points + 1 ];
             for ( int X = 0; X < Points + 1; X++ )

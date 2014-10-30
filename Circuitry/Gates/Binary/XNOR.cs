@@ -3,7 +3,7 @@ using OpenTK.Graphics;
 
 namespace Circuitry.Gates.Binary
 {
-    public class XNOR : OR
+    public class XNOR : XOR
     {
         public XNOR( )
         {

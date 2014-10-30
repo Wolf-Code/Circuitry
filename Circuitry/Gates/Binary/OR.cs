@@ -7,6 +7,8 @@ namespace Circuitry.Gates.Binary
         {
             this.Category = "Logic";
 
+            this.Texture = @"Resources\Textures\Components\OR.png";
+
             this.AddInput( Components.IONode.NodeType.Binary, "Input 1", "The first input." );
             this.AddInput( Components.IONode.NodeType.Binary, "Input 2", "The second input." );
 
@@ -18,6 +20,11 @@ namespace Circuitry.Gates.Binary
             this.SetOutput( "Output", this.GetInput( "Input 1" ).BinaryValue || this.GetInput( "Input 2" ).BinaryValue );
             
             base.OnInputChanged( I );
+        }
+
+        protected override void DrawBody( )
+        {
+            this.DefaultTexturedDraw( );
         }
 
         public override void Draw( OpenTK.FrameEventArgs e )
