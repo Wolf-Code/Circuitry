@@ -270,7 +270,7 @@ namespace Gwen.Skin
     /// <summary>
     /// Base textured skin.
     /// </summary>
-    public class TexturedBase : Skin.Base
+    public class TexturedBase : Base
     {
         protected SkinTextures Textures;
 

@@ -5,7 +5,7 @@
     /// </summary>
     public class Check : Base
     {
-        protected readonly Control.CheckBox m_CheckBox;
+        protected readonly CheckBox m_CheckBox;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Check"/> class.
@@ -14,7 +14,7 @@
         public Check(Control.Base parent)
             : base(parent)
         {
-            m_CheckBox = new Control.CheckBox(this);
+            m_CheckBox = new CheckBox(this);
             m_CheckBox.ShouldDrawBackground = false;
             m_CheckBox.CheckChanged += OnValueChanged;
             m_CheckBox.IsTabable = true;

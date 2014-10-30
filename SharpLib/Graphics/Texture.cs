@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-
+using System.IO;
 using OpenTK.Graphics.OpenGL;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace SharpLib2D.Graphics
 {
@@ -77,7 +78,7 @@ namespace SharpLib2D.Graphics
             T.Height = B.Height;
 
             BitmapData bmp_data = B.LockBits( new System.Drawing.Rectangle( 0, 0, B.Width, B.Height ),
-                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
+                ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb );
             {
                 GL.TexImage2D( TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height,
                     0,
@@ -98,8 +99,8 @@ namespace SharpLib2D.Graphics
             if ( LoadedTextures.ContainsKey( Path ) )
                 return LoadedTextures[ Path ];
 
-            System.IO.FileInfo Info = new System.IO.FileInfo( Path );
-            if ( !Info.Exists ) throw new System.IO.FileNotFoundException( "Unable to load texture '" + Path + "'" );
+            FileInfo Info = new FileInfo( Path );
+            if ( !Info.Exists ) throw new FileNotFoundException( "Unable to load texture '" + Path + "'" );
             
             using ( Bitmap B = new Bitmap( Path ) )
             {

@@ -2,6 +2,8 @@
 using Gwen.Control.Property;
 using OpenTK;
 using OpenTK.Graphics;
+using SharpLib2D.Graphics;
+using Color = SharpLib2D.Graphics.Color;
 
 namespace Circuitry.Gates.Binary
 {
@@ -30,13 +32,13 @@ namespace Circuitry.Gates.Binary
         {
             float W = Size.X * EdgeSizePercentage;
 
-            SharpLib2D.Graphics.Color.Set( Color4.Black );
-            SharpLib2D.Graphics.Rectangle.DrawRoundedOutlined( TopLeft.X, TopLeft.Y, Size.X, Size.Y, Color4.Black, Color4.White, this.Outline, ( int )W, 8, false, true, true, false );
+            Color.Set( Color4.Black );
+            Rectangle.DrawRoundedOutlined( TopLeft.X, TopLeft.Y, Size.X, Size.Y, Color4.Black, Color4.White, Outline, ( int )W, 8, false, true, true, false );
         }
 
         public override void Draw( FrameEventArgs e )
         {
-            this.DefaultDraw( );
+            DefaultDraw( );
             base.Draw( e );
         }
     }

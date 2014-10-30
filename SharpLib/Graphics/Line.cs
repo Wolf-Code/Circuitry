@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using SharpLib2D.Math;
 
 namespace SharpLib2D.Graphics
 {
@@ -20,7 +21,7 @@ namespace SharpLib2D.Graphics
             }
             else
             {
-                Vector2 Normal = Math.Vector.Normal( Start, End );
+                Vector2 Normal = Vector.Normal( Start, End );
 
                 PrimitiveBatch.Begin( );
                 {
@@ -60,7 +61,7 @@ namespace SharpLib2D.Graphics
                 float Div = Width * 0.5f;
 
                 Vector2 P1 = Points[ 0 ], P2 = Points[ 1 ];
-                Vector2 Normal = Math.Vector.Normal( P1, P2 );
+                Vector2 Normal = Vector.Normal( P1, P2 );
                 Vector2 PreviousTop = P1 + Normal * Div, PreviousBottom = P1 - Normal * Div;
                 PrimitiveBatch.Begin( );
                 {
@@ -68,7 +69,7 @@ namespace SharpLib2D.Graphics
                     {
                         P1 = Points[ X ];
                         P2 = Points[ X + 1 ];
-                        Normal = Math.Vector.Normal( P1, P2 );
+                        Normal = Vector.Normal( P1, P2 );
                         Vector2 Top = P2 + Normal * Div;
                         Vector2 Bottom = P2 - Normal * Div;
 

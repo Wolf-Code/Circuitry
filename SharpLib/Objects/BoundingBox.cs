@@ -13,15 +13,15 @@ namespace SharpLib2D.Objects
         public BoundingBox( Vector2 TopLeft, float Width, float Height )
         {
             this.TopLeft = TopLeft;
-            this.BottomRight = new Vector2( TopLeft.X + Width, this.TopLeft.Y + Height );
-            this.Size = new Vector2( Width, Height );
+            BottomRight = new Vector2( TopLeft.X + Width, this.TopLeft.Y + Height );
+            Size = new Vector2( Width, Height );
         }
 
         public BoundingBox( Vector2 TopLeft, Vector2 BottomRight )
         {
             this.TopLeft = TopLeft;
             this.BottomRight = BottomRight;
-            this.Size = new Vector2( BottomRight.X - TopLeft.X, BottomRight.Y - TopLeft.Y );
+            Size = new Vector2( BottomRight.X - TopLeft.X, BottomRight.Y - TopLeft.Y );
         }
     }
 }

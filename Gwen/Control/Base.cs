@@ -4,8 +4,12 @@ using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using Gwen.Anim;
+using Gwen.Anim.Size;
+using Gwen.ControlInternal;
 using Gwen.DragDrop;
 using Gwen.Input;
+using Gwen.Platform;
+using Gwen.Renderer;
 
 namespace Gwen.Control
 {
@@ -489,8 +493,8 @@ namespace Gwen.Control
                 return "[MenuItem: " + (this as MenuItem).Text + "]";
             if (this is Label)
                 return "[Label: " + (this as Label).Text + "]";
-            if (this is ControlInternal.Text)
-                return "[Text: " + (this as ControlInternal.Text).String + "]";
+            if (this is Text)
+                return "[Text: " + (this as Text).String + "]";
             return GetType().ToString();
         }
 
@@ -992,7 +996,7 @@ namespace Gwen.Control
         protected virtual void DoCacheRender(Skin.Base skin, Base master)
         {
             Renderer.Base render = skin.Renderer;
-            Renderer.ICacheToTexture cache = render.CTT;
+            ICacheToTexture cache = render.CTT;
 
             if (cache == null)
                 return;
@@ -1625,7 +1629,7 @@ namespace Gwen.Control
         /// </summary>
         public virtual void UpdateCursor()
         {
-            Platform.Neutral.SetCursor(m_Cursor);
+            Neutral.SetCursor(m_Cursor);
         }
 
         // giver
@@ -2092,24 +2096,24 @@ namespace Gwen.Control
 
         public virtual void Anim_WidthIn(float length, float delay = 0.0f, float ease = 1.0f)
         {
-            Animation.Add(this, new Anim.Size.Width(0, Width, length, false, delay, ease));
+            Animation.Add(this, new Width(0, Width, length, false, delay, ease));
             Width = 0;
         }
 
         public virtual void Anim_HeightIn(float length, float delay, float ease)
         {
-            Animation.Add(this, new Anim.Size.Height(0, Height, length, false, delay, ease));
+            Animation.Add(this, new Height(0, Height, length, false, delay, ease));
             Height = 0;
         }
 
         public virtual void Anim_WidthOut(float length, bool hide, float delay, float ease)
         {
-            Animation.Add(this, new Anim.Size.Width(Width, 0, length, hide, delay, ease));
+            Animation.Add(this, new Width(Width, 0, length, hide, delay, ease));
         }
 
         public virtual void Anim_HeightOut(float length, bool hide, float delay, float ease)
         {
-            Animation.Add(this, new Anim.Size.Height(Height, 0, length, hide, delay, ease));
+            Animation.Add(this, new Height(Height, 0, length, hide, delay, ease));
         }
 
         public void FitChildrenToSize()

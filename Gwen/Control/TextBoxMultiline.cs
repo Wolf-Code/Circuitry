@@ -1,5 +1,7 @@
 using System;
 using System.Drawing;
+using Gwen.Input;
+using Gwen.Platform;
 
 namespace Gwen.Control
 {
@@ -67,7 +69,7 @@ namespace Gwen.Control
         /// </summary>
         /// <param name="oldChildBounds"></param>
         /// <param name="child"></param>
-        protected override void OnChildBoundsChanged(System.Drawing.Rectangle oldChildBounds, Base child)
+        protected override void OnChildBoundsChanged(Rectangle oldChildBounds, Base child)
         {
             if (m_ScrollControl != null)
             {
@@ -105,7 +107,7 @@ namespace Gwen.Control
 
         protected override void RefreshCursorBounds()
         {
-            m_LastInputTime = Platform.Neutral.GetTimeInSeconds();
+            m_LastInputTime = Neutral.GetTimeInSeconds();
 
             MakeCaretVisible();
 
@@ -184,7 +186,7 @@ namespace Gwen.Control
                 }
             }
 
-            if (!Input.InputHandler.IsShiftDown)
+            if (!InputHandler.IsShiftDown)
             {
                 m_CursorEnd = m_CursorPos;
             }
@@ -224,7 +226,7 @@ namespace Gwen.Control
                 }
             }
 
-            if (!Input.InputHandler.IsShiftDown)
+            if (!InputHandler.IsShiftDown)
             {
                 m_CursorEnd = m_CursorPos;
             }

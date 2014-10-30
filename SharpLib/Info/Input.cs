@@ -1,14 +1,16 @@
-﻿namespace SharpLib2D.Info
+﻿using OpenTK;
+
+namespace SharpLib2D.Info
 {
     public static class Input
     {
-        internal static OpenTK.GameWindow Game
+        internal static GameWindow Game
         {
             private set;
             get;
         }
 
-        internal static void Initialize( OpenTK.GameWindow Window )
+        internal static void Initialize( GameWindow Window )
         {
             Game = Window;
         }

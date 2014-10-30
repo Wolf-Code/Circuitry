@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using Gwen.Control;
+using Gwen.Input;
 
 namespace Gwen
 {
@@ -54,7 +55,7 @@ namespace Gwen
             Renderer.Base render = skin.Renderer;
 
             Point oldRenderOffset = render.RenderOffset;
-            Point mousePos = Input.InputHandler.MousePosition;
+            Point mousePos = InputHandler.MousePosition;
             Rectangle bounds = g_ToolTip.ToolTip.Bounds;
 
             Rectangle offset = Util.FloatRect(mousePos.X - bounds.Width*0.5f, mousePos.Y - bounds.Height - 10,

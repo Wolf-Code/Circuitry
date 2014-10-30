@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Gwen.ControlInternal;
+using Text = Gwen.Control.Property.Text;
 
 namespace Gwen.Control
 {
@@ -68,7 +69,7 @@ namespace Gwen.Control
         /// <returns>Newly created row.</returns>
         public PropertyRow Add(String label, String value="")
         {
-            return Add(label, new Property.Text(this), value);
+            return Add(label, new Text(this), value);
         }
 
         /// <summary>

@@ -1,5 +1,7 @@
 ﻿using System;
-
+using System.Drawing;
+using Circuitry.States;
+using Circuitry.UI;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -11,16 +13,16 @@ namespace Circuitry
     {
         protected override void OnLoad( EventArgs e )
         {
-            ClientRectangle = new System.Drawing.Rectangle( 0, 0, 1024, 768 );
+            ClientRectangle = new Rectangle( 0, 0, 1024, 768 );
 
             Title = "Circuitry";
 
             GL.Enable( EnableCap.Blend );
             GL.BlendFunc( BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha );
 
-            UI.Manager.Initialize( this );
+            Manager.Initialize( this );
 
-            State.StartState<States.Game>( );
+            State.StartState<Game>( );
 
             base.OnLoad( e );
         }
@@ -29,8 +31,8 @@ namespace Circuitry
         {
             GL.ClearColor( Color4.CornflowerBlue );
 
-            if ( UI.Manager.Renderer.TextCacheSize > 256 )
-                UI.Manager.Renderer.FlushTextCache( );
+            if ( Manager.Renderer.TextCacheSize > 256 )
+                Manager.Renderer.FlushTextCache( );
 
             base.OnRenderFrame( e );
         }

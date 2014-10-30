@@ -4,6 +4,8 @@ using System.Linq;
 using OpenTK;
 using SharpLib2D.Entities;
 using SharpLib2D.Entities.Camera;
+using SharpLib2D.Exceptions;
+using SharpLib2D.Info;
 
 namespace SharpLib2D.States
 {
@@ -39,7 +41,7 @@ namespace SharpLib2D.States
             State S = Activator.CreateInstance( typeof ( T ), Arguments ) as State;
 
             if ( S == null )
-                throw new Exceptions.SharpException( "Attempted to start a state of type {0}, something went wrong.",
+                throw new SharpException( "Attempted to start a state of type {0}, something went wrong.",
                     typeof ( T ) );
 
             if ( ActiveState != null )
@@ -112,7 +114,7 @@ namespace SharpLib2D.States
                 Entity.Z = OrderedEntities.Count > 0 ? OrderedEntities[ 0 ].Z + 1 : 0;
             }
             else
-                throw new Exceptions.SharpException( "Attempted to add entity {0} to state {1} twice.", Entity, this );
+                throw new SharpException( "Attempted to add entity {0} to state {1} twice.", Entity, this );
         }
 
         internal void RemoveEntity( UpdatableEntity Entity )
@@ -120,7 +122,7 @@ namespace SharpLib2D.States
             if ( Entities.Contains( Entity ) )
                 Entities.Remove( Entity );
             else
-                throw new Exceptions.SharpException( "Attempted to remove entity {0} from state {1} twice.", Entity,
+                throw new SharpException( "Attempted to remove entity {0} from state {1} twice.", Entity,
                     this );
         }
 
@@ -156,7 +158,7 @@ namespace SharpLib2D.States
         protected virtual void OnStart( )
         {
             Camera = new DefaultCamera( );
-            Camera.SetSize( Info.Screen.Size );
+            Camera.SetSize( Screen.Size );
         }
 
         /// <summary>
@@ -194,7 +196,7 @@ namespace SharpLib2D.States
         /// </summary>
         protected virtual void OnResize( )
         {
-            this.Camera.SetSize( Info.Screen.Size );
+            Camera.SetSize( Screen.Size );
         }
 
         #endregion

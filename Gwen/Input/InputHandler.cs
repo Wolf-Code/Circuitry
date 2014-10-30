@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Gwen.Control;
 using Gwen.DragDrop;
+using Gwen.Platform;
 
 namespace Gwen.Input
 {
@@ -191,7 +192,7 @@ namespace Gwen.Input
             if (null == KeyboardFocus) return;
             if (KeyboardFocus.GetCanvas() != control) return;
 
-            float time = Platform.Neutral.GetTimeInSeconds();
+            float time = Neutral.GetTimeInSeconds();
 
             //
             // Simulate Key-Repeats
@@ -206,7 +207,7 @@ namespace Gwen.Input
 
                 if (m_KeyData.KeyState[i] && time > m_KeyData.NextRepeat[i])
                 {
-                    m_KeyData.NextRepeat[i] = Platform.Neutral.GetTimeInSeconds() + KeyRepeatRate;
+                    m_KeyData.NextRepeat[i] = Neutral.GetTimeInSeconds() + KeyRepeatRate;
 
                     if (KeyboardFocus != null)
                     {
@@ -252,14 +253,14 @@ namespace Gwen.Input
             if (down &&
                 m_LastClickPos.X == MousePosition.X &&
                 m_LastClickPos.Y == MousePosition.Y &&
-                (Platform.Neutral.GetTimeInSeconds() - m_LastClickTime[mouseButton]) < DoubleClickSpeed)
+                (Neutral.GetTimeInSeconds() - m_LastClickTime[mouseButton]) < DoubleClickSpeed)
             {
                 isDoubleClick = true;
             }
 
             if (down && !isDoubleClick)
             {
-                m_LastClickTime[mouseButton] = Platform.Neutral.GetTimeInSeconds();
+                m_LastClickTime[mouseButton] = Neutral.GetTimeInSeconds();
                 m_LastClickPos = MousePosition;
             }
 
@@ -333,7 +334,7 @@ namespace Gwen.Input
                 if (!m_KeyData.KeyState[iKey])
                 {
                     m_KeyData.KeyState[iKey] = true;
-                    m_KeyData.NextRepeat[iKey] = Platform.Neutral.GetTimeInSeconds() + KeyRepeatDelay;
+                    m_KeyData.NextRepeat[iKey] = Neutral.GetTimeInSeconds() + KeyRepeatDelay;
                     m_KeyData.Target = KeyboardFocus;
 
                     return KeyboardFocus.InputKeyPressed(key);

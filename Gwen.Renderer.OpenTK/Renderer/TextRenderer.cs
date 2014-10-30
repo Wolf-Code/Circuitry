@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Drawing.Text;
 using OpenTK.Graphics;
 
@@ -12,7 +13,7 @@ namespace Gwen.Renderer
     {
         readonly Bitmap bmp;
         readonly Graphics gfx;
-        readonly Gwen.Texture texture;
+        readonly Texture texture;
         bool disposed;
 
         public Texture Texture { get { return texture; } }
@@ -23,7 +24,7 @@ namespace Gwen.Renderer
         /// <param name="width">The width of the backing store in pixels.</param>
         /// <param name="height">The height of the backing store in pixels.</param>
         /// <param name="renderer">GWEN renderer.</param>
-        public TextRenderer(int width, int height, Renderer.OpenTK renderer)
+        public TextRenderer(int width, int height, OpenTK renderer)
         {
             if (width <= 0)
                 throw new ArgumentOutOfRangeException("width");
@@ -32,7 +33,7 @@ namespace Gwen.Renderer
             if (GraphicsContext.CurrentContext == null)
                 throw new InvalidOperationException("No GraphicsContext is current on the calling thread.");
 
-            bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
             gfx = Graphics.FromImage(bmp);
 
             // NOTE:    TextRenderingHint.AntiAliasGridFit looks sharper and in most cases better

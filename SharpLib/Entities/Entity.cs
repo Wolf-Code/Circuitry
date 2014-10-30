@@ -205,8 +205,8 @@ namespace SharpLib2D.Entities
             while ( Children.Count > 0 )
                 Children[ 0 ].Remove( );
 
-            if ( this.HasParent )
-                this.Parent.Children.Remove( this );
+            if ( HasParent )
+                Parent.Children.Remove( this );
             else
                 Unlist( );
         }

@@ -6,7 +6,7 @@ namespace Circuitry.Components
         public Output( NodeType Type, string Name, string Description )
             : base( Type, Name, Description )
         {
-            this.Direction = NodeDirection.Out;
+            Direction = NodeDirection.Out;
         }
     }
 }

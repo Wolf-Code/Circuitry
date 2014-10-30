@@ -161,7 +161,7 @@ namespace Gwen.Control
             //  The hack is to constantly invalide TreeNodes, which isn't bad, but there is
             //  definitely a better solution (possibly: Make it set the height from childmost
             //  first and work it's way up?) that invalidates and draws properly in 1 loop. -halfofastaple
-            this.Invalidate();
+            Invalidate();
         }
 
         /// <summary>

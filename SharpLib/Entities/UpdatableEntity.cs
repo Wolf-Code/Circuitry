@@ -1,4 +1,5 @@
-﻿using SharpLib2D.States;
+﻿using OpenTK;
+using SharpLib2D.States;
 
 namespace SharpLib2D.Entities
 {
@@ -47,7 +48,7 @@ namespace SharpLib2D.Entities
 
         }
 
-        public virtual void Update( OpenTK.FrameEventArgs e )
+        public virtual void Update( FrameEventArgs e )
         {
 
         }

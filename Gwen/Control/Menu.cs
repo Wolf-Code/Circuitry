@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using Gwen.ControlInternal;
+using Gwen.Input;
 
 namespace Gwen.Control
 {
@@ -70,7 +71,7 @@ namespace Gwen.Control
         {
             IsHidden = false;
             BringToFront();
-            Point mouse = Input.InputHandler.MousePosition;
+            Point mouse = InputHandler.MousePosition;
             SetPosition(mouse.X, mouse.Y);
         }
 

@@ -1,37 +1,39 @@
 ﻿
+using Circuitry.Components;
+using OpenTK;
 using SharpLib2D.Graphics;
 
 namespace Circuitry.Gates
 {
-    public class Splitter : Components.Gate
+    public class Splitter : Gate
     {
         public Splitter( )
             : this( 2 )
         {
-            this.Texture = @"Resources\Textures\Components\Splitter.png";
+            Texture = @"Resources\Textures\Components\Splitter.png";
         }
 
         public Splitter( int Amount = 2 )
         {
-            this.AddInput( Components.IONode.NodeType.Binary, "Input", "The input to split." );
+            AddInput( IONode.NodeType.Binary, "Input", "The input to split." );
 
             for ( int X = 0; X < Amount; X++ )
             {
-                this.AddOutput( Components.IONode.NodeType.Binary, "Output " + ( X + 1 ), "Output #" + ( X + 1 ) );
+                AddOutput( IONode.NodeType.Binary, "Output " + ( X + 1 ), "Output #" + ( X + 1 ) );
             }
         }
 
-        public override void OnInputChanged( Components.Input I )
+        public override void OnInputChanged( Input I )
         {
-            foreach ( Components.Output O in this.Outputs )
-                this.SetOutput( O.Name, I.Value );
+            foreach ( Output O in Outputs )
+                SetOutput( O.Name, I.Value );
 
             base.OnInputChanged( I );
         }
 
-        public override void Draw( OpenTK.FrameEventArgs e )
+        public override void Draw( FrameEventArgs e )
         {
-            this.DefaultTexturedDraw( );
+            DefaultTexturedDraw( );
 
             base.Draw( e );
         }

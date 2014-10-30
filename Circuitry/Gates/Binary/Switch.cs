@@ -1,11 +1,17 @@
-﻿using Circuitry.States;
+﻿using Circuitry.Components;
+using Circuitry.States;
+using Gwen.Control;
+using OpenTK;
+using OpenTK.Input;
+using SharpLib2D.Graphics;
 using SharpLib2D.States;
+using Mouse = SharpLib2D.Info.Mouse;
 
 namespace Circuitry.Gates.Binary
 {
-    public class Switch : Components.Gate
+    public class Switch : Gate
     {
-        private static readonly SharpLib2D.Graphics.Texture Off, On;
+        private static readonly Texture Off, On;
 
         public bool Down
         {
@@ -29,8 +35,8 @@ namespace Circuitry.Gates.Binary
 
         public Switch( )
         {
-            this.AddOutput( Components.IONode.NodeType.Binary, "Value", "1 when the button is toggled, 0 otherwise." );
-            this.Category = "Input";
+            AddOutput( IONode.NodeType.Binary, "Value", "1 when the button is toggled, 0 otherwise." );
+            Category = "Input";
         }
 
         public override void Reset( )
@@ -40,11 +46,11 @@ namespace Circuitry.Gates.Binary
             Down = false;
         }
 
-        public override void Draw( OpenTK.FrameEventArgs e )
+        public override void Draw( FrameEventArgs e )
         {
             DrawIOConnectors( );
 
-            SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f, 1f );
+            Color.Set( 1f, 1f, 1f, 1f );
 
             ( Down ? On : Off ).Bind( );
 
@@ -52,11 +58,11 @@ namespace Circuitry.Gates.Binary
             base.Draw( e );
         }
 
-        public override void OnButtonPressed( OpenTK.Input.MouseButton Button )
+        public override void OnButtonPressed( MouseButton Button )
         {
-            Gwen.Control.Base B = ( State.ActiveState as GwenState ).GetControlAt( ( int )SharpLib2D.Info.Mouse.Position.X, ( int )SharpLib2D.Info.Mouse.Position.Y );
+            Base B = ( State.ActiveState as GwenState ).GetControlAt( ( int )Mouse.Position.X, ( int )Mouse.Position.Y );
 
-            if ( Circuit.CurrentState == Components.Circuit.State.Active &&
+            if ( Circuit.CurrentState == Circuit.State.Active &&
                  B == ( State.ActiveState as GwenState ).GwenCanvas )
             {
                 Down = !Down;

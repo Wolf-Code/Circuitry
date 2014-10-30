@@ -1,4 +1,5 @@
-﻿using SharpLib2D.Entities;
+﻿using Circuitry.UI;
+using SharpLib2D.Entities;
 
 namespace Circuitry.Components
 {
@@ -6,7 +7,7 @@ namespace Circuitry.Components
     {
         protected bool MouseCanSelect( )
         {
-            return !UI.Manager.MouseInsideUI( );
+            return !Manager.MouseInsideUI( );
         }
     }
 }

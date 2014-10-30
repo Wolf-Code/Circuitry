@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Circuitry.States;
+using Circuitry.UI;
 using Gwen.Control;
 using OpenTK;
 using OpenTK.Input;
 using SharpLib2D.Entities;
+using SharpLib2D.Entities.Camera;
+using SharpLib2D.Graphics;
+using Mouse = SharpLib2D.Info.Mouse;
 
 namespace Circuitry.Components
 {
@@ -39,9 +43,9 @@ namespace Circuitry.Components
         public Circuit( )
         {
             CurrentState = State.Build;
-            this.GridSize = 60;
-            this.ShowGrid = true;
-            this.SnapToGrid = true;
+            GridSize = 60;
+            ShowGrid = true;
+            SnapToGrid = true;
         }
 
         #region Menu
@@ -55,7 +59,7 @@ namespace Circuitry.Components
             }
 
             Menu = new Menu( ( ParentState as GwenState ).GwenCanvas );
-            Menu.SetPosition( SharpLib2D.Info.Mouse.Position.X, SharpLib2D.Info.Mouse.Position.Y );
+            Menu.SetPosition( Mouse.Position.X, Mouse.Position.Y );
             foreach ( MenuEntry Entry in Items )
             {
                 MenuItem I = Menu.AddItem( Entry.Text );
@@ -161,6 +165,7 @@ namespace Circuitry.Components
         {
             G.SetParent( this );
             G.Circuit = this;
+            G.Reset( );
         }
 
         #endregion
@@ -169,8 +174,9 @@ namespace Circuitry.Components
 
         public void PushSignal( Output O )
         {
-            if ( !O.IsConnected )
+            if ( CurrentState != State.Active || !O.IsConnected )
                 return;
+
             Signal S = new Signal( O, O.Connection as Input );
             if ( !Signals.Contains( S ) )
                 Signals.Add( S );
@@ -193,7 +199,7 @@ namespace Circuitry.Components
                     switch ( CurrentState )
                     {
                         case State.Build_Placing:
-                            if ( !UI.Manager.MouseInsideUI( ) )
+                            if ( !Manager.MouseInsideUI( ) )
                             {
                                 AddGate( GateToPlace );
                                 GateToPlace.Active = true;
@@ -203,7 +209,7 @@ namespace Circuitry.Components
                             break;
 
                         default:
-                            if ( !UI.Manager.MouseInsideUI( ) )
+                            if ( !Manager.MouseInsideUI( ) )
                                 DraggingCamera = true;
                             break;
                     }
@@ -213,7 +219,7 @@ namespace Circuitry.Components
                     switch ( CurrentState )
                     {
                         case State.Build_Placing:
-                            if ( !UI.Manager.MouseInsideUI( ) )
+                            if ( !Manager.MouseInsideUI( ) )
                             {
                                 GateToPlace.Remove( );
                                 GateToPlace = null;
@@ -263,7 +269,7 @@ namespace Circuitry.Components
         public override void Update( FrameEventArgs e )
         {
             if ( DraggingCamera )
-                ParentState.Camera.SetPosition( ParentState.Camera.Position - SharpLib2D.Info.Mouse.Delta );
+                ParentState.Camera.SetPosition( ParentState.Camera.Position - Mouse.Delta );
 
             switch ( CurrentState )
             {
@@ -280,8 +286,8 @@ namespace Circuitry.Components
 
                 case State.Build_Placing:
                     Vector2 Pos = !SnapToGrid 
-                        ? ParentState.Camera.ToWorld( SharpLib2D.Info.Mouse.Position ) 
-                        : this.SnapPositionToGrid( ParentState.Camera.ToWorld( SharpLib2D.Info.Mouse.Position + new Vector2( GridSize / 2f ) ) );
+                        ? ParentState.Camera.ToWorld( Mouse.Position ) 
+                        : SnapPositionToGrid( ParentState.Camera.ToWorld( Mouse.Position + new Vector2( GridSize / 2f ) ) );
                     
                     GateToPlace.SetPosition( Pos );
                         
@@ -295,10 +301,10 @@ namespace Circuitry.Components
         {
             if ( !ShowGrid ) return;
 
-            SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f, 0.2f );
+            Color.Set( 1f, 1f, 1f, 0.2f );
 
-            SharpLib2D.Entities.Camera.DefaultCamera Cam = SharpLib2D.States.State.ActiveState.Camera;
-            Vector2 P = this.SnapPositionToGrid( Cam.TopLeft );
+            DefaultCamera Cam = SharpLib2D.States.State.ActiveState.Camera;
+            Vector2 P = SnapPositionToGrid( Cam.TopLeft );
             float Off = GridSize / 6f;
             Vector2 S = new Vector2( Cam.Size.X + Off, Cam.Size.Y + Off );
             Vector2 LocalP = Cam.TopLeft - P;
@@ -307,8 +313,8 @@ namespace Circuitry.Components
             {
                 for ( float Y = P.Y; Y < P.Y + S.Y + LocalP.Y; Y += GridSize )
                 {
-                    SharpLib2D.Graphics.Line.Draw( new Vector2( X - Off, Y ), new Vector2( X + Off, Y ) );
-                    SharpLib2D.Graphics.Line.Draw( new Vector2( X, Y - Off ), new Vector2( X, Y + Off ) );
+                    Line.Draw( new Vector2( X - Off, Y ), new Vector2( X + Off, Y ) );
+                    Line.Draw( new Vector2( X, Y - Off ), new Vector2( X, Y + Off ) );
                 }
             }
         }
@@ -322,26 +328,29 @@ namespace Circuitry.Components
                     if ( !O.IsConnected || O.Direction != IONode.NodeDirection.Out ) continue;
 
                     Vector2 Diff = O.Connection.Position - O.Position;
+                    Diff /= 2;
 
-                    SharpLib2D.Graphics.Color.Set( 0.2f, 0.2f, 0.2f );
-                    SharpLib2D.Graphics.Line.DrawCubicBezierCurve( O.Position, O.Connection.Position, O.Position + new Vector2( Math.Abs( Diff.X ), 0 ), O.Connection.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 6f );
+                    Color.Set( 0.2f, 0.2f, 0.2f );
+                    Line.DrawCubicBezierCurve( O.Position, O.Connection.Position, O.Position + new Vector2( Math.Abs( Diff.X ), 0 ), O.Connection.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 6f );
+                    //SharpLib2D.Graphics.Line.Draw( O.Position, O.Connection.Position, 6f );
 
-                    //if ( !O.BinaryValue )
-                        SharpLib2D.Graphics.Color.Set( 0.2f, 0.2f, 1f );
-                    //else
-                    //    SharpLib2D.Graphics.Color.Set( 0.2f, 1f, 0.2f );
+                    if ( !O.BinaryValue )
+                        Color.Set( 0.2f, 0.2f, 1f );
+                    else
+                        Color.Set( 0.2f, 1f, 0.2f );
 
-                    SharpLib2D.Graphics.Line.DrawCubicBezierCurve( O.Position, O.Connection.Position, O.Position + new Vector2( Math.Abs( Diff.X ), 0 ), O.Connection.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 4f );
+                    Line.DrawCubicBezierCurve( O.Position, O.Connection.Position, O.Position + new Vector2( Math.Abs( Diff.X ), 0 ), O.Connection.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 4f );
+                    //SharpLib2D.Graphics.Line.Draw( O.Position, O.Connection.Position, 4f );
                 }
             }
         }
 
         public override void Draw( FrameEventArgs e )
         {
-            SharpLib2D.Graphics.Texture.EnableTextures( false );
+            Texture.EnableTextures( false );
 
-            this.DrawGrid( );
-            this.DrawConnections( );
+            DrawGrid( );
+            DrawConnections( );
             
             base.Draw( e );
         }

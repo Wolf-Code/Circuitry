@@ -137,7 +137,7 @@ namespace Circuitry.Components
         /// <param name="NewValue">The new value.</param>
         public void SetValue( double NewValue )
         {
-            this.Value = NewValue;
+            Value = NewValue;
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Circuitry.Components
         /// <param name="NewValue">The new value.</param>
         public void SetValue( bool NewValue )
         {
-            this.Value = NewValue ? 1.0 : 0.0;
+            Value = NewValue ? 1.0 : 0.0;
         }
 
         public override void Draw( FrameEventArgs e )

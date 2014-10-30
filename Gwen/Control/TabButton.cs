@@ -1,4 +1,5 @@
-﻿using Gwen.Input;
+﻿using Gwen.DragDrop;
+using Gwen.Input;
 
 namespace Gwen.Control
 {
@@ -55,7 +56,7 @@ namespace Gwen.Control
             KeyboardInputEnabled = true;
         }
 
-        public override void DragAndDrop_StartDragging(DragDrop.Package package, int x, int y)
+        public override void DragAndDrop_StartDragging(Package package, int x, int y)
         {
             IsHidden = true;
         }

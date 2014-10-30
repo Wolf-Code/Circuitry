@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK;
 using OpenTK.Input;
+using Mouse = SharpLib2D.Info.Mouse;
 
 namespace SharpLib2D.UI
 {
@@ -22,7 +23,7 @@ namespace SharpLib2D.UI
             if ( Button == MouseButton.Left )
             {
                 IsDown = true;
-                DownPosition = Info.Mouse.Position;
+                DownPosition = Mouse.Position;
             }
 
             base.OnButtonPressed( Button );
@@ -33,7 +34,7 @@ namespace SharpLib2D.UI
             if ( Button == MouseButton.Left )
             {
                 IsDown = false;
-                if ( DownPosition == Info.Mouse.Position && OnClick != null )
+                if ( DownPosition == Mouse.Position && OnClick != null )
                     OnClick( this, null );
             }
 

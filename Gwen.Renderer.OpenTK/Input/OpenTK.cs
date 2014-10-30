@@ -55,15 +55,15 @@ namespace Gwen.Input
                 case global::OpenTK.Input.Key.End: return Key.End;
                 case global::OpenTK.Input.Key.Delete: return Key.Delete;
                 case global::OpenTK.Input.Key.LControl:
-                    this.m_AltGr = true;
+                    m_AltGr = true;
                     return Key.Control;
                 case global::OpenTK.Input.Key.LAlt: return Key.Alt;
                 case global::OpenTK.Input.Key.LShift: return Key.Shift;
                 case global::OpenTK.Input.Key.RControl: return Key.Control;
                 case global::OpenTK.Input.Key.RAlt: 
-                    if (this.m_AltGr)
+                    if (m_AltGr)
                     {
-                        this.m_Canvas.Input_Key(Key.Control, false);
+                        m_Canvas.Input_Key(Key.Control, false);
                     }
                     return Key.Alt;
                 case global::OpenTK.Input.Key.RShift: return Key.Shift;

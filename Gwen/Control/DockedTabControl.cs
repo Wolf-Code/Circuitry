@@ -1,4 +1,6 @@
-﻿namespace Gwen.Control
+﻿using Gwen.DragDrop;
+
+namespace Gwen.Control
 {
     /// <summary>
     /// Docked tab control.
@@ -45,7 +47,7 @@
             m_TitleBar.UpdateFromTab(CurrentButton);
         }
 
-        public override void DragAndDrop_StartDragging(DragDrop.Package package, int x, int y)
+        public override void DragAndDrop_StartDragging(Package package, int x, int y)
         {
             base.DragAndDrop_StartDragging(package, x, y);
 

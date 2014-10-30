@@ -1,9 +1,13 @@
 ﻿
+using Circuitry.Components;
+using OpenTK;
+using SharpLib2D.Graphics;
+
 namespace Circuitry.Gates.Binary
 {
-    public class LED : Components.Gate
+    public class LED : Gate
     {
-        static readonly SharpLib2D.Graphics.Texture On, Off;
+        static readonly Texture On, Off;
 
         static LED( )
         {
@@ -13,17 +17,17 @@ namespace Circuitry.Gates.Binary
 
         public LED( )
         {
-            this.AddInput( Components.IONode.NodeType.Binary, "Enabled", "Emits light when 1, is off otherwise." );
+            AddInput( IONode.NodeType.Binary, "Enabled", "Emits light when 1, is off otherwise." );
 
-            this.Category = "Output";
+            Category = "Output";
         }
 
-        public override void Draw( OpenTK.FrameEventArgs e )
+        public override void Draw( FrameEventArgs e )
         {
-            this.DrawIOConnectors( );
+            DrawIOConnectors( );
 
-            SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f, 1f );
-            if ( this.GetIO<Components.Input>( "Enabled" ).BinaryValue )
+            Color.Set( 1f, 1f, 1f, 1f );
+            if ( GetIO<Input>( "Enabled" ).BinaryValue )
                 On.Bind( );
             else
                 Off.Bind( );

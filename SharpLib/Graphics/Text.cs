@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Linq;
 using OpenTK;
@@ -88,7 +89,7 @@ namespace SharpLib2D.Graphics
             Vector2 S = Graphics.Text.MeasureString( Text, Font, Size );
             Width = ( int ) S.X;
             Height = ( int ) S.Y;
-            using ( Bitmap B = new Bitmap( Width, Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb ) )
+            using ( Bitmap B = new Bitmap( Width, Height, PixelFormat.Format32bppArgb ) )
             {
                 using ( System.Drawing.Graphics G = System.Drawing.Graphics.FromImage( B ) )
                 {
@@ -100,7 +101,7 @@ namespace SharpLib2D.Graphics
                         PointF.Empty );
                 }
 
-                this.Texture = Texture.Load( B );
+                Texture = Texture.Load( B );
             }
         }
     }

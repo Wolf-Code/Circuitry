@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
@@ -507,7 +508,7 @@ namespace Gwen.Renderer
             bmp.Dispose();
         }
 
-        public override void LoadTextureStream(Texture t, System.IO.Stream data)
+        public override void LoadTextureStream(Texture t, Stream data)
         {
             Bitmap bmp;
             try

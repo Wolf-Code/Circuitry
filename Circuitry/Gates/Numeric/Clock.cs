@@ -11,11 +11,11 @@ namespace Circuitry.Gates.Numeric
 
         public Clock( )
         {
-            this.AddOutput( IONode.NodeType.Numeric, "Value", "The current OS time." );
+            AddOutput( IONode.NodeType.Numeric, "Value", "The current OS time." );
             LastTime = GetTimeStamp( );
 
-            this.Category = "Time";
-            this.Texture = @"Resources\Textures\Components\Numeric\Clock.png";
+            Category = "Time";
+            Texture = @"Resources\Textures\Components\Numeric\Clock.png";
         }
 
         private static int GetTimeStamp( )
@@ -32,14 +32,14 @@ namespace Circuitry.Gates.Numeric
             if ( GetTimeStamp( ) != LastTime )
             {
                 LastTime = TS;
-                this.SetOutput( "Value", LastTime );
+                SetOutput( "Value", LastTime );
             }
             base.Update( e );
         }
 
-        public override void Draw( OpenTK.FrameEventArgs e )
+        public override void Draw( FrameEventArgs e )
         {
-            this.DefaultTexturedDraw( );
+            DefaultTexturedDraw( );
 
             base.Draw( e );
         }

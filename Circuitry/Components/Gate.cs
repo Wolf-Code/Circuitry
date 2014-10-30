@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using SharpLib2D.Graphics;
 using SharpLib2D.Objects;
+using Mouse = SharpLib2D.Info.Mouse;
 
 namespace Circuitry.Components
 {
@@ -68,6 +69,11 @@ namespace Circuitry.Components
             }
         }
 
+        protected virtual Vector2 TextPosition
+        {
+            get { return Position; }
+        }
+
         protected string Texture { set; get; }
 
         #endregion
@@ -93,15 +99,13 @@ namespace Circuitry.Components
 
         protected void SetGateSize( float W, float H )
         {
-            this.SetSize( SizeUnit * W, SizeUnit * H );    
+            SetSize( SizeUnit * W, SizeUnit * H );    
         }
 
         public virtual void Reset( )
         {
             foreach ( Output O in Outputs )
-            {
-                this.SetOutput( O.Name, false );
-            }
+                O.SetValue( false );
 
             foreach ( Input I in Inputs )
                 I.SetValue( false );
@@ -110,11 +114,11 @@ namespace Circuitry.Components
         protected void ShowOptionsMenu( params MenuEntry [ ] Entries )
         {
             MenuEntry[ ] Ents = new MenuEntry[ Entries.Length + 1 ];
-            Ents[ 0 ] = new MenuEntry( "Remove", Control => this.Remove( ) );
+            Ents[ 0 ] = new MenuEntry( "Remove", Control => Remove( ) );
             for ( int X = 0; X < Entries.Length; X++ )
                 Ents[ X + 1 ] = Entries[ X ];
 
-            this.Circuit.ShowMenu( Ents );
+            Circuit.ShowMenu( Ents );
         }
 
         public override void OnButtonPressed( MouseButton Button )
@@ -125,13 +129,13 @@ namespace Circuitry.Components
                     if ( Circuit.CurrentState == Circuit.State.Build && MouseCanSelect( ) )
                     {
                         Dragging = true;
-                        DragPosition = ToLocal( ParentState.Camera.ToWorld( SharpLib2D.Info.Mouse.Position ) );
+                        DragPosition = ToLocal( ParentState.Camera.ToWorld( Mouse.Position ) );
                     }
                     break;
 
                     case MouseButton.Right:
                     if ( Circuit.CurrentState == Circuit.State.Build && MouseCanSelect( ) )
-                        this.ShowOptionsMenu( );
+                        ShowOptionsMenu( );
                     break;
             }
 
@@ -150,12 +154,12 @@ namespace Circuitry.Components
         {
             if ( Dragging )
             {
-                Vector2 DPos = SharpLib2D.Info.Mouse.Position - DragPosition;
-                Vector2 Pos = !this.Circuit.SnapToGrid
+                Vector2 DPos = Mouse.Position - DragPosition;
+                Vector2 Pos = !Circuit.SnapToGrid
                         ? ParentState.Camera.ToWorld( DPos )
-                        : this.Circuit.SnapPositionToGrid( ParentState.Camera.ToWorld( DPos + new Vector2( this.Circuit.GridSize / 2f ) ) );
+                        : Circuit.SnapPositionToGrid( ParentState.Camera.ToWorld( DPos + new Vector2( Circuit.GridSize / 2f ) ) );
 
-                this.SetPosition( Pos );
+                SetPosition( Pos );
             }
 
             base.Update( e );
@@ -268,7 +272,7 @@ namespace Circuitry.Components
 
         private void DefaultDraw( string Path )
         {
-            this.DrawIOConnectors( );
+            DrawIOConnectors( );
 
             Color.Set( 1f, 1f, 1f );
             SharpLib2D.Graphics.Texture.Set( Path );
@@ -278,26 +282,26 @@ namespace Circuitry.Components
 
         protected void DefaultTexturedDraw( )
         {
-            this.DefaultDraw( Texture );
+            DefaultDraw( Texture );
         }
 
         protected virtual void DrawBody( )
         {
-            Rectangle.DrawRoundedOutlined( this.TopLeft.X, this.TopLeft.Y, this.Size.X, this.Size.Y, Color4.Black,
-                Color4.White, this.Outline );
+            Rectangle.DrawRoundedOutlined( TopLeft.X, TopLeft.Y, Size.X, Size.Y, Color4.Black,
+                Color4.White, Outline );
         }
 
         protected void DefaultDraw( )
         {
             DrawIOConnectors( );
 
-            this.DrawBody( );
+            DrawBody( );
 
-            if ( this.Circuit != null && this.Circuit.ShowLabels )
+            if ( Circuit != null && Circuit.ShowLabels )
             {
                 Color.Set( Color4.Black );
                 Text.SetAlignments( Text.HorizontalAlignment.Center, Text.VerticalAlignment.Center );
-                Text.DrawString( this.Name, "Arial", 10f, Position );
+                Text.DrawString( Name, "Arial", 10f, TextPosition );
             }
         }
     }

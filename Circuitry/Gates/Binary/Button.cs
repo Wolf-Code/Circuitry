@@ -1,9 +1,14 @@
 ﻿
+using Circuitry.Components;
+using OpenTK;
+using OpenTK.Input;
+using SharpLib2D.Graphics;
+
 namespace Circuitry.Gates.Binary
 {
-    public class Button : Components.Gate
+    public class Button : Gate
     {
-        private static readonly SharpLib2D.Graphics.Texture Off, On;
+        private static readonly Texture Off, On;
 
         public bool Down
         {
@@ -19,15 +24,15 @@ namespace Circuitry.Gates.Binary
 
         public Button( )
         {
-            this.AddOutput( Components.IONode.NodeType.Binary, "Value", "1 when the button is pressed, 0 otherwise." );
-            this.Category = "Input";
+            AddOutput( IONode.NodeType.Binary, "Value", "1 when the button is pressed, 0 otherwise." );
+            Category = "Input";
         }
 
-        public override void Draw( OpenTK.FrameEventArgs e )
+        public override void Draw( FrameEventArgs e )
         {
             DrawIOConnectors( );
 
-            SharpLib2D.Graphics.Color.Set( 1f, 1f, 1f );
+            Color.Set( 1f, 1f, 1f );
 
             ( Down ? On : Off ).Bind( );
 
@@ -35,23 +40,23 @@ namespace Circuitry.Gates.Binary
             base.Draw( e );
         }
 
-        public override void OnButtonPressed( OpenTK.Input.MouseButton Button )
+        public override void OnButtonPressed( MouseButton Button )
         {
-            if ( this.Circuit.CurrentState == Components.Circuit.State.Active )
+            if ( Circuit.CurrentState == Circuit.State.Active )
             {
-                this.Down = true;
-                this.SetOutput( "Value", true );
+                Down = true;
+                SetOutput( "Value", true );
             }
 
             base.OnButtonPressed( Button );
         }
 
-        public override void OnButtonReleased( OpenTK.Input.MouseButton Button )
+        public override void OnButtonReleased( MouseButton Button )
         {
-            if ( this.Circuit.CurrentState == Components.Circuit.State.Active )
+            if ( Circuit.CurrentState == Circuit.State.Active )
             {
-                this.Down = false;
-                this.SetOutput( "Value", false );
+                Down = false;
+                SetOutput( "Value", false );
             }
 
             base.OnButtonReleased( Button );

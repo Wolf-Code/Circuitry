@@ -1,11 +1,12 @@
 ﻿using OpenTK;
+using OpenTK.Graphics;
 
 namespace SharpLib2D.Graphics.Objects
 {
-    internal struct Vertex
+    public struct Vertex
     {
         public Vector2 Position;
-        public OpenTK.Graphics.Color4 Color;
+        public Color4 Color;
         public Vector2 UV;
     }
 }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Gwen.Control;
 using Gwen.Input;
+using Gwen.Platform;
 
 namespace Gwen.DragDrop
 {
@@ -119,7 +120,7 @@ namespace Gwen.DragDrop
                 // Show the NO WAY cursor.
                 if (m_NewHoveredControl == null)
                 {
-                    Platform.Neutral.SetCursor(Cursors.No);
+                    Neutral.SetCursor(Cursors.No);
                 }
             }
 
@@ -199,7 +200,7 @@ namespace Gwen.DragDrop
 
             // Override the cursor - since it might have been set my underlying controls
             // Ideally this would show the 'being dragged' control. TODO
-            Platform.Neutral.SetCursor(Cursors.Default);
+            Neutral.SetCursor(Cursors.Default);
 
             hoveredControl.Redraw();
         }

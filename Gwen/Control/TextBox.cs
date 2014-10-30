@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Gwen.Input;
+using Gwen.Platform;
 
 namespace Gwen.Control
 {
@@ -199,7 +200,7 @@ namespace Gwen.Control
             }
 
             // Draw caret
-            float time = Platform.Neutral.GetTimeInSeconds() - m_LastInputTime;
+            float time = Neutral.GetTimeInSeconds() - m_LastInputTime;
 
             if ((time % 1.0f) <= 0.5f)
             {
@@ -210,7 +211,7 @@ namespace Gwen.Control
 
         protected virtual void RefreshCursorBounds()
         {
-            m_LastInputTime = Platform.Neutral.GetTimeInSeconds();
+            m_LastInputTime = Neutral.GetTimeInSeconds();
 
             MakeCaretVisible();
 
@@ -237,7 +238,7 @@ namespace Gwen.Control
         protected override void OnPaste(Base from)
         {
             base.OnPaste(from);
-            InsertText(Platform.Neutral.GetClipboardText());
+            InsertText(Neutral.GetClipboardText());
         }
 
         /// <summary>
@@ -249,7 +250,7 @@ namespace Gwen.Control
             if (!HasSelection) return;
             base.OnCopy(from);
 
-            Platform.Neutral.SetClipboardText(GetSelection());
+            Neutral.SetClipboardText(GetSelection());
         }
 
         /// <summary>
@@ -261,7 +262,7 @@ namespace Gwen.Control
             if (!HasSelection) return;
             base.OnCut(from);
 
-            Platform.Neutral.SetClipboardText(GetSelection());
+            Neutral.SetClipboardText(GetSelection());
             EraseSelection();
         }
 
@@ -379,7 +380,7 @@ namespace Gwen.Control
             if (m_CursorPos > 0)
                 m_CursorPos--;
 
-            if (!Input.InputHandler.IsShiftDown)
+            if (!InputHandler.IsShiftDown)
             {
                 m_CursorEnd = m_CursorPos;
             }
@@ -403,7 +404,7 @@ namespace Gwen.Control
             if (m_CursorPos < TextLength)
                 m_CursorPos++;
 
-            if (!Input.InputHandler.IsShiftDown)
+            if (!InputHandler.IsShiftDown)
             {
                 m_CursorEnd = m_CursorPos;
             }
@@ -425,7 +426,7 @@ namespace Gwen.Control
             if (!down) return true;
             m_CursorPos = 0;
 
-            if (!Input.InputHandler.IsShiftDown)
+            if (!InputHandler.IsShiftDown)
             {
                 m_CursorEnd = m_CursorPos;
             }
@@ -446,7 +447,7 @@ namespace Gwen.Control
             base.OnKeyEnd(down);
             m_CursorPos = TextLength;
 
-            if (!Input.InputHandler.IsShiftDown)
+            if (!InputHandler.IsShiftDown)
             {
                 m_CursorEnd = m_CursorPos;
             }
@@ -527,7 +528,7 @@ namespace Gwen.Control
             {
                 CursorPos = c;
 
-                if (!Input.InputHandler.IsShiftDown)
+                if (!InputHandler.IsShiftDown)
                     CursorEnd = c;
 
                 InputHandler.MouseFocus = this;

@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using SharpLib2D.Math;
 
 namespace SharpLib2D.Entities
 {
@@ -10,7 +11,7 @@ namespace SharpLib2D.Entities
 
         public override Vector2 ToLocal( Vector2 WorldPosition )
         {
-            return Math.Vector.RotateAround( WorldPosition, Position, -RotationRadians ) - Position;
+            return Vector.RotateAround( WorldPosition, Position, -RotationRadians ) - Position;
         }
 
         public override Vector2 ToWorld( Vector2 LocalPosition )
@@ -51,7 +52,7 @@ namespace SharpLib2D.Entities
             get
             {
                 return
-                    ( Math.Vector.RotateAround( Position + Vector2.UnitX, Position, RotationRadians ) - Position )
+                    ( Vector.RotateAround( Position + Vector2.UnitX, Position, RotationRadians ) - Position )
                         .Normalized( );
             }
         }
@@ -61,7 +62,7 @@ namespace SharpLib2D.Entities
             get
             {
                 return
-                    ( Math.Vector.RotateAround( Position + Vector2.UnitY, Position, RotationRadians ) - Position )
+                    ( Vector.RotateAround( Position + Vector2.UnitY, Position, RotationRadians ) - Position )
                         .Normalized( );
             }
         }

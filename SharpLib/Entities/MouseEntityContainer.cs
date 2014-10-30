@@ -2,6 +2,7 @@
 
 using OpenTK;
 using OpenTK.Input;
+using Mouse = SharpLib2D.Info.Mouse;
 
 namespace SharpLib2D.Entities
 {
@@ -11,7 +12,7 @@ namespace SharpLib2D.Entities
 
         public override void Update( FrameEventArgs e )
         {
-            Vector2 MousePos = ParentState.Camera.ToWorld( Info.Mouse.Position );
+            Vector2 MousePos = ParentState.Camera.ToWorld( Mouse.Position );
 
             MouseEntity Top = GetTopChild( MousePos );
 
@@ -27,13 +28,13 @@ namespace SharpLib2D.Entities
 
             foreach ( MouseButton B in Enum.GetValues( typeof( MouseButton ) ) )
             {
-                if ( Info.Mouse.IsPressed( B ) )
+                if ( Mouse.IsPressed( B ) )
                 {
                     Top.OnButtonPressed( B );
                     LastDownEntity = Top;
                 }
 
-                if ( !Info.Mouse.IsReleased( B ) ) continue;
+                if ( !Mouse.IsReleased( B ) ) continue;
 
                 if ( LastDownEntity != null )
                 {

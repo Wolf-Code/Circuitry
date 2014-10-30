@@ -19,7 +19,7 @@ namespace Circuitry.Gates.Numeric
         public Screen( )
         {
             SetGateSize( 2, 1 );
-            this.Texture = "Resources\\Textures\\Components\\Screen\\Numeric.png";
+            Texture = "Resources\\Textures\\Components\\Screen\\Numeric.png";
 
             AddInput( IONode.NodeType.Numeric, "Value", "The value to display." );
 
@@ -28,7 +28,7 @@ namespace Circuitry.Gates.Numeric
 
         public override void Draw( FrameEventArgs e )
         {
-            this.DefaultTexturedDraw( );
+            DefaultTexturedDraw( );
 
             string Val = GetInput( "Value" ).Value.ToString( CultureInfo.InstalledUICulture);
 

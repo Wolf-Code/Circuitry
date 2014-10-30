@@ -57,11 +57,13 @@
     <Compile Include="Graphics\Color.cs" />
     <Compile Include="Graphics\Line.cs" />
     <Compile Include="Graphics\Objects\Vertex.cs" />
+    <Compile Include="Graphics\Polygon.cs" />
     <Compile Include="Graphics\PrimitiveBatch.cs" />
     <Compile Include="Graphics\Rectangle.cs" />
     <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\Text.cs" />
     <Compile Include="Graphics\Texture.cs" />
+    <Compile Include="Graphics\Triangle.cs" />
     <Compile Include="Info\Input.cs" />
     <Compile Include="Info\Mouse.cs" />
     <Compile Include="Info\Screen.cs" />

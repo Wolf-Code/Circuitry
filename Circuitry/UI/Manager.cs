@@ -1,7 +1,10 @@
 ﻿using Circuitry.States;
 using Gwen.Control;
+using Gwen.Skin;
 using OpenTK;
+using SharpLib2D.Info;
 using SharpLib2D.States;
+using Base = Gwen.Skin.Base;
 
 namespace Circuitry.UI
 {
@@ -13,7 +16,7 @@ namespace Circuitry.UI
             get;
         }
 
-        public static Gwen.Skin.Base Skin
+        public static Base Skin
         {
             private set;
             get;
@@ -23,9 +26,9 @@ namespace Circuitry.UI
 
         public static bool MouseInsideUI( )
         {
-            Base B =
+            Gwen.Control.Base B =
                 ( ( GwenState ) State.ActiveState ).GwenCanvas.GetControlAt(
-                    ( int ) SharpLib2D.Info.Mouse.Position.X, ( int ) SharpLib2D.Info.Mouse.Position.Y );
+                    ( int ) Mouse.Position.X, ( int ) Mouse.Position.Y );
             return B != ( ( GwenState ) State.ActiveState ).GwenCanvas;
         }
 
@@ -33,7 +36,7 @@ namespace Circuitry.UI
         {
             Manager.Window = Window;
             Renderer = new Gwen.Renderer.OpenTK( );
-            Skin = new Gwen.Skin.TexturedBase( Renderer, "Resources\\Textures\\UI\\DefaultSkin.png" );
+            Skin = new TexturedBase( Renderer, "Resources\\Textures\\UI\\DefaultSkin.png" );
         }
 
         public static Gwen.Input.OpenTK CreateInput( Canvas C )

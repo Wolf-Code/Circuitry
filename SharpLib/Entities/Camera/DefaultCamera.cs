@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using SharpLib2D.Info;
+using SharpLib2D.Math;
 
 namespace SharpLib2D.Entities.Camera
 {
@@ -22,7 +23,7 @@ namespace SharpLib2D.Entities.Camera
         /// <returns></returns>
         public override Vector2 ToLocal( Vector2 WorldPosition )
         {
-            return Math.Vector.Transform( WorldPosition, View );
+            return Vector.Transform( WorldPosition, View );
         }
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace SharpLib2D.Entities.Camera
         /// <returns></returns>
         public override Vector2 ToWorld( Vector2 ScreenPosition )
         {
-            return Math.Vector.Transform( ScreenPosition, View.Inverted( ) );
+            return Vector.Transform( ScreenPosition, View.Inverted( ) );
         }
     }
 }

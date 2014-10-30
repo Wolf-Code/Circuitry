@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using Gwen.Platform;
 
 namespace Gwen.Control.Layout
 {
@@ -215,7 +216,7 @@ namespace Gwen.Control.Layout
         /// <param name="from">Source control.</param>
         protected override void OnCopy(Base from)
         {
-            Platform.Neutral.SetClipboardText(Text);
+            Neutral.SetClipboardText(Text);
         }
     }
 }

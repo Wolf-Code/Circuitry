@@ -1,8 +1,11 @@
-﻿using Gwen.Control;
+﻿using Circuitry.UI;
+using Gwen.Control;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
+using SharpLib2D.Info;
 using SharpLib2D.States;
+using Mouse = SharpLib2D.Info.Mouse;
 
 namespace Circuitry.States
 {
@@ -13,8 +16,8 @@ namespace Circuitry.States
 
         protected override void OnStart( )
         {
-            GwenCanvas = new Canvas( UI.Manager.Skin );
-            Input = UI.Manager.CreateInput( GwenCanvas );
+            GwenCanvas = new Canvas( Manager.Skin );
+            Input = Manager.CreateInput( GwenCanvas );
 
 
             base.OnStart( );
@@ -34,21 +37,21 @@ namespace Circuitry.States
 
         protected override void OnResize( )
         {
-            GwenCanvas.SetSize( ( int ) SharpLib2D.Info.Screen.Size.X, ( int ) SharpLib2D.Info.Screen.Size.Y );
+            GwenCanvas.SetSize( ( int ) Screen.Size.X, ( int ) Screen.Size.Y );
             base.OnResize( );
         }
 
         private void AddEvents( )
         {
-            SharpLib2D.Info.Mouse.OnMouseMove += OnMouseMove;
-            SharpLib2D.Info.Mouse.OnMouseButton += OnMouseButton;
+            Mouse.OnMouseMove += OnMouseMove;
+            Mouse.OnMouseButton += OnMouseButton;
         }
 
         private void RemoveEvents( )
         {
             // ReSharper disable DelegateSubtraction
-            SharpLib2D.Info.Mouse.OnMouseMove -= OnMouseMove;
-            SharpLib2D.Info.Mouse.OnMouseButton -= OnMouseButton;
+            Mouse.OnMouseMove -= OnMouseMove;
+            Mouse.OnMouseButton -= OnMouseButton;
             // ReSharper restore DelegateSubtraction
         }
 
