@@ -56,6 +56,7 @@
     <Compile Include="Components\Circuit\Signals.cs" />
     <Compile Include="Components\Circuit\Connections.cs" />
     <Compile Include="Components\Circuit\State.cs" />
+    <Compile Include="Components\Circuit\Updating.cs" />
     <Compile Include="Components\Gate.cs" />
     <Compile Include="Components\Output.cs" />
     <Compile Include="Components\Input.cs" />

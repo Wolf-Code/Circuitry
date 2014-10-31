@@ -30,28 +30,7 @@ namespace Circuitry.Components
             UpdateGateDragging( );
             UpdateCameraDragging( );
 
-            switch ( CurrentState )
-            {
-                case State.Active:
-                    Signal[ ] Copy = Signals.ToArray( );
-                    Signals.Clear( );
-
-                    foreach ( Signal S in Copy )
-                    {
-                        S.In.SetValue( S.Out.Value );
-                        S.In.Gate.OnInputChanged( S.In );
-                    }
-                    break;
-
-                case State.Build_Placing:
-                    Vector2 Pos = !SnapToGrid 
-                        ? ParentState.Camera.ToWorld( Mouse.Position ) 
-                        : SnapPositionToGrid( ParentState.Camera.ToWorld( Mouse.Position + new Vector2( GridSize / 2f ) ) );
-                    
-                    GateToPlace.SetPosition( Pos );
-                        
-                    break;
-            }
+            Update( CurrentState );
 
             base.Update( e );
         }

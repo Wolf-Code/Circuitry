@@ -23,6 +23,8 @@ namespace Circuitry.Components
 
         private Vector2 LocalGateGrabPoint;
 
+        #region Dragging
+
         protected void StartGateDragging( Gate G )
         {
             if ( DraggingGate )
@@ -49,6 +51,8 @@ namespace Circuitry.Components
         {
             DraggingGate = false;
         }
+
+        #endregion
 
         public void StartGatePlacing( Type G )
         {
