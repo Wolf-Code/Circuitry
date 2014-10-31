@@ -22,6 +22,7 @@ namespace Circuitry.Components
 
         public override void Update( FrameEventArgs e )
         {
+            this.SetSize( Screen.Size.Y / 6, Screen.Size.Y / 6 );
             this.SetPosition( ParentState.Camera.ToWorld( Screen.Size.X - this.Size.X / 2, this.Size.Y / 2 ) );
             base.Update( e );
         }

@@ -74,9 +74,9 @@ namespace Circuitry.Components
 
         public bool Active { internal set; get; }
 
-        public const int IODistance = 25;
-
         public const int SizeUnit = 60;
+
+        public const int IODistance = SizeUnit / 3;
 
         protected int Outline { set; get; }
 
@@ -105,7 +105,7 @@ namespace Circuitry.Components
                 I.SetValue( false );
         }
 
-        protected void ShowOptionsMenu( params MenuEntry [ ] Entries )
+        protected void BuildAndShowOptionsMenu( params MenuEntry [ ] Entries )
         {
             MenuEntry[ ] Ents = new MenuEntry[ Entries.Length + 1 ];
             Ents[ 0 ] = new MenuEntry( "Remove", Control => Remove( ) );
@@ -115,48 +115,27 @@ namespace Circuitry.Components
             Circuit.ShowMenu( Ents );
         }
 
+        public virtual void ShowOptionsMenu( )
+        {
+            BuildAndShowOptionsMenu( );
+        }
+
         public override void OnButtonPressed( MouseButton Button )
         {
-            switch ( Button )
-            {
-                case MouseButton.Left:
-                    if ( Circuit.CurrentState == Circuit.State.Build && MouseCanSelect( ) )
-                    {
-                        Dragging = true;
-                        DragPosition = ToLocal( ParentState.Camera.ToWorld( Mouse.Position ) );
-                    }
-                    break;
-
-                    case MouseButton.Right:
-                    if ( Circuit.CurrentState == Circuit.State.Build && MouseCanSelect( ) )
-                        ShowOptionsMenu( );
-                    break;
-            }
+            if ( this.Circuit.OnChildMouseAction( this,
+                new MouseButtonEventArgs( ( int )Mouse.Position.X, ( int )Mouse.Position.Y, Button, true ) ) )
+                return;
 
             base.OnButtonPressed( Button );
         }
 
         public override void OnButtonReleased( MouseButton Button )
         {
-            if ( Circuit.CurrentState == Circuit.State.Build )
-                Dragging = false;
+            if ( this.Circuit.OnChildMouseAction( this,
+                new MouseButtonEventArgs( ( int )Mouse.Position.X, ( int )Mouse.Position.Y, Button, false ) ) )
+                return;
 
             base.OnButtonReleased( Button );
-        }
-
-        public override void Update( FrameEventArgs e )
-        {
-            if ( Dragging )
-            {
-                Vector2 DPos = Mouse.Position - DragPosition;
-                Vector2 Pos = !Circuit.SnapToGrid
-                        ? ParentState.Camera.ToWorld( DPos )
-                        : Circuit.SnapPositionToGrid( ParentState.Camera.ToWorld( DPos + new Vector2( Circuit.GridSize / 2f ) ) );
-
-                SetPosition( Pos );
-            }
-
-            base.Update( e );
         }
 
         #region In/Out
@@ -295,7 +274,7 @@ namespace Circuitry.Components
             {
                 Color.Set( Color4.Black );
                 Text.SetAlignments( Text.HorizontalAlignment.Center, Text.VerticalAlignment.Center );
-                Text.DrawString( Name, "Arial", 10f, TextPosition );
+                Text.DrawString( Name, "Arial", SizeUnit / 6f, TextPosition );
             }
         }
     }

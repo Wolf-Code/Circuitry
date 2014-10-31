@@ -46,8 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Bin.cs" />
-    <Compile Include="Components\Circuit.cs" />
+    <Compile Include="Components\Circuit\Circuit.cs" />
     <Compile Include="Components\CircuitryEntity.cs" />
+    <Compile Include="Components\Circuit\Menu.cs" />
+    <Compile Include="Components\Circuit\Gates.cs" />
+    <Compile Include="Components\Circuit\MouseInput.cs" />
+    <Compile Include="Components\Circuit\Grid.cs" />
+    <Compile Include="Components\Circuit\Signals.cs" />
+    <Compile Include="Components\Circuit\Connections.cs" />
+    <Compile Include="Components\Circuit\State.cs" />
     <Compile Include="Components\Gate.cs" />
     <Compile Include="Components\Output.cs" />
     <Compile Include="Components\Input.cs" />
