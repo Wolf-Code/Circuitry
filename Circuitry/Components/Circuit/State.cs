@@ -1,4 +1,6 @@
 ﻿
+using System.Linq;
+
 namespace Circuitry.Components
 {
     public partial class Circuit
@@ -33,7 +35,7 @@ namespace Circuitry.Components
                 // ReSharper disable once PossibleInvalidCastExceptionInForeachLoop
                 ClearSignals( );
 
-                foreach ( Gate M in Children )
+                foreach ( Gate M in Children.Where( O => O is Gate ) )
                     M.Reset( );
             }
             else

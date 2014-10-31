@@ -2,7 +2,6 @@
 using OpenTK;
 using SharpLib2D.Entities;
 using SharpLib2D.Graphics;
-using SharpLib2D.Info;
 
 namespace Circuitry.Components
 {

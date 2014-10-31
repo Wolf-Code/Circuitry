@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-using SharpLib2D.States;
+﻿using System.Collections.Generic;
 
 namespace Circuitry.Components
 {
@@ -10,10 +8,10 @@ namespace Circuitry.Components
 
         public void PushSignal( Output O )
         {
-            if ( CurrentState != State.Active || !O.IsConnected )
+            if ( CurrentState != State.Active || !O.HasNextNode )
                 return;
 
-            Signal S = new Signal( O, O.Connection as Input );
+            Signal S = new Signal( O, O.ConnectedInput );
             if ( !Signals.Contains( S ) )
                 Signals.Add( S );
         }

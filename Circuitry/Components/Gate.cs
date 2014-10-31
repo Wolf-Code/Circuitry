@@ -122,8 +122,8 @@ namespace Circuitry.Components
 
         public override void OnButtonPressed( MouseButton Button )
         {
-            if ( this.Circuit.OnChildMouseAction( this,
-                new MouseButtonEventArgs( ( int )Mouse.Position.X, ( int )Mouse.Position.Y, Button, true ) ) )
+            if ( Circuit.OnChildMouseAction( this,
+                new MouseButtonEventArgs( ( int ) Mouse.Position.X, ( int ) Mouse.Position.Y, Button, true ) ) )
                 return;
 
             base.OnButtonPressed( Button );
@@ -131,8 +131,8 @@ namespace Circuitry.Components
 
         public override void OnButtonReleased( MouseButton Button )
         {
-            if ( this.Circuit.OnChildMouseAction( this,
-                new MouseButtonEventArgs( ( int )Mouse.Position.X, ( int )Mouse.Position.Y, Button, false ) ) )
+            if ( Circuit.OnChildMouseAction( this,
+                new MouseButtonEventArgs( ( int ) Mouse.Position.X, ( int ) Mouse.Position.Y, Button, false ) ) )
                 return;
 
             base.OnButtonReleased( Button );

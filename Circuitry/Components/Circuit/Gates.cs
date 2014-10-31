@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK;
-using SharpLib2D.Info;
+using OpenTK.Input;
+using Mouse = SharpLib2D.Info.Mouse;
 
 namespace Circuitry.Components
 {
@@ -22,6 +23,34 @@ namespace Circuitry.Components
         protected Gate DragGate { private set; get; }
 
         private Vector2 LocalGateGrabPoint;
+
+        private void GateMouseInput( Gate G, MouseButtonEventArgs Args )
+        {
+            switch ( CurrentState )
+            {
+                case State.Build:
+                    if ( Args.Button == MouseButton.Left )
+                    {
+                        if ( Args.IsPressed )
+                            this.StartGateDragging( G );
+                        else
+                            this.StopGateDragging( G );
+                    }
+
+                    if ( Args.Button == MouseButton.Right )
+                    {
+                        if ( Args.IsPressed )
+                        {
+                            G.ShowOptionsMenu( );
+                        }
+                    }
+                    break;
+
+                case State.Build_Placing:
+
+                    break;
+            }
+        }
 
         #region Dragging
 

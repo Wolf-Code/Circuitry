@@ -12,32 +12,17 @@ namespace Circuitry.Components
         internal bool OnChildMouseAction( CircuitryEntity Entity, MouseButtonEventArgs Args )
         {
             Gate G = Entity as Gate;
-            if ( G == null )
-                return false;
-
-            switch ( CurrentState )
+            if ( G != null )
             {
-                    case State.Build:
-                    if ( Args.Button == MouseButton.Left )
-                    {
-                        if ( Args.IsPressed )
-                            this.StartGateDragging( G );
-                        else
-                            this.StopGateDragging( G );
-                    }
+                GateMouseInput( G, Args );
+                return true;
+            }
 
-                    if ( Args.Button == MouseButton.Right )
-                    {
-                        if ( Args.IsPressed )
-                        {
-                            G.ShowOptionsMenu( );
-                        }
-                    }
-                    return true;
-
-                    case State.Build_Placing:
-
-                    return true;
+            IONode N = Entity as IONode;
+            if ( N != null )
+            {
+                NodeMouseInput( N, Args );
+                return true;
             }
 
             return false;
@@ -103,6 +88,8 @@ namespace Circuitry.Components
 
         public override void OnButtonReleased( MouseButton Button )
         {
+            NodePathClick( Button );
+
             switch ( Button )
             {
                 case MouseButton.Left:
