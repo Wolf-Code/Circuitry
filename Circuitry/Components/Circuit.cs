@@ -40,12 +40,17 @@ namespace Circuitry.Components
         private bool DraggingCamera;
         private Menu Menu;
 
+        public Bin Bin { protected set; get; }
+
         public Circuit( )
         {
             CurrentState = State.Build;
             GridSize = 60;
             ShowGrid = true;
             SnapToGrid = true;
+
+            Bin = new Bin( );
+            Bin.SetParent( this );
         }
 
         #region Menu

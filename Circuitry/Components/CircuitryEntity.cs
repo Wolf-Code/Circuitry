@@ -5,6 +5,12 @@ namespace Circuitry.Components
 {
     public class CircuitryEntity : MouseEntity
     {
+        public Circuit Circuit
+        {
+            set;
+            get;
+        }
+
         protected bool MouseCanSelect( )
         {
             return !Manager.MouseInsideUI( );

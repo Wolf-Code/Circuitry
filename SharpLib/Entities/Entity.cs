@@ -25,6 +25,11 @@ namespace SharpLib2D.Entities
             get { return Position - Size / 2; }
         }
 
+        public Vector2 TopRight
+        {
+            get { return new Vector2( this.BottomRight.X, this.TopLeft.Y ); }
+        }
+
         public virtual Vector2 BottomRight
         {
             get
@@ -33,7 +38,15 @@ namespace SharpLib2D.Entities
             }
         }
 
-        public virtual BoundingBox BoundingBox
+        public Vector2 BottomLeft
+        {
+            get
+            {
+                return new Vector2( this.TopLeft.X, this.BottomRight.Y );
+            }
+        }
+
+        public virtual IBoundingVolume BoundingVolumne
         {
             get { return new BoundingBox( TopLeft, BottomRight ); }
         }
@@ -184,10 +197,7 @@ namespace SharpLib2D.Entities
 
         public bool ContainsPosition( Vector2 WorldPosition )
         {
-            return WorldPosition.X >= TopLeft.X && 
-                   WorldPosition.Y >= TopLeft.Y && 
-                   WorldPosition.X <= BottomRight.X &&
-                   WorldPosition.Y <= BottomRight.Y;
+            return this.BoundingVolumne.Contains( WorldPosition );
         }
 
         public Entity GetChildAt( Vector2 WorldPosition )

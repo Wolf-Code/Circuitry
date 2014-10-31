@@ -31,12 +31,6 @@ namespace Circuitry.Components
 
         #endregion
 
-        public Circuit Circuit
-        {
-            set;
-            get;
-        }
-
         #region Dragging
 
         protected bool Dragging

@@ -69,7 +69,10 @@
     <Compile Include="Info\Screen.cs" />
     <Compile Include="Math\Vector.cs" />
     <Compile Include="Objects\BoundingBox.cs" />
+    <Compile Include="Objects\BoundingTriangle.cs" />
+    <Compile Include="Objects\BoundingVolume.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Manager.cs" />
     <Compile Include="States\UIState.cs" />
     <Compile Include="States\State.cs" />
     <Compile Include="UI\Canvas.cs" />
