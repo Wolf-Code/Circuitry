@@ -78,8 +78,7 @@ namespace Circuitry.Components
                             break;
 
                         default:
-                            if ( !Manager.MouseInsideUI( ) )
-                                DraggingCamera = true;
+                            StartCameraDragging( );
                             break;
                     }
                     break;
@@ -107,8 +106,7 @@ namespace Circuitry.Components
             switch ( Button )
             {
                 case MouseButton.Left:
-                    if ( DraggingCamera )
-                        DraggingCamera = false;
+                    StopCameraDragging( );
                     break;
             }
             base.OnButtonReleased( Button );

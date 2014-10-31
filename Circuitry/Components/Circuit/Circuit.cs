@@ -8,7 +8,6 @@ namespace Circuitry.Components
 {
     public partial class Circuit : MouseEntityContainer
     {
-        private bool DraggingCamera;
         private Menu Menu;
 
         public Bin Bin { protected set; get; }
@@ -29,8 +28,7 @@ namespace Circuitry.Components
         public override void Update( FrameEventArgs e )
         {
             UpdateGateDragging( );
-            if ( DraggingCamera )
-                ParentState.Camera.SetPosition( ParentState.Camera.Position - Mouse.Delta );
+            UpdateCameraDragging( );
 
             switch ( CurrentState )
             {

@@ -50,6 +50,7 @@
     <Compile Include="Components\CircuitryEntity.cs" />
     <Compile Include="Components\Circuit\Menu.cs" />
     <Compile Include="Components\Circuit\Gates.cs" />
+    <Compile Include="Components\Circuit\Camera.cs" />
     <Compile Include="Components\Circuit\MouseInput.cs" />
     <Compile Include="Components\Circuit\Grid.cs" />
     <Compile Include="Components\Circuit\Signals.cs" />
