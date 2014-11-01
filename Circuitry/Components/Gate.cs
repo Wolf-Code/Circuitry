@@ -140,6 +140,17 @@ namespace Circuitry.Components
 
         #region In/Out
 
+        protected override void OnRemove( )
+        {
+            foreach ( Input I in this.Inputs )
+                I.RemoveEntireConnection( );
+
+            foreach ( Output O in this.Outputs )
+                O.RemoveEntireConnection( );
+
+            base.OnRemove( );
+        }
+
         public T GetIO<T>( string IOName ) where T : IONode
         {
             if ( typeof( T ) == typeof( Input ) )

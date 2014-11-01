@@ -29,6 +29,7 @@ namespace Circuitry.UI
             Gwen.Control.Base B =
                 ( ( GwenState ) State.ActiveState ).GwenCanvas.GetControlAt(
                     ( int ) Mouse.Position.X, ( int ) Mouse.Position.Y );
+
             return B != ( ( GwenState ) State.ActiveState ).GwenCanvas;
         }
 

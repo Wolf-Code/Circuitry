@@ -12,6 +12,7 @@ namespace Circuitry.Components
             private set;
             get;
         }
+
         public Base.GwenEventHandler Handler
         {
             private set;

@@ -1,13 +1,13 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
-using SharpLib2D.Entities;
 using SharpLib2D.Graphics;
 using Mouse = SharpLib2D.Info.Mouse;
 
 namespace Circuitry.Components
 {
-    public abstract class IONode : CircuitryEntity
+    public class IONode : CircuitryEntity
     {
 
         #region Enums
@@ -127,13 +127,48 @@ namespace Circuitry.Components
 
         #endregion
 
-        protected IONode( NodeType Type, string Name, string Description )
+        public IONode FirstNode
+        {
+            get
+            {
+                IONode Prev = this.PreviousNode ?? this;
+
+                while ( Prev != null && Prev.HasPreviousNode )
+                {
+                    Prev = Prev.PreviousNode;
+                }
+
+                return Prev;
+            }
+        }
+
+        public IONode LastNode
+        {
+            get
+            {
+                IONode Next = this.NextNode ?? this;
+
+                while ( Next != null && Next.HasNextNode )
+                {
+                    Next = Next.NextNode;
+                }
+
+                return Next;
+            }
+        }
+
+        public IONode( NodeType Type, NodeDirection Dir )
         {
             this.Type = Type;
+            this.Value = 0f;
+            this.SetSize( NodeSize, NodeSize );
+            this.Direction = Dir;
+        }
+
+        protected IONode( NodeType Type, NodeDirection Direction, string Name, string Description ) : this( Type, Direction )
+        {
             this.Name = Name;
-            Value = 0f;
             this.Description = Description;
-            SetSize( NodeSize, NodeSize );
         }
 
         /// <summary>
@@ -154,9 +189,14 @@ namespace Circuitry.Components
             Value = NewValue ? 1.0 : 0.0;
         }
 
+        public static void DrawNode( Vector2 Pos )
+        {
+            Circle.DrawOutlined( Pos.X, Pos.Y, NodeSize / 2f, 1f, Color4.Black, Color4.White );
+        }
+
         public override void Draw( FrameEventArgs e )
         {
-            Circle.DrawOutlined( this.Position.X, this.Position.Y, NodeSize / 2f, 1f, Color4.Black, Color4.White );
+            DrawNode( this.Position );
 
             base.Draw( e );
         }
@@ -194,52 +234,48 @@ namespace Circuitry.Components
 
         #region Connection
 
-        protected override void OnRemove( )
+        public void RemoveEntireConnection( )
         {
-            //Disconnect( );
+            IONode N = this;
+            IONode Prev = this.PreviousNode;
+            while ( N.HasNextNode )
+            {
+                if ( !( N is Input || N is Output ) )
+                    N.Remove( );
 
-            base.OnRemove( );
+                N.PreviousNode = null;
+                N = N.NextNode;
+                N.PreviousNode.NextNode = null;
+                N.PreviousNode = null;
+            }
+
+            N = this;
+            N.PreviousNode = Prev;
+            while ( N.HasPreviousNode )
+            {
+                if ( !( N is Input || N is Output ) )
+                    N.Remove( );
+
+                N.NextNode = null;
+                N = N.PreviousNode;
+                N.NextNode = null;
+            }
         }
-        /*
-        public void Disconnect( )
+
+        public static bool CanConnect( IONode First, IONode Second )
         {
-            if ( !IsConnected )
-                return;
-
-            IONode Output = Direction == NodeDirection.Out ? this : Connection;
-
-            Output.Gate.SetOutput( Output.Name, false );
-
-            Connection.Connection = null;
-            Connection = null;
-        }
-
-        public void ConnectTo( IONode Node )
-        {
-            if ( !CanConnect( Node ) )
-                return;
-
-            Connection = Node;
-            Node.Connection = this;
-
-            IONode Output = Direction == NodeDirection.Out ? this : Node;
-
-            Output.Gate.SetOutput( Output.Name, Output.Value );
-        }
-        
-        public bool CanConnect( IONode Node )
-        {
-            // Input can't connect to input, output can't connect to output.
-            if ( Direction == Node.Direction )
+            if ( First.Direction == Second.Direction )
                 return false;
 
-            IONode Input = Direction == NodeDirection.In ? this : Node;
-            IONode Output = Direction == NodeDirection.Out ? this : Node;
+            if ( First.Gate == Second.Gate )
+                return false;
 
-            return ( ( Input.Type != NodeType.Binary ) ||
-                   ( Input.Type == Output.Type ) ) && !Input.IsConnected;
+            if ( First.Type != NodeType.Numeric && Second.Type == NodeType.Numeric )
+                return false;
+
+            return true;
         }
-        */
+        
         #endregion
     }
 }

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Engine.cs" />
     <Compile Include="Entities\Camera\DefaultCamera.cs" />
+    <Compile Include="Entities\Dragger.cs" />
     <Compile Include="Entities\DrawableEntity.cs" />
     <Compile Include="Entities\EntityRotatable.cs" />
     <Compile Include="Entities\MouseEntity.cs" />

@@ -12,6 +12,7 @@ namespace Circuitry.Components
     public partial class Circuit
     {
         public bool ConnectingNodes { private set; get; }
+        private bool ConnectingOutput;
         private IONode ConnectionNode;
 
         private void NodePathClick( MouseButton B )
@@ -21,69 +22,181 @@ namespace Circuitry.Components
                 switch ( B )
                 {
                     case MouseButton.Left:
+                        if ( UI.Manager.MouseInsideUI( ) )
+                            return;
 
-                        IONode New = new Input( ConnectionNode.Type, "", "" );
-                        New.SetParent( ConnectionNode );
+                        IONode New = new IONode( ConnectionNode.Type, ConnectionNode.Direction );
+                        New.SetParent( ConnectionNode.Gate );
 
-                        Vector2 LocalPos = ConnectionNode.ToLocal( ParentState.Camera.ToWorld( SharpLib2D.Info.Mouse.Position ) );
+                        Vector2 LocalPos = New.Gate.ToLocal( ParentState.Camera.ToWorld( SharpLib2D.Info.Mouse.Position ) );
                         New.SetPosition( LocalPos );
 
-                        ConnectionNode.NextNode = New;
-                        ConnectionNode = New;
+                        if ( ConnectingOutput )
+                        {
+                            New.PreviousNode = ConnectionNode;
+                            ConnectionNode.NextNode = New;
+                            ConnectionNode = ConnectionNode.NextNode;
+                        }
+                        else
+                        {
+                            New.NextNode = ConnectionNode;
+                            ConnectionNode.PreviousNode = New;
+                            ConnectionNode = ConnectionNode.PreviousNode;
+                        }
 
                         break;
 
                         case MouseButton.Right:
-
+                        if ( ConnectingNodes )
+                            CancelConnecting( );
                         break;
                 }
             }
         }
 
+        private void NodeLeftMouseDown( IONode Node )
+        {
+            if ( !ConnectingNodes )
+            {
+                if ( ( Node.IsInput && !Node.HasNextNode ) || ( Node.IsOutput && !Node.HasPreviousNode ) )
+                {
+                    ConnectingNodes = true;
+                    ConnectionNode = Node;
+                    ConnectingOutput = Node.IsOutput;
+
+                    Console.WriteLine( "Now creating node path from {0}.", Node.GetType( ) );
+                }
+                else
+                {
+                    if ( !Node.IsInput && !Node.IsOutput )
+                        Dragger.StartDragging( Node );
+                    else
+                        Dragger.StartDragging( Node.Gate );
+                }
+            }
+            else
+            {
+                if ( ConnectingOutput )
+                {
+                    if ( !IONode.CanConnect( ConnectionNode, Node ) )
+                        return;
+
+                    ConnectionNode.NextNode = Node;
+                    Node.PreviousNode = ConnectionNode;
+                }
+                else
+                {
+                    if ( !IONode.CanConnect( Node, ConnectionNode ) )
+                        return;
+
+                    ConnectionNode.PreviousNode = Node;
+                    Node.NextNode = ConnectionNode;
+                }
+
+                ConnectingNodes = false;
+                Console.WriteLine( "And now stopping" );
+            }
+        }
+
+        private void CancelConnecting( )
+        {
+            ConnectionNode.RemoveEntireConnection( );
+
+            ConnectingNodes = false;
+        }
+
         private void NodeMouseInput( IONode Node, MouseButtonEventArgs Args )
         {
+            if ( CurrentState != State.Build || UI.Manager.MouseInsideUI( ) ) return;
+
             if ( Args.IsPressed )
             {
-                if ( CurrentState == State.Build && !UI.Manager.MouseInsideUI(  ) )
+                switch ( Args.Button )
                 {
-                    Console.WriteLine(Args);
-                    switch ( Args.Button )
-                    {
-                        case MouseButton.Left:
-                            if ( !ConnectingNodes )
+                    case MouseButton.Left:
+                        NodeLeftMouseDown( Node );
+                        break;
+                }
+            }
+            else
+            {
+                switch ( Args.Button )
+                {
+                    case MouseButton.Right:
+                        if ( !ConnectingNodes )
+                        {
+                            if ( Node.HasNextNode && Node.HasPreviousNode )
                             {
-                                if ( ( Node.IsInput && !Node.HasNextNode ) || ( Node.IsOutput && !Node.HasPreviousNode ) )
-                                {
-                                    ConnectingNodes = true;
-                                    ConnectionNode = Node;
-                                    Console.WriteLine( "Now creating node path." );
-                                }
+                                this.ShowMenu(
+                                    new MenuEntry( "Remove node", Control =>
+                                    {
+                                        Node.PreviousNode.NextNode = Node.NextNode;
+                                        Node.NextNode.PreviousNode = Node.PreviousNode;
+                                        Node.Remove( );
+                                    } ),
+                                    new MenuEntry( "Add node", Control =>
+                                    {
+                                        IONode New = new IONode( Node.Type, Node.Direction )
+                                        {
+                                            PreviousNode = Node,
+                                            NextNode = Node.NextNode
+                                        };
+                                        New.SetParent( Node.Parent );
+                                        New.SetPosition(
+                                            New.Gate.ToLocal( ( Node.Position + Node.NextNode.Position ) / 2 ) );
+                                        Node.NextNode.PreviousNode = New;
+                                        Node.NextNode = New;
+                                    } ),
+                                    new MenuEntry( "Remove entire connection", Control => Node.RemoveEntireConnection( ) ) );
                             }
                             else
-                            {
-                                ConnectionNode.NextNode = Node;
-                                ConnectingNodes = false;
-                                Console.WriteLine( "And now stopping" );
-                            }
-                            break;
-
-                        case MouseButton.Right:
-                             if ( ConnectingNodes )
-                            {
-                                while( ConnectionNode.HasPreviousNode )
-                                {
-                                    ConnectionNode.PreviousNode = null;
-                                    ConnectionNode = ConnectionNode.PreviousNode;
-                                    ConnectionNode.NextNode.Remove( );
-
-                                    ConnectionNode.NextNode = null;
-                                }
-
-                                ConnectingNodes = false;
-                            }
-                            break;
-                    }
+                                this.ShowMenu( new MenuEntry( "Remove connection", Control => Node.RemoveEntireConnection( ) ) );
+                        }
+                        break;
                 }
+            }
+        }
+
+        private static void DrawConnectionLine( Color4 Col, Vector2 Start, Vector2 End )
+        {
+            Color.Set( 0.2f, 0.2f, 0.2f );
+            /*Line.DrawCubicBezierCurve( Cur.Position, Cur.NextNode.Position,
+                Cur.Position + new Vector2( Math.Abs( Diff.X ), 0 ),
+                Cur.NextNode.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 6f );*/
+            Line.Draw( Start, End, 6f );
+
+            Color.Set( Col );
+
+            /*Line.DrawCubicBezierCurve( Cur.Position, Cur.NextNode.Position,
+                Cur.Position + new Vector2( Math.Abs( Diff.X ), 0 ),
+                Cur.NextNode.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 4f );*/
+            Line.Draw( Start, End, 4f );
+        }
+
+        private void DrawConnection( IONode Start )
+        {
+            IONode Cur = Start;
+            IONode Next = Start.NextNode;
+            Color4 C = Cur.BinaryValue ? Color4.LimeGreen : Color4.Blue;
+
+            while ( Next != null )
+            {
+                DrawConnectionLine( C, Cur.Position, Next.Position );
+
+                Cur = Next;
+                Next = Next.NextNode;
+            }
+
+            if ( ConnectingNodes )
+            {
+                if ( Cur == ConnectionNode )
+                {
+                    DrawConnectionLine( C, Cur.Position, SharpLib2D.Info.Mouse.WorldPosition );
+                }
+                else if ( Start == ConnectionNode )
+                    DrawConnectionLine( C, Start.Position, SharpLib2D.Info.Mouse.WorldPosition );
+
+                IONode.DrawNode( SharpLib2D.Info.Mouse.WorldPosition );
             }
         }
 
@@ -93,33 +206,12 @@ namespace Circuitry.Components
             {
                 foreach ( Output O in E.Outputs )
                 {
-                    if ( !O.HasNextNode ) continue;
+                    DrawConnection( O );
+                }
 
-                    IONode Cur = O;
-                    IONode Next = O.NextNode;
-                    Color4 C = Cur.BinaryValue ? Color4.LimeGreen : Color4.Blue;
-
-                    while ( Next != null )
-                    {
-                        Vector2 Diff = Next.Position - Cur.Position;
-                        Diff /= 2;
-
-                        Color.Set( 0.2f, 0.2f, 0.2f );
-                        /*Line.DrawCubicBezierCurve( Cur.Position, Cur.NextNode.Position,
-                            Cur.Position + new Vector2( Math.Abs( Diff.X ), 0 ),
-                            Cur.NextNode.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 6f );*/
-                        Line.Draw( Cur.Position, Next.Position, 6f );
-
-                        Color.Set( C );
-
-                        /*Line.DrawCubicBezierCurve( Cur.Position, Cur.NextNode.Position,
-                            Cur.Position + new Vector2( Math.Abs( Diff.X ), 0 ),
-                            Cur.NextNode.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 4f );*/
-                        Line.Draw( Cur.Position, Next.Position, 4f );
-
-                        Cur = Next;
-                        Next = Next.NextNode;
-                    }
+                foreach ( Input I in E.Inputs )
+                {
+                    DrawConnection( I.FirstNode );
                 }
             }
         }

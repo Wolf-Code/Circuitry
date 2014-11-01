@@ -39,7 +39,11 @@ namespace Circuitry.Components
                     M.Reset( );
             }
             else
+            {
+                if ( ConnectingNodes )
+                    CancelConnecting( );
                 CurrentState = State.Active;
+            }
         }
 
     }

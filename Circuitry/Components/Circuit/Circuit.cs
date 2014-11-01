@@ -11,22 +11,25 @@ namespace Circuitry.Components
 
         public Bin Bin { protected set; get; }
 
+        private CircuitDragger Dragger;
+
         public Circuit( )
         {
             CurrentState = State.Build;
-            GridSize = 60;
+            GridSize = 64;
             ShowGrid = true;
             SnapToGrid = true;
 
             Bin = new Bin( );
             Bin.SetParent( this );
+
+            Dragger = new CircuitDragger( this );
         }
 
         #region Draw / Update
 
         public override void Update( FrameEventArgs e )
         {
-            UpdateGateDragging( );
             UpdateCameraDragging( );
 
             Update( CurrentState );

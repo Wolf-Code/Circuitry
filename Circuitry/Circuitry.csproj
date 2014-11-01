@@ -48,6 +48,7 @@
     <Compile Include="Components\Bin.cs" />
     <Compile Include="Components\Circuit\Circuit.cs" />
     <Compile Include="Components\CircuitryEntity.cs" />
+    <Compile Include="Components\CircuitDragger.cs" />
     <Compile Include="Components\Circuit\Menu.cs" />
     <Compile Include="Components\Circuit\Gates.cs" />
     <Compile Include="Components\Circuit\Camera.cs" />

@@ -10,19 +10,7 @@ namespace Circuitry.Components
 
         public Input ConnectedInput
         {
-            get
-            {
-                IONode Next = this.NextNode;
-
-                while ( Next != null && Next.HasNextNode )
-                {
-                    Next = Next.NextNode;
-                }
-
-                if ( Next != null ) return Next as Input;
-
-                return null;
-            }
+            get { return this.LastNode as Input; }
         }
 
         public bool HasConnectedInput
@@ -31,9 +19,9 @@ namespace Circuitry.Components
         }
 
         public Output( NodeType Type, string Name, string Description )
-            : base( Type, Name, Description )
+            : base( Type, NodeDirection.Out, Name, Description )
         {
-            Direction = NodeDirection.Out;
+            
         }
     }
 }

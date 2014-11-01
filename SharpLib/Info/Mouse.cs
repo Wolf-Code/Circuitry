@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK;
 using OpenTK.Input;
+using SharpLib2D.States;
 
 namespace SharpLib2D.Info
 {
@@ -17,6 +18,14 @@ namespace SharpLib2D.Info
         public static Vector2 Position
         {
             get { return new Vector2( m_CurrentState.X, m_CurrentState.Y ); }
+        }
+
+        /// <summary>
+        /// The mouse position in world coordinates, using the active state's camera.
+        /// </summary>
+        public static Vector2 WorldPosition
+        {
+            get { return State.ActiveState.Camera.ToWorld( Position ); }
         }
 
         /// <summary>
