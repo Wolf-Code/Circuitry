@@ -68,6 +68,7 @@
     <Compile Include="Info\Input.cs" />
     <Compile Include="Info\Mouse.cs" />
     <Compile Include="Info\Screen.cs" />
+    <Compile Include="Math\Interpolation.cs" />
     <Compile Include="Math\Vector.cs" />
     <Compile Include="Objects\BoundingBox.cs" />
     <Compile Include="Objects\BoundingTriangle.cs" />

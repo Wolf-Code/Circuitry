@@ -98,12 +98,8 @@ namespace SharpLib2D.Graphics
             for ( int X = 0; X < Points + 1; X++ )
             {
                 float Progress = X / ( float )Points;
-                Vector2 Point = ( float )System.Math.Pow( ( 1f - Progress ), 3 ) * Start +
-                                3 * ( float )System.Math.Pow( ( 1f - Progress ), 2 ) * Progress * Anchor1 +
-                                3 * ( 1f - Progress ) * ( Progress * Progress ) * Anchor2 +
-                                ( Progress * Progress * Progress ) * End;
 
-                Curve[ X ] = Point;
+                Curve[ X ] = Interpolation.Bezier( Start, End, Anchor1, Anchor2, Progress );
             }
 
             DrawConnected( Curve, Width );

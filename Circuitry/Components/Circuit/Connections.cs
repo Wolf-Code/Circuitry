@@ -63,15 +63,16 @@ namespace Circuitry.Components
                     ConnectingNodes = true;
                     ConnectionNode = Node;
                     ConnectingOutput = Node.IsOutput;
-
-                    Console.WriteLine( "Now creating node path from {0}.", Node.GetType( ) );
                 }
                 else
                 {
-                    if ( !Node.IsInput && !Node.IsOutput )
-                        Dragger.StartDragging( Node );
-                    else
-                        Dragger.StartDragging( Node.Gate );
+                    if ( !UI.Manager.MouseInsideUI( ) )
+                    {
+                        if ( !Node.IsInput && !Node.IsOutput )
+                            Dragger.StartDragging( Node );
+                        else
+                            Dragger.StartDragging( Node.Gate );
+                    }
                 }
             }
             else
@@ -94,7 +95,6 @@ namespace Circuitry.Components
                 }
 
                 ConnectingNodes = false;
-                Console.WriteLine( "And now stopping" );
             }
         }
 

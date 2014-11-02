@@ -26,7 +26,7 @@ namespace Circuitry.Components
                 case State.Build:
                     if ( Args.Button == MouseButton.Left )
                     {
-                        if ( Args.IsPressed )
+                        if ( Args.IsPressed && !UI.Manager.MouseInsideUI( ) )
                             Dragger.StartDragging( G );
                     }
 
