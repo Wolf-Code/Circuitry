@@ -2,6 +2,8 @@
 using Circuitry.Components;
 using OpenTK;
 using SharpLib2D.Graphics;
+using SharpLib2D.Graphics.Objects;
+using SharpLib2D.Resources;
 
 namespace Circuitry.Gates.Binary
 {
@@ -11,8 +13,8 @@ namespace Circuitry.Gates.Binary
 
         static LED( )
         {
-            On = SharpLib2D.Graphics.Texture.Load( "Resources\\Textures\\Components\\LED\\LED_On.png" );
-            Off = SharpLib2D.Graphics.Texture.Load( "Resources\\Textures\\Components\\LED\\LED_Off.png" );
+            On = SharpLib2D.Resources.Loader.Get<Texture>( "Resources\\Textures\\Components\\LED\\LED_On.png" );
+            Off = SharpLib2D.Resources.Loader.Get<Texture>( "Resources\\Textures\\Components\\LED\\LED_Off.png" );
         }
 
         public LED( )

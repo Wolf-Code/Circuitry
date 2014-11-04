@@ -1,7 +1,8 @@
 ﻿using Gwen.Control;
 using OpenTK;
 using SharpLib2D.Entities;
-using SharpLib2D.Graphics;
+using SharpLib2D.Graphics.Objects;
+using SharpLib2D.Resources;
 
 namespace Circuitry.Components
 {
@@ -11,7 +12,7 @@ namespace Circuitry.Components
 
         public Bin Bin { protected set; get; }
 
-        private CircuitDragger Dragger;
+        private readonly CircuitDragger Dragger;
 
         public Circuit( )
         {

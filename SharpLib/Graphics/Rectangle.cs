@@ -1,6 +1,8 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using SharpLib2D.Graphics.Objects;
+using SharpLib2D.Resources;
 
 namespace SharpLib2D.Graphics
 {

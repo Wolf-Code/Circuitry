@@ -1,6 +1,8 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using SharpLib2D.Graphics.Objects;
 using SharpLib2D.Math;
+using SharpLib2D.Resources;
 
 namespace SharpLib2D.Graphics
 {
@@ -99,7 +101,7 @@ namespace SharpLib2D.Graphics
             {
                 float Progress = X / ( float )Points;
 
-                Curve[ X ] = Interpolation.Bezier( Start, End, Anchor1, Anchor2, Progress );
+                Curve[ X ] = Interpolation.CubicBezier( Start, End, Anchor1, Anchor2, Progress );
             }
 
             DrawConnected( Curve, Width );

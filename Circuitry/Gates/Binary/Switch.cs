@@ -4,6 +4,8 @@ using Gwen.Control;
 using OpenTK;
 using OpenTK.Input;
 using SharpLib2D.Graphics;
+using SharpLib2D.Graphics.Objects;
+using SharpLib2D.Resources;
 using SharpLib2D.States;
 using Mouse = SharpLib2D.Info.Mouse;
 
@@ -29,8 +31,8 @@ namespace Circuitry.Gates.Binary
 
         static Switch( )
         {
-            Off = SharpLib2D.Graphics.Texture.Load( "Resources\\Textures\\Components\\Button\\Toggle\\Button_Toggle_Off.png" );
-            On = SharpLib2D.Graphics.Texture.Load( "Resources\\Textures\\Components\\Button\\Toggle\\Button_Toggle_On.png" );
+            Off = SharpLib2D.Resources.Loader.Get<Texture>( "Resources\\Textures\\Components\\Button\\Toggle\\Button_Toggle_Off.png" );
+            On = SharpLib2D.Resources.Loader.Get<Texture>( "Resources\\Textures\\Components\\Button\\Toggle\\Button_Toggle_On.png" );
         }
 
         public Switch( )

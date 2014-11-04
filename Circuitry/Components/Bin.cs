@@ -3,6 +3,7 @@ using OpenTK.Graphics;
 using SharpLib2D.Graphics;
 using SharpLib2D.Info;
 using SharpLib2D.Objects;
+using SharpLib2D.Resources;
 
 namespace Circuitry.Components
 {
@@ -11,8 +12,8 @@ namespace Circuitry.Components
         private static Texture Closed, Opened;
         static Bin( )
         {
-            Closed = Texture.Load( "Resources\\Textures\\UI\\bin_closed.png" );
-            Opened = Texture.Load( "Resources\\Textures\\UI\\bin_empty.png" );
+            Closed = Loader.Get<Texture>( "Resources\\Textures\\UI\\bin_closed.png" );
+            Opened = Loader.Get<Texture>( "Resources\\Textures\\UI\\bin_empty.png" );
         }
 
         public override IBoundingVolume BoundingVolumne

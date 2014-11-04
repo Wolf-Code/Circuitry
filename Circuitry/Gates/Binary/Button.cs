@@ -3,6 +3,8 @@ using Circuitry.Components;
 using OpenTK;
 using OpenTK.Input;
 using SharpLib2D.Graphics;
+using SharpLib2D.Graphics.Objects;
+using SharpLib2D.Resources;
 
 namespace Circuitry.Gates.Binary
 {
@@ -18,8 +20,8 @@ namespace Circuitry.Gates.Binary
 
         static Button( )
         {
-            Off = SharpLib2D.Graphics.Texture.Load( @"Resources\Textures\Components\Button\Normal\Button_Off.png" );
-            On = SharpLib2D.Graphics.Texture.Load( @"Resources\Textures\Components\Button\Normal\Button_On.png" );
+            Off = SharpLib2D.Resources.Loader.Get<Texture>( @"Resources\Textures\Components\Button\Normal\Button_Off.png" );
+            On = SharpLib2D.Resources.Loader.Get<Texture>( @"Resources\Textures\Components\Button\Normal\Button_On.png" );
         }
 
         public Button( )

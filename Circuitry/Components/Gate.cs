@@ -236,7 +236,7 @@ namespace Circuitry.Components
         {
             GL.BlendFunc( BlendingFactorSrc.One, BlendingFactorDest.Zero );
             {
-                SharpLib2D.Graphics.Texture.EnableTextures( false );
+                SharpLib2D.Resources.Texture.EnableTextures( false );
 
                 Color.Set( 1f, 1f, 1f );
                 foreach ( Input I in Inputs )
@@ -259,7 +259,7 @@ namespace Circuitry.Components
             DrawIOConnectors( );
 
             Color.Set( 1f, 1f, 1f );
-            SharpLib2D.Graphics.Texture.Set( Path );
+            SharpLib2D.Resources.Texture.Set( Path );
 
             DrawTexturedSelf( );
         }
@@ -285,7 +285,7 @@ namespace Circuitry.Components
             {
                 Color.Set( Color4.Black );
                 Text.SetAlignments( Text.HorizontalAlignment.Center, Text.VerticalAlignment.Center );
-                Text.DrawString( Name, "Arial", SizeUnit / 6f, TextPosition );
+                Text.DrawString( Name, "Lucida Consolas", SizeUnit / 6f, TextPosition );
             }
         }
     }

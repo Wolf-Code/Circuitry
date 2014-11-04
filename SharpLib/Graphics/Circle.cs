@@ -1,5 +1,7 @@
 ﻿
 using OpenTK.Graphics;
+using SharpLib2D.Graphics.Objects;
+using SharpLib2D.Resources;
 
 namespace SharpLib2D.Graphics
 {
