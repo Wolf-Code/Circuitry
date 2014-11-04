@@ -1,33 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Drawing.Text;
 using System.Linq;
 using OpenTK;
 using SharpLib2D.Graphics.Objects;
+using SharpLib2D.Resources;
+using Font = System.Drawing.Font;
 
 namespace SharpLib2D.Graphics
 {
     #region Helper Classes
-    static class FontCollection
-    {
-        private static readonly Dictionary<Tuple<string,float>, Font> Fonts = new Dictionary<Tuple<string,float>, Font>( );
-
-        public static Font GetFont( string Font, float Size )
-        {
-            Tuple<string, float > t = new Tuple<string, float>( Font, Size );
-            if ( !Fonts.ContainsKey( t ) )
-                Fonts.Add( t, LoadFont( Font, Size ) );
-
-            return Fonts[ t ];
-        }
-
-        private static Font LoadFont( string Font, float Size )
-        {
-            return new Font( Font, Size, FontStyle.Regular );
-        }
-    }
 
     static class TextObjectContainer
     {
@@ -110,7 +91,7 @@ namespace SharpLib2D.Graphics
 
         internal static Font GetFont( string Font, float Size )
         {
-            return FontCollection.GetFont( Font, Size );
+            return Loader.Get<Resources.Font>( Font ).Get( Size );
         }
 
         /// <summary>

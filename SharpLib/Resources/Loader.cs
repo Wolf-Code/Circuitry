@@ -25,7 +25,6 @@ namespace SharpLib2D.Resources
             {
                 AddLoader( Activator.CreateInstance( T ) as ResourceLoader );
             }
-
         }
 
         public static void AddLoader( ResourceLoader Loader )
@@ -37,7 +36,10 @@ namespace SharpLib2D.Resources
         public static T Get<T>( string File ) where T : Resource
         {
             string Ext = File.Split( '.' ).Last( ).ToLower( );
-            return Loaders[ Ext ].Load( File ) as T;
+            if ( Loaders.ContainsKey( Ext ) )
+                return Loaders[ Ext ].Load( File ) as T;
+
+            return Loaders.FirstOrDefault( O => O.Value.ResourceType == typeof ( T ) ).Value.Load( File ) as T;
         }
 
         private static void CacheFile( FileInfo File )

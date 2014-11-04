@@ -285,7 +285,7 @@ namespace Circuitry.Components
             {
                 Color.Set( Color4.Black );
                 Text.SetAlignments( Text.HorizontalAlignment.Center, Text.VerticalAlignment.Center );
-                Text.DrawString( Name, "Lucida Consolas", SizeUnit / 6f, TextPosition );
+                Text.DrawString( Name, "Lucida Console", SizeUnit / 6f, TextPosition );
             }
         }
     }

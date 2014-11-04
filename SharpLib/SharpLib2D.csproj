@@ -66,6 +66,8 @@
     <Compile Include="Graphics\Rectangle.cs" />
     <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\Text.cs" />
+    <Compile Include="Resources\Font.cs" />
+    <Compile Include="Resources\Loaders\Font.cs" />
     <Compile Include="Resources\Loaders\ResourceLoader.cs" />
     <Compile Include="Resources\Texture.cs" />
     <Compile Include="Graphics\Triangle.cs" />

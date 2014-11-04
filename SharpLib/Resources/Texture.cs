@@ -65,19 +65,6 @@ namespace SharpLib2D.Resources
             GL.DeleteTexture( ID );
         }
 
-        public override Resource LoadFromStream( Stream S )
-        {
-            try
-            {
-                using ( Bitmap B = ( Bitmap ) Image.FromStream( S ) )
-                    return Loaders.Texture.LoadTexture( B );
-            }
-            catch ( Exception E )
-            {
-                throw new Exceptions.StreamNotValidResourceException<Texture>( E );
-            }
-        }
-
         #region Static Methods
 
         public static void Set( Texture T )
