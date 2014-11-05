@@ -8,9 +8,9 @@ namespace SharpLib2D.UI
 {
     public abstract class Control : MouseEntity, IDisposable
     {
-        protected new List<Control> Children
+        protected new IEnumerable<Control> Children
         {
-            get { return base.Children.Where( O => O is Control ) as List<Control>; }
+            get { return base.Children.Where( O => O is Control ) as IEnumerable<Control>; }
         }
 
         protected Canvas Canvas 

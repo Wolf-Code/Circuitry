@@ -10,9 +10,14 @@ namespace SharpLib2D.Entities
     {
         protected MouseEntity LastDownEntity, HoverEntity;
 
+        protected virtual Vector2 GetMousePosition( )
+        {
+            return ParentState.Camera.ToWorld( Mouse.Position );
+        }
+
         public override void Update( FrameEventArgs e )
         {
-            Vector2 MousePos = ParentState.Camera.ToWorld( Mouse.Position );
+            Vector2 MousePos = GetMousePosition( );
 
             MouseEntity Top = GetTopChild( MousePos );
 

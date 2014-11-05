@@ -5,37 +5,48 @@ namespace SharpLib2D.UI
 {
     public abstract class Skin
     {
-        protected static void DrawControlRectangle( Control C, float ReduceSize = 0, int RoundSize = 8, int RoundQuality = 8 )
+        protected virtual Color4 OutlineColor
         {
-            Rectangle.DrawRounded( C.Position.X + ReduceSize / 2, C.Position.Y + ReduceSize / 2, C.Size.X - ReduceSize, C.Size.Y - ReduceSize, RoundSize, RoundQuality );
+            get { return new Color4( 34, 66, 94, 255 ); }
+        }
+
+        protected virtual Color4 WindowColor
+        {
+            get { return new Color4( 52, 100, 142, 255 ); }
+        }
+
+        protected static void DrawControlRectangle( Control C )
+        {
+            Rectangle.Draw( C.Position.X, C.Position.Y, C.Size.X, C.Size.Y );
+        }
+
+        protected static void DrawControlOutlineRectangle( Control C )
+        {
+            Rectangle.DrawOutlined( C.Position.X, C.Position.Y, C.Size.X, C.Size.Y, 2 );
         }
 
         public virtual void DrawControl( Control C )
         {
-            Color.Set( Color4.Gray );
+            Color.Set( WindowColor );
             DrawControlRectangle( C );
 
-            Color.Set( Color4.DarkGray );
-            DrawControlRectangle( C, 10, 4 );
+            Color.Set( OutlineColor );
+            DrawControlOutlineRectangle( C );
         }
 
         public virtual void DrawButton( Button B )
         {
             if ( B.IsDown )
             {
-                Color.Set( Color4.Gray );
+                Color.Set( new Color4( 70, 135, 191, 255 ) );
                 DrawControlRectangle( B );
 
-                Color.Set( Color4.LightGray );
-                DrawControlRectangle( B, 10, 4 );
+                Color.Set( OutlineColor );
+                DrawControlOutlineRectangle( B );
             }
             else
             {
-                Color.Set( Color4.DarkSlateGray );
-                DrawControlRectangle( B );
-
-                Color.Set( Color4.Gray );
-                DrawControlRectangle( B, 10, 4 );
+                DrawControl( B );
             }
         }
     }

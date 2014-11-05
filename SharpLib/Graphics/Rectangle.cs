@@ -1,8 +1,8 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-using SharpLib2D.Graphics.Objects;
 using SharpLib2D.Resources;
+using SharpLib2D.States;
 
 namespace SharpLib2D.Graphics
 {
@@ -20,6 +20,18 @@ namespace SharpLib2D.Graphics
                 PrimitiveBatch.AddVertex( new Vector2( X + W, Y ), Color.ActiveColor, new Vector2( U2, V1 ) );
             }
             PrimitiveBatch.End( );
+        }
+
+        #endregion
+
+        #region DrawOutlined
+
+        public static void DrawOutlined( float X, float Y, float W, float H, float Outline = 1f )
+        {
+            Line.Draw( new Vector2( X, Y ), new Vector2( X + W, Y ), Outline );
+            Line.Draw( new Vector2( X + W, Y ), new Vector2( X + W, Y + H ), Outline );
+            Line.Draw( new Vector2( X + W, Y + H ), new Vector2( X, Y + H ), Outline );
+            Line.Draw( new Vector2( X, Y + H ), new Vector2( X, Y ), Outline );
         }
 
         #endregion
@@ -199,7 +211,8 @@ namespace SharpLib2D.Graphics
             Vector2 Move = new Vector2( X + W * RotationPoint.X, Y + H * RotationPoint.X );
             Matrix4 Rot = Matrix4.CreateTranslation( -Move.X, -Move.Y, 0 ) * 
                           Matrix4.CreateRotationZ( Radians ) *
-                          Matrix4.CreateTranslation( Move.X, Move.Y, 0 );
+                          Matrix4.CreateTranslation( Move.X, Move.Y, 0 ) *
+                          State.ActiveState.Camera.View;
 
             GL.PushMatrix( );
             {

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engine.cs" />
+    <Compile Include="Entities\Camera\ScreenCamera.cs" />
     <Compile Include="Entities\Camera\DefaultCamera.cs" />
     <Compile Include="Entities\Dragger.cs" />
     <Compile Include="Entities\DrawableEntity.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Resources\Loaders\Textures.cs" />
     <Compile Include="States\UIState.cs" />
     <Compile Include="States\State.cs" />
+    <Compile Include="UI\Panel.cs" />
     <Compile Include="UI\Canvas.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Control.cs" />
