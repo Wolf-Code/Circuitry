@@ -99,7 +99,6 @@ namespace Circuitry.States
                 Dock = Pos.Left,
                 IsClosable = false
             };
-            GateWindow.DisableResizing( );
 
             CollapsibleList GateList = new CollapsibleList( GateWindow )
             {

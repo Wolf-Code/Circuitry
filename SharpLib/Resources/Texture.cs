@@ -57,10 +57,7 @@ namespace SharpLib2D.Resources
             Set( this );
         }
 
-        /// <summary>
-        /// Clears the texture from memory.
-        /// </summary>
-        public void Remove( )
+        public override void Dispose( )
         {
             GL.DeleteTexture( ID );
         }

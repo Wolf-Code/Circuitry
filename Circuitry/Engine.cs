@@ -17,12 +17,12 @@ namespace Circuitry
 
             Title = "Circuitry";
 
-            SharpLib2D.Resources.Loader.CacheFolder( "Resources" );
-
             GL.Enable( EnableCap.Blend );
             GL.BlendFunc( BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha );
 
             Manager.Initialize( this );
+
+            SharpLib2D.Resources.Loader.CacheFolder( "Resources" );
 
             State.StartState<Game>( );
 

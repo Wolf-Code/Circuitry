@@ -1,9 +1,9 @@
-﻿using System.IO;
+﻿using System;
 
 namespace SharpLib2D.Resources
 {
-    public abstract class Resource
+    public abstract class Resource : IDisposable
     {
-        public string Path { protected set; get; }
+        public abstract void Dispose( );
     }
 }

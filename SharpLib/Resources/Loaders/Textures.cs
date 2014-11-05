@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Concurrent;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -28,9 +26,9 @@ namespace SharpLib2D.Resources.Loaders
             FileInfo Info = new FileInfo( Path );
             if ( !Info.Exists ) throw new FileNotFoundException( "Unable to load texture '" + Path + "'" );
 
-            using ( Bitmap B = new Bitmap( Path ) )
+            using ( StreamReader R = new StreamReader( Path ) )
             {
-                Resources.Texture T = LoadTexture( B );
+                Resources.Texture T = Load( R.BaseStream ) as Resources.Texture;
                 CachedResources.TryAdd( Path, T );
 
                 return T;
@@ -54,7 +52,7 @@ namespace SharpLib2D.Resources.Loaders
             T.Width = B.Width;
             T.Height = B.Height;
 
-            BitmapData bmp_data = B.LockBits( new System.Drawing.Rectangle( 0, 0, B.Width, B.Height ),
+            BitmapData bmp_data = B.LockBits( new Rectangle( 0, 0, B.Width, B.Height ),
                 ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
             {
                 GL.TexImage2D( TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height,

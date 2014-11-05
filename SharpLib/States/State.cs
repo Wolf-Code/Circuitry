@@ -9,7 +9,7 @@ using SharpLib2D.Info;
 
 namespace SharpLib2D.States
 {
-    public class State
+    public abstract class State : IDisposable
     {
         #region Static
 
@@ -63,6 +63,7 @@ namespace SharpLib2D.States
             State S = States.Pop( );
             S.OnPause( );
             S.OnExit( );
+            S.Dispose( );
 
             if ( ActiveState == null )
                 return;
@@ -149,6 +150,8 @@ namespace SharpLib2D.States
             foreach ( DrawableEntity T in Ents.OfType<DrawableEntity>( ) )
                 T.Draw( e );
         }
+
+        public abstract void Dispose( );
 
         #region Transitions
 

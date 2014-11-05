@@ -42,7 +42,7 @@ namespace SharpLib2D.Resources
             return Loaders.FirstOrDefault( O => O.Value.ResourceType == typeof ( T ) ).Value.Load( File ) as T;
         }
 
-        private static void CacheFile( FileInfo File )
+        private static void CacheFile( FileSystemInfo File )
         {
             ResourceLoader L;
             if ( Loaders.TryGetValue( File.Extension.TrimStart( '.' ).ToLower( ), out L ) )
@@ -55,10 +55,18 @@ namespace SharpLib2D.Resources
         {
             DirectoryInfo D = new DirectoryInfo( Folder );
             FileInfo [ ] Files = D.GetFiles( );
-            Parallel.ForEach( Files, CacheFile );
+            foreach ( FileInfo CacheFile in Files )
+                Loader.CacheFile( CacheFile );
 
             DirectoryInfo [ ] Folders = D.GetDirectories( );
-            Parallel.ForEach( Folders, Fldr => CacheFolder( Fldr.FullName ) );
+            foreach ( DirectoryInfo CacheFolder in Folders )
+                Loader.CacheFolder( CacheFolder.FullName );
+        }
+
+        public static void ClearAllResources( )
+        {
+            foreach ( ResourceLoader Loader in Loaders.Select( O => O.Value ) )
+                Loader.Dispose( );
         }
     }
 }

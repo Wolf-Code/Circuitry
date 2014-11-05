@@ -25,7 +25,7 @@ namespace Gwen
 
         //public bool Bold { get; set; }
         //public bool DropShadow { get; set; }
-        
+
         /// <summary>
         /// This should be set by the renderer if it tries to use a font where it's null.
         /// </summary>
@@ -41,8 +41,8 @@ namespace Gwen
         /// <summary>
         /// Initializes a new instance of the <see cref="Font"/> class.
         /// </summary>
-        public Font(Base renderer)
-            : this(renderer, "Arial", 10)
+        public Font( Base renderer )
+            : this( renderer, "Arial" )
         {
 
         }
@@ -53,7 +53,7 @@ namespace Gwen
         /// <param name="renderer">Renderer to use.</param>
         /// <param name="faceName">Face name.</param>
         /// <param name="size">Font size.</param>
-        public Font(Base renderer, String faceName, int size = 10)
+        public Font( Base renderer, String faceName, int size = 10 )
         {
             m_Renderer = renderer;
             FaceName = faceName;
@@ -66,16 +66,16 @@ namespace Gwen
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose()
+        public void Dispose( )
         {
-            m_Renderer.FreeFont(this);
-            GC.SuppressFinalize(this);
+            m_Renderer.FreeFont( this );
+            GC.SuppressFinalize( this );
         }
-        
+
 #if DEBUG
-        ~Font()
+        ~Font( )
         {
-            throw new InvalidOperationException(String.Format("IDisposable object finalized: {0}", GetType()));
+            throw new InvalidOperationException( String.Format( "IDisposable object finalized: {0}", GetType( ) ) );
             //Debug.Print(String.Format("IDisposable object finalized: {0}", GetType()));
         }
 #endif
@@ -84,12 +84,9 @@ namespace Gwen
         /// Duplicates font data (except renderer data which must be reinitialized).
         /// </summary>
         /// <returns></returns>
-        public Font Copy()
+        public Font Copy( )
         {
-            Font f = new Font(m_Renderer, FaceName);
-            f.Size = Size;
-            f.RealSize = RealSize;
-            f.RendererData = null; // must be reinitialized
+            Font f = new Font( m_Renderer, FaceName ) { Size = Size, RealSize = RealSize, RendererData = null };
             //f.Bold = Bold;
             //f.DropShadow = DropShadow;
 

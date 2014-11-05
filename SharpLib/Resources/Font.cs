@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpLib2D.Resources
 {
     public class Font : Resource
     {
         public FontFamily Family { private set; get; }
-        private Dictionary<float, System.Drawing.Font> LoadedFonts = new Dictionary<float, System.Drawing.Font>( ); 
+        private readonly Dictionary<float, System.Drawing.Font> LoadedFonts = new Dictionary<float, System.Drawing.Font>( ); 
 
         public Font( FontFamily Fam )
         {
@@ -27,6 +23,15 @@ namespace SharpLib2D.Resources
             LoadedFonts.Add( Size, F );
 
             return F;
+        }
+
+        public override void Dispose( )
+        {
+            Family.Dispose( );
+            foreach ( System.Drawing.Font F in LoadedFonts.Select( O => O.Value ) )
+                F.Dispose( );
+
+            LoadedFonts.Clear( );
         }
     }
 }

@@ -35,6 +35,11 @@ namespace Circuitry.States
             base.OnPause( );
         }
 
+        public override void Dispose( )
+        {
+            GwenCanvas.Dispose( );
+        }
+
         protected override void OnResize( )
         {
             GwenCanvas.SetSize( ( int ) Screen.Size.X, ( int ) Screen.Size.Y );

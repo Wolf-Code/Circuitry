@@ -4,6 +4,7 @@ using OpenTK.Graphics.OpenGL;
 using SharpLib2D.Entities.Camera;
 using SharpLib2D.Graphics;
 using SharpLib2D.Info;
+using SharpLib2D.Resources;
 using SharpLib2D.States;
 
 namespace SharpLib2D
@@ -22,6 +23,14 @@ namespace SharpLib2D
             Cam = new DefaultCamera( );
 
             base.OnLoad( e );
+        }
+
+        protected override void OnUnload( EventArgs e )
+        {
+            Loader.ClearAllResources( );
+            while ( State.ActiveState != null )
+                State.StopActiveState( );
+            base.OnUnload( e );
         }
 
         protected override void OnResize( EventArgs e )

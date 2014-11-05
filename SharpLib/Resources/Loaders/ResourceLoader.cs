@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
 
 namespace SharpLib2D.Resources.Loaders
 {
-    public abstract class ResourceLoader
+    public abstract class ResourceLoader : IDisposable
     {
         public abstract string [ ] Extensions { get; }
         public abstract Type ResourceType { get; }
@@ -18,5 +19,13 @@ namespace SharpLib2D.Resources.Loaders
 
         public abstract Resource Load( string Path );
         public abstract Resource Load( Stream Stream );
+
+        public void Dispose( )
+        {
+            foreach ( Resource R in CachedResources.Select( O => O.Value ) )
+                R.Dispose( );
+
+            CachedResources.Clear( );
+        }
     }
 }

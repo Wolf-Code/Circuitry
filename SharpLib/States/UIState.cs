@@ -11,5 +11,10 @@ namespace SharpLib2D.States
             Canvas = new Canvas( new DefaultSkin( ) );
             base.OnStart( );
         }
+
+        public override void Dispose( )
+        {
+            
+        }
     }
 }

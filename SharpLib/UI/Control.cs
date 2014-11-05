@@ -1,10 +1,18 @@
-﻿using OpenTK;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using OpenTK;
 using SharpLib2D.Entities;
 
 namespace SharpLib2D.UI
 {
-    public class Control : MouseEntity
+    public abstract class Control : MouseEntity, IDisposable
     {
+        protected new List<Control> Children
+        {
+            get { return base.Children.Where( O => O is Control ) as List<Control>; }
+        }
+
         protected Canvas Canvas 
         {
             get
@@ -33,6 +41,12 @@ namespace SharpLib2D.UI
         {
             Canvas.Skin.DrawControl( this );
             DrawChildren( e );
+        }
+
+        public virtual void Dispose( )
+        {
+            foreach ( Control C in this.Children )
+                C.Dispose( );
         }
     }
 }

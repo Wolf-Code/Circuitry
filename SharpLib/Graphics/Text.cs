@@ -20,7 +20,7 @@ namespace SharpLib2D.Graphics
         {
             Count = 0;
             foreach ( TextObject O in Objects.SelectMany( Pair => Pair.Value ) )
-                O.Texture.Remove( );
+                O.Texture.Dispose( );
 
             Objects.Clear( );
         }
