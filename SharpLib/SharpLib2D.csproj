@@ -60,6 +60,7 @@
     <Compile Include="Graphics\Circle.cs" />
     <Compile Include="Graphics\Color.cs" />
     <Compile Include="Graphics\Line.cs" />
+    <Compile Include="Graphics\Objects\NinePatch.cs" />
     <Compile Include="Graphics\Objects\TextObject.cs" />
     <Compile Include="Graphics\Objects\Vertex.cs" />
     <Compile Include="Graphics\Polygon.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Resources\Loaders\Textures.cs" />
     <Compile Include="States\UIState.cs" />
     <Compile Include="States\State.cs" />
+    <Compile Include="UI\GwenTextureSkin.cs" />
     <Compile Include="UI\Panel.cs" />
     <Compile Include="UI\Canvas.cs" />
     <Compile Include="UI\Button.cs" />

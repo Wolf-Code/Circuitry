@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
@@ -21,6 +22,8 @@ namespace SharpLib2D.Resources
         private static Dictionary<string, Texture> LoadedTextures = new Dictionary<string, Texture>( );
 
         #endregion
+
+        #region Properties
 
         /// <summary>
         /// The texture's identifying number.
@@ -49,12 +52,43 @@ namespace SharpLib2D.Resources
             get;
         }
 
+        #endregion
+
         /// <summary>
         /// Sets this as the active rendering texture.
         /// </summary>
         public void Bind( )
         {
             Set( this );
+        }
+
+        public RectangleF PixelRegionToUVRegion( Rectangle PixelRegion )
+        {
+            return new RectangleF(
+                XToU( PixelRegion.Left ),
+                YToV( PixelRegion.Top ),
+                XToU( PixelRegion.Right ),
+                YToV( PixelRegion.Bottom ) );
+        }
+
+        public float XToU( int X )
+        {
+            return X / ( float ) this.Width;
+        }
+
+        public float YToV( int Y )
+        {
+            return Y / ( float ) this.Height;
+        }
+
+        public Vector2 PixelToUV( int X, int Y )
+        {
+            return new Vector2( XToU( X ), YToV( Y ) );
+        }
+
+        public Point UVToPixel( float X, float Y )
+        {
+            return new Point( ( int ) ( X * this.Width ), ( int ) ( Y * this.Height ) );
         }
 
         public override void Dispose( )

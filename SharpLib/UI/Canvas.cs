@@ -10,7 +10,12 @@ namespace SharpLib2D.UI
 
         public Canvas( Skin S )
         {
-            Skin = S;
+            this.SetSkin( S );
+        }
+
+        public void SetSkin( Skin S )
+        {
+            this.Skin = S;
         }
 
         protected override Vector2 GetMousePosition( )

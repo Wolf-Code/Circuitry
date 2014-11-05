@@ -32,15 +32,15 @@ namespace SharpLib2D.UI
             get { return Position + Size; }
         }
 
-        protected void DrawChildren( FrameEventArgs e )
+        protected virtual void DrawSelf( )
         {
-            base.Draw( e );
+            Canvas.Skin.DrawPanel( this );
         }
 
         public override void Draw( FrameEventArgs e )
         {
-            Canvas.Skin.DrawControl( this );
-            DrawChildren( e );
+            DrawSelf( );
+            base.Draw( e );
         }
 
         public virtual void Dispose( )

@@ -41,10 +41,9 @@ namespace SharpLib2D.UI
             base.OnButtonReleased( Button );
         }
 
-        public override void Draw( FrameEventArgs e )
+        protected override void DrawSelf( )
         {
             Canvas.Skin.DrawButton( this );
-            DrawChildren( e );
         }
     }
 }

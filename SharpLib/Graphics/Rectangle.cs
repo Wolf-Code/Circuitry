@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using SharpLib2D.Resources;
@@ -157,6 +158,25 @@ namespace SharpLib2D.Graphics
 
             Color.Set( InsideColor );
             DrawRounded( X + Outline, Y + Outline, W - Outline * 2, H - Outline * 2, ( Size - Outline ), Quality, TopLeft, TopRight, BottomRight, BottomLeft );
+        }
+
+        #endregion
+
+        #region DrawTextured
+
+        public static void DrawWithUV( float X, float Y, float W, float H, float U1 = 0f,
+            float V1 = 0f, float U2 = 1f, float V2 = 1f )
+        {
+            DrawRect( X, Y, W, H, U1, V1, U2, V2 );
+        }
+
+        public static void DrawTextured( Texture T, float X, float Y, float W, float H, float U1 = 0f,
+            float V1 = 0f, float U2 = 1f, float V2 = 1f )
+        {
+            Texture.EnableTextures( );
+            T.Bind( );
+
+            DrawWithUV( X, Y, W, H, U1, V1, U2, V2 );
         }
 
         #endregion
