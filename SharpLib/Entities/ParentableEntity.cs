@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharpLib2D.States;
 
 namespace SharpLib2D.Entities
 {
@@ -57,9 +58,10 @@ namespace SharpLib2D.Entities
             if ( HasParent )
                 this.SetParent( null );
             else
-                Unlist( );
-
-            base.OnRemove( );
+            {
+                if ( State.ActiveState.Entities.Contains( this ) )
+                    Unlist( );
+            }
         }
     }
 }

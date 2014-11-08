@@ -216,6 +216,9 @@ namespace Circuitry.Components
 
         public override void OnButtonPressed( MouseButton Button )
         {
+            if ( UI.Manager.MouseInsideUI( ) || Gate == null )
+                return;
+
             if ( Gate.Circuit.OnChildMouseAction( this,
                 new MouseButtonEventArgs( ( int ) Mouse.Position.X, ( int ) Mouse.Position.Y, Button, true ) ) )
                 return;
@@ -225,6 +228,9 @@ namespace Circuitry.Components
 
         public override void OnButtonReleased( MouseButton Button )
         {
+            if ( UI.Manager.MouseInsideUI( ) || Gate == null )
+                return;
+
             if ( Gate.Circuit.OnChildMouseAction( this,
                 new MouseButtonEventArgs( ( int ) Mouse.Position.X, ( int ) Mouse.Position.Y, Button, false ) ) )
                 return;
@@ -270,10 +276,7 @@ namespace Circuitry.Components
             if ( First.Gate == Second.Gate )
                 return false;
 
-            if ( First.Type != NodeType.Numeric && Second.Type == NodeType.Numeric )
-                return false;
-
-            return true;
+            return First.Type == NodeType.Numeric || Second.Type != NodeType.Numeric;
         }
         
         #endregion

@@ -12,7 +12,7 @@ namespace SharpLib2D.UI.Skin
             NinePatch_Window = new NinePatch( 0, 24, 127, 104, 2, 1, 2, 2 ),
             NinePatch_WindowTitleBar = new NinePatch( 0, 0, 127, 24, 2, 2, 2, 1 );
 
-        private static readonly NinePatch [ ] NinePatch_Buttons = NinePatch.CreateNinePatches( 384, 144, 127, 15, 2, 2, 2, 2, 4,
+        private static readonly NinePatch [ ] NinePatch_Buttons = NinePatch.CreateNinePatches( 480, 0, 31, 31, 2, 2, 2, 2, 4,
             false, true, 1 );
 
         public GwenTextureSkin( Texture GwenTexture )
@@ -32,7 +32,7 @@ namespace SharpLib2D.UI.Skin
 
         public override void DrawButton( Button B )
         {
-            DrawControl( B, B.IsDown ? NinePatch_Buttons[ 2 ] : NinePatch_Buttons[ B.IsMouseOn ? 1 : 0 ] );
+            DrawControl( B, B.IsDown ? NinePatch_Buttons[ 3 ] : NinePatch_Buttons[ B.IsMouseOn ? 1 : 0 ] );
         }
 
         public override void DrawWindow( Window W )

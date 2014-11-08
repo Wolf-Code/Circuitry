@@ -56,6 +56,20 @@ namespace SharpLib2D.UI
             return NewPosition;
         }
 
+        public void Center( )
+        {
+            Vector2 Center;
+            if ( HasParent )
+            {
+                ObjectEntity C = Parent as ObjectEntity;
+                Center = C.Size / 2f;
+            }
+            else
+                Center = Canvas.Size / 2f;
+
+            this.SetPosition( Center.X - this.BoundingVolume.Width / 2, Center.Y - this.BoundingVolume.Height / 2 );
+        }
+
         public override void Draw( FrameEventArgs e )
         {
             DrawSelf( );

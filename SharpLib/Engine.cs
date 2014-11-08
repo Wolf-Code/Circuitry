@@ -21,7 +21,8 @@ namespace SharpLib2D
         protected override void OnLoad( EventArgs e )
         {
             Cam = new DefaultCamera( );
-
+            GL.Enable( EnableCap.Blend );
+            GL.BlendFunc( BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha );
             base.OnLoad( e );
         }
 

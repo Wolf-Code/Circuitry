@@ -7,15 +7,28 @@ namespace SharpLib2D.UI
 {
     public class Button : Control
     {
-        public string Text { protected set; get; }
+        public string Text
+        {
+            get { return this.Label.Text; }
+        }
+
         public bool IsDown { private set; get; }
         protected Vector2 DownPosition;
+        protected readonly Label Label;
 
         public EventHandler OnClick;
 
         public Button( string Text )
         {
-            this.Text = Text;
+            this.Label = new Label( );
+            this.Label.SetParent( this );
+        }
+
+        public void SetText( string Text )
+        {
+            this.Label.SetText( Text );
+            this.Label.SizeToContents( );
+            this.Label.Center( );
         }
 
         public override void OnButtonPressed( MouseButton Button )

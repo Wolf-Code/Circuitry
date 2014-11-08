@@ -283,9 +283,8 @@ namespace Circuitry.Components
 
             if ( Circuit != null && Circuit.ShowLabels )
             {
-                Color.Set( Color4.Black );
                 Text.SetAlignments( Text.HorizontalAlignment.Center, Text.VerticalAlignment.Center );
-                Text.DrawString( Name, "Lucida Console", SizeUnit / 6f, TextPosition );
+                Text.DrawString( Name, "Lucida Console", SizeUnit / 6f, TextPosition, Color4.Black );
             }
         }
     }

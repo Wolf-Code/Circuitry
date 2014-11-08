@@ -2,6 +2,7 @@
 using System.Globalization;
 using Circuitry.Components;
 using OpenTK;
+using OpenTK.Graphics;
 using SharpLib2D.Graphics;
 
 namespace Circuitry.Gates.Numeric
@@ -32,9 +33,8 @@ namespace Circuitry.Gates.Numeric
 
             string Val = GetInput( "Value" ).Value.ToString( CultureInfo.InstalledUICulture);
 
-            Color.Set( 0f, 0f, 0f );
             Text.SetAlignments( Text.HorizontalAlignment.Center, Text.VerticalAlignment.Center );
-            Text.DrawString( Val, Font, TextSize, Position );
+            Text.DrawString( Val, Font, TextSize, Position, Color4.Black );
 
             base.Draw( e );
         }

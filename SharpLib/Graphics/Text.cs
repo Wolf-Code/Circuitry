@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using OpenTK;
+using OpenTK.Graphics;
 using SharpLib2D.Graphics.Objects;
 using SharpLib2D.Resources;
 using Font = System.Drawing.Font;
@@ -142,7 +143,7 @@ namespace SharpLib2D.Graphics
         /// <param name="Font"></param>
         /// <param name="Size"></param>
         /// <param name="Position"></param>
-        public static void DrawString( string Text, string Font, float Size, Vector2 Position )
+        public static void DrawString( string Text, string Font, float Size, Vector2 Position, Color4 Color )
         {
             TextObject O = TextObjectContainer.GetTextObject( Text, Font, Size );
             O.Texture.Bind( );
@@ -171,7 +172,12 @@ namespace SharpLib2D.Graphics
                     break;
             }
 
-            Rectangle.DrawTextured( Position.X, Position.Y, O.Width, O.Height );
+            Color4 Old = Graphics.Color.ActiveColor;
+            Graphics.Color.Set( Color );
+            {
+                Rectangle.DrawTextured( Position.X, Position.Y, O.Width, O.Height );
+            }
+            Graphics.Color.Set( Old );
         }
 
         #endregion
