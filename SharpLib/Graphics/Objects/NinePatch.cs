@@ -5,7 +5,7 @@ using Rect = System.Drawing.Rectangle;
 
 namespace SharpLib2D.Graphics.Objects
 {
-    internal class NinePatch
+    public class NinePatch
     {
         private readonly int TopPatch, BottomPatch, LeftPatch, RightPatch;
 
@@ -45,6 +45,36 @@ namespace SharpLib2D.Graphics.Objects
             this.Right = new Rect( Center.Right, TopRight.Bottom, RightPatch, Center.Height );
         }
 
+        public static NinePatch [ ] CreateNinePatches( int X, int Y, int Width, int Height, int Left, int Top, int Right,
+            int Bottom, int Count, bool Horizontal,
+            bool RightOrDown, int Offset )
+        {
+            NinePatch [ ] Patches = new NinePatch[ Count ];
+
+            for ( int Q = 0; Q < Count; Q++ )
+            {
+                NinePatch P = new NinePatch( X, Y, Width, Height, Left, Top, Right, Bottom );
+                if ( Horizontal )
+                {
+                    if ( RightOrDown )
+                        X += Width + Offset;
+                    else
+                        X -= Offset;
+                }
+                else
+                {
+                    if ( RightOrDown )
+                        Y += Height + Offset;
+                    else
+                        Y -= Offset;
+                }
+
+                Patches[ Q ] = P;
+            }
+
+            return Patches;
+        }
+
         public static void Draw( Texture T, float X, float Y, float W, float H, NinePatch Patch )
         {
             Color.Set( Color4.White );
@@ -67,7 +97,6 @@ namespace SharpLib2D.Graphics.Objects
             RectangleF TRUV = T.PixelRegionToUVRegion( Patch.TopRight );
             Rectangle.DrawWithUV( X + W - Patch.TopRight.Width, Y, Patch.TopRight.Width, Patch.TopRight.Height,
                 TRUV.Left, TRUV.Top, TRUV.Width, TRUV.Height );
-
 
             RectangleF BLUV = T.PixelRegionToUVRegion( Patch.BottomLeft );
             Rectangle.DrawWithUV( X, Y + H - Patch.BottomPatch, Patch.BottomLeft.Width, Patch.BottomLeft.Height,

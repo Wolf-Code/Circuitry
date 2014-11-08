@@ -1,194 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
-using SharpLib2D.Objects;
 
 namespace SharpLib2D.Entities
 {
-    public abstract class Entity : DrawableEntity
+    public abstract class Entity : ObjectEntity
     {
         protected Entity( )
         {
-            SetSize( 100, 100 );
+            this.m_Size = new Vector2( 100, 100 );
         }
-
-        #region Size
-
-        public Vector2 Size
-        {
-            protected set;
-            get;
-        }
-
-        public virtual Vector2 TopLeft
-        {
-            get { return Position - Size / 2; }
-        }
-
-        public Vector2 TopRight
-        {
-            get { return new Vector2( this.BottomRight.X, this.TopLeft.Y ); }
-        }
-
-        public virtual Vector2 BottomRight
-        {
-            get
-            {
-                return Position + Size / 2;
-            }
-        }
-
-        public Vector2 BottomLeft
-        {
-            get
-            {
-                return new Vector2( this.TopLeft.X, this.BottomRight.Y );
-            }
-        }
-
-        public virtual IBoundingVolume BoundingVolumne
-        {
-            get { return new BoundingBox( TopLeft, BottomRight ); }
-        }
-
-        #region SetSize
-
-        public void SetSize( float Width, float Height )
-        {
-            Size = new Vector2( Width, Height );
-        }
-
-        public void SetSize( Vector2 NewSize )
-        {
-            Size = NewSize;
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Position
-
-        private Vector2 LPos;
-
-        /// <summary>
-        /// The entity's local position.
-        /// </summary>
-        public Vector2 Position
-        {
-            private set
-            {
-                LPos = value;
-            }
-            get
-            {
-                return HasParent ? Parent.ToWorld( LPos ) : LPos;
-            }
-        }
-
-        #region SetPosition
-
-        /// <summary>
-        /// Sets the entity's position.
-        /// </summary>
-        /// <param name="X"></param>
-        /// <param name="Y"></param>
-        public void SetPosition( float X, float Y )
-        {
-            Position = new Vector2( X, Y );
-        }
-
-        /// <summary>
-        /// Sets the entity's position.
-        /// </summary>
-        /// <param name="NewPosition">The new position.</param>
-        public void SetPosition( Vector2 NewPosition )
-        {
-            SetPosition( NewPosition.X, NewPosition.Y );
-        }
-
-        #endregion
-
-        #region ToLocal / ToWorld
-
-        public Vector2 ToLocal( float WorldX, float WorldY )
-        {
-            return ToLocal( new Vector2( WorldX, WorldY ) );
-        }
-
-        public virtual Vector2 ToLocal( Vector2 WorldPosition )
-        {
-            return WorldPosition - Position;
-        }
-
-        public Vector2 ToWorld( float LocalX, float LocalY )
-        {
-            return ToWorld( new Vector2( LocalX, LocalY ) );
-        }
-
-        public virtual Vector2 ToWorld( Vector2 LocalPosition )
-        {
-            return Position + LocalPosition;
-        }
-
-        #endregion
-
-        #endregion
 
         #region Parenting
 
-        public Entity Parent { private set; get; }
-        protected List<Entity> Children = new List<Entity>( );
-
         protected List<Entity> OrderedEntities
         {
-            get { return Children.OrderByDescending( O => O.Z ).ToList( ); }
+            get { return Children.OrderByDescending( O => O.Z ).OfType<Entity>( ).ToList( ); }
         }
 
-        public bool HasParent
+        protected override void OnParentChanged( ParentableEntity OldParent, ParentableEntity NewParent )
         {
-            get { return Parent != null; }
-        }
-
-        public void SetParent( Entity Ent )
-        {
-            if ( Parent == Ent )
-                return;
-
-            if ( HasParent )
+            if ( NewParent != null )
             {
-                Parent.OnChildRemoved( this );
-                Parent.Children.Remove( this );
+                if ( OldParent == null )
+                    Unlist( );
             }
-            else
-                Unlist( );
-
-            Parent = Ent;
-            if ( HasParent )
-            {
-                Parent.OnChildAdded( this );
-                Parent.Children.Add( this );
-                Z = Parent.Z + 1;
-            }
-            else
+            else if ( OldParent != null )
                 Enlist( );
-
-            OnParentChanged( Ent );
-        }
-
-        protected virtual void OnChildAdded( Entity Child )
-        {
-            
-        }
-
-        protected virtual void OnChildRemoved( Entity Child )
-        {
-            
-        }
-
-        protected virtual void OnParentChanged( Entity NewParent )
-        {
-            
         }
 
         #endregion
@@ -197,7 +35,7 @@ namespace SharpLib2D.Entities
 
         public bool ContainsPosition( Vector2 WorldPosition )
         {
-            return this.BoundingVolumne.Contains( WorldPosition );
+            return this.BoundingVolume.Contains( WorldPosition );
         }
 
         public Entity GetChildAt( Vector2 WorldPosition )
@@ -212,13 +50,7 @@ namespace SharpLib2D.Entities
         {
             OnRemove( );
 
-            while ( Children.Count > 0 )
-                Children[ 0 ].Remove( );
-
-            if ( HasParent )
-                Parent.Children.Remove( this );
-            else
-                Unlist( );
+            base.Remove( );
         }
 
         public override void Update( FrameEventArgs e )

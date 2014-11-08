@@ -21,7 +21,6 @@ namespace SharpLib2D.Entities
         public virtual void Remove( )
         {
             OnRemove( );
-            Unlist( );
         }
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace SharpLib2D.Entities
         /// </summary>
         protected virtual void OnRemove( )
         {
-
+            Unlist( );
         }
 
         public virtual void Update( FrameEventArgs e )

@@ -10,7 +10,14 @@ namespace SharpLib2D.UI
     {
         protected new IEnumerable<Control> Children
         {
-            get { return base.Children.Where( O => O is Control ) as IEnumerable<Control>; }
+            get { return base.Children.OfType<Control>(  ); }
+        }
+
+        public bool PreventLeavingParent { protected set; get; }
+
+        protected Control( )
+        {
+            this.PreventLeavingParent = true;
         }
 
         protected Canvas Canvas 
@@ -22,19 +29,31 @@ namespace SharpLib2D.UI
             }
         }
 
-        public override Vector2 TopLeft
-        {
-            get { return Position; }
-        }
-
-        public override Vector2 BottomRight
-        {
-            get { return Position + Size; }
-        }
-
         protected virtual void DrawSelf( )
         {
             Canvas.Skin.DrawPanel( this );
+        }
+
+        protected override Vector2 OnPositionChanged( Vector2 NewPosition )
+        {
+            if ( PreventLeavingParent && HasParent && ( Parent is ObjectEntity ) )
+            {
+                ObjectEntity C = Parent as ObjectEntity;
+
+                if ( NewPosition.X < 0 )
+                    NewPosition.X = 0;
+
+                if ( NewPosition.Y < 0 )
+                    NewPosition.Y = 0;
+
+                if ( NewPosition.X + this.BoundingVolume.Width > C.BoundingVolume.Width )
+                    NewPosition.X = C.BoundingVolume.Width - this.BoundingVolume.Width;
+
+                if ( NewPosition.Y + this.BoundingVolume.Height > C.BoundingVolume.Height )
+                    NewPosition.Y = C.BoundingVolume.Height - this.BoundingVolume.Height;
+            }
+
+            return NewPosition;
         }
 
         public override void Draw( FrameEventArgs e )

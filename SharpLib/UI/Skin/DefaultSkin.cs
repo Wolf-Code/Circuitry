@@ -2,7 +2,7 @@
 using OpenTK.Graphics;
 using SharpLib2D.Graphics;
 
-namespace SharpLib2D.UI
+namespace SharpLib2D.UI.Skin
 {
     public class DefaultSkin : Skin
     {
@@ -60,6 +60,11 @@ namespace SharpLib2D.UI
             {
                 DrawControl( B );
             }
+        }
+
+        public override void DrawWindow( Window W )
+        {
+            DrawControl( W );
         }
     }
 }

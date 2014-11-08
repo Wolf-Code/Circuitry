@@ -19,6 +19,8 @@ namespace SharpLib2D.Entities
             }
         }
 
+        public bool IsMouseOn { private set; get; }
+
         public virtual MouseEntity GetTopChild( Vector2 CheckPosition )
         {
             MouseEntity E = GetChildAt( CheckPosition ) as MouseEntity;
@@ -38,12 +40,12 @@ namespace SharpLib2D.Entities
 
         public virtual void OnMouseEnter( )
         {
-
+            this.IsMouseOn = true;
         }
 
         public virtual void OnMouseExit( )
         {
-
+            this.IsMouseOn = false;
         }
     }
 }

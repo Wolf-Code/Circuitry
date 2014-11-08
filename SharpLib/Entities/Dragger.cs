@@ -4,9 +4,9 @@ using OpenTK.Input;
 
 namespace SharpLib2D.Entities
 {
-    public class Dragger : Entity
+    public class Dragger : ParentableEntity
     {
-        public Entity DraggingEntity { private set; get; }
+        public ObjectEntity DraggingEntity { private set; get; }
         public bool Dragging { private set; get; }
         public Vector2 LocalGrabPoint { private set; get; }
 
@@ -27,14 +27,14 @@ namespace SharpLib2D.Entities
                 this.StopDragging( );
         }
 
-        public void StartDragging( Entity E )
+        public void StartDragging( ObjectEntity E )
         {
             if ( Dragging )
                 StopDragging( );
 
             Dragging = true;
             DraggingEntity = E;
-            LocalGrabPoint = E.ToLocal( ParentState.Camera.ToWorld( Info.Mouse.Position ) );
+            LocalGrabPoint = E.ToLocal( Info.Mouse.WorldPosition );
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace SharpLib2D.Entities
         /// </summary>
         /// <typeparam name="T">The type to check for.</typeparam>
         /// <returns></returns>
-        public bool IsDragging<T>( ) where T : Entity
+        public bool IsDragging<T>( ) where T : ObjectEntity
         {
             return Dragging && DraggingEntity is T;
         }
@@ -59,7 +59,10 @@ namespace SharpLib2D.Entities
             Vector2 DPos = Info.Mouse.Position - LocalGrabPoint;
             Vector2 Pos = ParentState.Camera.ToWorld( DPos );
 
-            DraggingEntity.SetPosition( TransformPosition( DraggingEntity.Parent.ToLocal( Pos ) ) );
+            DraggingEntity.SetPosition(
+                TransformPosition( ( DraggingEntity.HasParent && DraggingEntity.Parent is ObjectEntity )
+                    ? ( DraggingEntity.Parent as ObjectEntity ).ToLocal( Pos )
+                    : Pos ) );
 
             base.Update( e );
         }

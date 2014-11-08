@@ -52,6 +52,8 @@
     <Compile Include="Entities\MouseEntity.cs" />
     <Compile Include="Entities\MouseEntityContainer.cs" />
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\ObjectEntity.cs" />
+    <Compile Include="Entities\ParentableEntity.cs" />
     <Compile Include="Entities\UpdatableEntity.cs" />
     <Compile Include="Events\InputMouseEvents.cs" />
     <Compile Include="Exceptions\SharpException.cs" />
@@ -87,13 +89,15 @@
     <Compile Include="Resources\Loaders\Textures.cs" />
     <Compile Include="States\UIState.cs" />
     <Compile Include="States\State.cs" />
-    <Compile Include="UI\GwenTextureSkin.cs" />
+    <Compile Include="UI\Skin\GwenTextureSkin.cs" />
+    <Compile Include="UI\Internal\WindowTitleBar.cs" />
     <Compile Include="UI\Panel.cs" />
     <Compile Include="UI\Canvas.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\Control.cs" />
-    <Compile Include="UI\DefaultSkin.cs" />
-    <Compile Include="UI\Skin.cs" />
+    <Compile Include="UI\Skin\DefaultSkin.cs" />
+    <Compile Include="UI\Skin\Skin.cs" />
+    <Compile Include="UI\Window.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -8,7 +8,8 @@ namespace SharpLib2D.Entities
 {
     public class MouseEntityContainer : MouseEntity
     {
-        protected MouseEntity LastDownEntity, HoverEntity;
+        public MouseEntity LastDownEntity { private set; get; }
+        public MouseEntity HoverEntity { private set; get; }
 
         protected virtual Vector2 GetMousePosition( )
         {

@@ -6,14 +6,17 @@ namespace SharpLib2D.UI
 {
     public class Canvas : MouseEntityContainer
     {
-        public Skin Skin { private set; get; }
+        public Skin.Skin Skin { private set; get; }
+        public Dragger Dragger { private set; get; }
 
-        public Canvas( Skin S )
+        public Canvas( Skin.Skin S )
         {
+            Dragger = new Dragger( );
+            Dragger.SetParent( this );
             this.SetSkin( S );
         }
 
-        public void SetSkin( Skin S )
+        public void SetSkin( Skin.Skin S )
         {
             this.Skin = S;
         }

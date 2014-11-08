@@ -2,13 +2,27 @@
 
 namespace SharpLib2D.Objects
 {
-    public class BoundingBox : IBoundingVolume
+    public class BoundingBox : BoundingVolume
     {
-        public Vector2 TopLeft { private set; get; }
+        public override BoundingBox BoundingRectangle
+        {
+            get { return this; }
+        }
 
+        public override float Width
+        {
+            get { return Size.X; }
+        }
+
+        public override float Height
+        {
+            get { return Size.Y; }
+        }
+
+        public Vector2 TopLeft { private set; get; }
         private Vector2 m_Size;
 
-        public Vector2 Size 
+        public Vector2 Size
         {
             private set
             {
@@ -19,7 +33,8 @@ namespace SharpLib2D.Objects
         }
 
         private Vector2 m_BottomRight;
-        public Vector2 BottomRight 
+
+        public Vector2 BottomRight
         {
             private set
             {
@@ -35,7 +50,7 @@ namespace SharpLib2D.Objects
             this.BottomRight = BottomRight;
         }
 
-        public bool Contains( Vector2 Position )
+        public override bool Contains( Vector2 Position )
         {
             return Position.X >= TopLeft.X &&
                    Position.Y >= TopLeft.Y &&
