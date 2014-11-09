@@ -1,5 +1,5 @@
-﻿using System;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
+using SharpLib2D.Info;
 
 namespace SharpLib2D.Graphics
 {
@@ -30,7 +30,10 @@ namespace SharpLib2D.Graphics
         /// <param name="Height"></param>
         public static void SetScissorRectangle( float X, float Y, float Width, float Height )
         {
-            GL.Scissor( ( int ) X, ( int ) ( Info.Screen.Size.Y - Y ), ( int ) Width, ( int ) -Height );
+            GL.Scissor( ( int ) System.Math.Floor( X ), 
+                ( int ) System.Math.Floor( Screen.Size.Y - Y - Height ),
+                ( int ) System.Math.Ceiling( Width ), 
+                ( int ) System.Math.Ceiling( Height ) );
         }
     }
 }

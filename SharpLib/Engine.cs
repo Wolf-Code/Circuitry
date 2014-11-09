@@ -13,7 +13,7 @@ namespace SharpLib2D
     {
         private DefaultCamera Cam;
 
-        public Engine( )
+        protected Engine( )
         {
             Input.Initialize( this );
         }

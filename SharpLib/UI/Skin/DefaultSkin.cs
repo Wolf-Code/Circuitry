@@ -1,6 +1,7 @@
 ﻿
 using OpenTK.Graphics;
 using SharpLib2D.Graphics;
+using SharpLib2D.UI.Internal;
 
 namespace SharpLib2D.UI.Skin
 {
@@ -60,6 +61,11 @@ namespace SharpLib2D.UI.Skin
             {
                 DrawControl( B );
             }
+        }
+
+        public override void DrawWindowTitleBar( WindowTitleBar B )
+        {
+            throw new System.NotImplementedException( );
         }
 
         public override void DrawWindow( Window W )

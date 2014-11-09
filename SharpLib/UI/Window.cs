@@ -13,6 +13,7 @@ namespace SharpLib2D.UI
             this.TitleBar.SetParent( Cnv );
             this.SetParent( TitleBar );
             this.SetSize( 100, 100 );
+            this.SetPosition( 0, 0 );
         }
 
         protected override Vector2 OnResize( Vector2 NewSize )
@@ -36,7 +37,6 @@ namespace SharpLib2D.UI
         protected override void DrawSelf( )
         {
             Canvas.Skin.DrawWindow( this );
-            base.DrawSelf( );
         }
     }
 }

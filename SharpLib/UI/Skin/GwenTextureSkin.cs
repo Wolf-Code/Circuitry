@@ -1,5 +1,6 @@
 ﻿using SharpLib2D.Graphics.Objects;
 using SharpLib2D.Resources;
+using SharpLib2D.UI.Internal;
 
 namespace SharpLib2D.UI.Skin
 {
@@ -35,10 +36,14 @@ namespace SharpLib2D.UI.Skin
             DrawControl( B, B.IsDown ? NinePatch_Buttons[ 3 ] : NinePatch_Buttons[ B.IsMouseOn ? 1 : 0 ] );
         }
 
+        public override void DrawWindowTitleBar( WindowTitleBar B )
+        {
+            DrawControl( B, NinePatch_WindowTitleBar );
+        }
+
         public override void DrawWindow( Window W )
         {
             DrawControl( W, NinePatch_Window );
-            DrawControl( W.TitleBar, NinePatch_WindowTitleBar );
         }
     }
 }

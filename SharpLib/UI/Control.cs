@@ -15,7 +15,7 @@ namespace SharpLib2D.UI
             get { return this.GetChildren<Control>( ); }
         }
 
-        public bool PreventLeavingParent { protected set; get; }
+        public bool PreventLeavingParent { set; get; }
         public bool IgnoreMouseInput { protected set; get; }
 
         protected Canvas Canvas 
@@ -56,7 +56,7 @@ namespace SharpLib2D.UI
 
         protected Control( )
         {
-            this.PreventLeavingParent = true;
+            this.PreventLeavingParent = false;
         }
 
         protected override Vector2 OnPositionChanged( Vector2 NewPosition )
@@ -108,9 +108,12 @@ namespace SharpLib2D.UI
         public override void Draw( FrameEventArgs e )
         {
             BoundingRectangle Visible = this.VisibleRectangle;
-
-            Scissor.SetScissorRectangle( Visible.Left, Visible.Top, Visible.Width, Visible.Height );
-            DrawSelf( );
+            if ( Visible.Width > 0 && Visible.Height > 0 )
+            {
+                Console.WriteLine( this + ", " + Visible );
+                Scissor.SetScissorRectangle( Visible.Left, Visible.Top, Visible.Width, Visible.Height );
+                DrawSelf( );
+            }
 
             base.Draw( e );
         }

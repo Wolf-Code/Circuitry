@@ -10,6 +10,11 @@ namespace SharpLib2D.UI
         public Skin.Skin Skin { private set; get; }
         public Dragger Dragger { private set; get; }
 
+        public override Vector2 TopLeft
+        {
+            get { return this.Position; }
+        }
+
         public Canvas( Skin.Skin S )
         {
             Dragger = new Dragger( );

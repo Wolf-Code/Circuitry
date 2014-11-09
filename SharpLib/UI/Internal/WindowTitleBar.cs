@@ -1,5 +1,4 @@
-﻿
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Input;
 using SharpLib2D.Objects;
 
@@ -7,7 +6,7 @@ namespace SharpLib2D.UI.Internal
 {
     public class WindowTitleBar : Control
     {
-        protected Window Window;
+        protected readonly Window Window;
 
         public WindowTitleBar( Window W )
         {
@@ -23,7 +22,7 @@ namespace SharpLib2D.UI.Internal
 
         protected override void DrawSelf( )
         {
-            
+            Canvas.Skin.DrawWindowTitleBar( this );
         }
 
         public override BoundingVolume BoundingVolume
