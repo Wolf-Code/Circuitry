@@ -28,7 +28,7 @@ namespace SharpLib2D.UI.Internal
 
         public override BoundingVolume BoundingVolume
         {
-            get { return new BoundingBox( this.TopLeft, this.BottomRight + new Vector2( 0, this.Window.Height ) ); }
+            get { return new BoundingRectangle( this.TopLeft, this.BottomRight + new Vector2( 0, this.Window.Height ) ); }
         }
     }
 }

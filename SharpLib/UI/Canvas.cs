@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using SharpLib2D.Entities;
+using SharpLib2D.Graphics;
 using SharpLib2D.Info;
 
 namespace SharpLib2D.UI
@@ -28,7 +29,11 @@ namespace SharpLib2D.UI
 
         public override void Draw( FrameEventArgs e )
         {
-            Graphics.Renderer.RenderWithCamera( Entities.Camera.ScreenCamera.Get, ( ) => base.Draw( e ) );
+            Scissor.Enable( );
+            {
+                Renderer.RenderWithCamera( Entities.Camera.ScreenCamera.Get, ( ) => base.Draw( e ) );
+            }
+            Scissor.Disable( );
         }
     }
 }

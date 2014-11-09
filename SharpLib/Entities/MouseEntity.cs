@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using OpenTK.Input;
 
 namespace SharpLib2D.Entities
@@ -24,7 +25,6 @@ namespace SharpLib2D.Entities
         public virtual MouseEntity GetTopChild( Vector2 CheckPosition )
         {
             MouseEntity E = GetChildAt( CheckPosition ) as MouseEntity;
-
             return E != null ? E.GetTopChild( CheckPosition ) : this;
         }
 

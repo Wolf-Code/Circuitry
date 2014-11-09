@@ -69,7 +69,9 @@
     <Compile Include="Graphics\PrimitiveBatch.cs" />
     <Compile Include="Graphics\Rectangle.cs" />
     <Compile Include="Graphics\Renderer.cs" />
+    <Compile Include="Graphics\Scissor.cs" />
     <Compile Include="Graphics\Text.cs" />
+    <Compile Include="Math\BoundingVolumes.cs" />
     <Compile Include="Resources\Font.cs" />
     <Compile Include="Resources\Loaders\Font.cs" />
     <Compile Include="Resources\Loaders\ResourceLoader.cs" />
@@ -80,7 +82,7 @@
     <Compile Include="Info\Screen.cs" />
     <Compile Include="Math\Interpolation.cs" />
     <Compile Include="Math\Vector.cs" />
-    <Compile Include="Objects\BoundingBox.cs" />
+    <Compile Include="Objects\BoundingRectangle.cs" />
     <Compile Include="Objects\BoundingTriangle.cs" />
     <Compile Include="Objects\BoundingVolume.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

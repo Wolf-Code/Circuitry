@@ -14,6 +14,8 @@ namespace SharpLib2D.UI
             this.Font = "Arial";
             this.FontSize = 12;
             this.Text = string.Empty;
+            this.IgnoreMouseInput = true;
+            this.PreventLeavingParent = false;
             this.SizeToContents( );
         }
 

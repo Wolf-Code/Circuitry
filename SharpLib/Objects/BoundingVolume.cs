@@ -5,16 +5,16 @@ namespace SharpLib2D.Objects
     public abstract class BoundingVolume
     {
         public abstract bool Contains( Vector2 Position );
-        public abstract BoundingBox BoundingRectangle { get; }
+        public abstract BoundingRectangle BoundingBox { get; }
 
         public virtual float Width
         {
-            get { return BoundingRectangle.Width; }
+            get { return BoundingBox.Width; }
         }
 
         public virtual float Height
         {
-            get { return BoundingRectangle.Height; }
+            get { return BoundingBox.Height; }
         }
     }
 }

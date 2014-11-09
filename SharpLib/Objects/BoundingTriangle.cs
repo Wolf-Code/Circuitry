@@ -8,9 +8,9 @@ namespace SharpLib2D.Objects
         public Vector2 Corner2 { private set; get; }
         public Vector2 Corner3 { private set; get; }
 
-        public override BoundingBox BoundingRectangle
+        public override BoundingRectangle BoundingBox
         {
-            get { return new BoundingBox( new Vector2( MinX, MinY ), new Vector2( MaxX, MaxY ) ); }
+            get { return new BoundingRectangle( new Vector2( MinX, MinY ), new Vector2( MaxX, MaxY ) ); }
         }
 
         private float MinX

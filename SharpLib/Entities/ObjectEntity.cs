@@ -82,7 +82,7 @@ namespace SharpLib2D.Entities
         {
             get
             {
-                return new BoundingBox( TopLeft, BottomRight );
+                return new BoundingRectangle( TopLeft, BottomRight );
             }
         }
 

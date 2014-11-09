@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using OpenTK;
 using SharpLib2D.Entities;
+using SharpLib2D.Graphics;
+using SharpLib2D.Objects;
 
 namespace SharpLib2D.UI
 {
     public abstract class Control : MouseEntity, IDisposable
     {
+        #region Properties
         protected new IEnumerable<Control> Children
         {
-            get { return base.Children.OfType<Control>(  ); }
+            get { return this.GetChildren<Control>( ); }
         }
 
         public bool PreventLeavingParent { protected set; get; }
-
-        protected Control( )
-        {
-            this.PreventLeavingParent = true;
-        }
+        public bool IgnoreMouseInput { protected set; get; }
 
         protected Canvas Canvas 
         {
@@ -29,29 +27,55 @@ namespace SharpLib2D.UI
             }
         }
 
-        protected virtual void DrawSelf( )
+        public override Vector2 TopLeft
         {
-            Canvas.Skin.DrawPanel( this );
+            get { return Position; }
+        }
+
+        public BoundingRectangle VisibleRectangle
+        {
+            get
+            {
+                if ( !this.HasParent ) return BoundingVolume.BoundingBox;
+
+                BoundingRectangle ParentRect;
+                if ( this.Parent is Control )
+                    ParentRect = ( this.Parent as Control ).VisibleRectangle;
+                else
+                    ParentRect = ( ( ObjectEntity ) this.Parent ).BoundingVolume.BoundingBox;
+
+                BoundingRectangle Clamped =
+                    Math.BoundingVolumes.ClampRectangle( ParentRect,
+                        BoundingVolume.BoundingBox );
+
+                return Clamped;
+            }
+        }
+
+        #endregion
+
+        protected Control( )
+        {
+            this.PreventLeavingParent = true;
         }
 
         protected override Vector2 OnPositionChanged( Vector2 NewPosition )
         {
-            if ( PreventLeavingParent && HasParent && ( Parent is ObjectEntity ) )
-            {
-                ObjectEntity C = Parent as ObjectEntity;
+            if ( !PreventLeavingParent || !HasParent || !( Parent is ObjectEntity ) ) return NewPosition;
 
-                if ( NewPosition.X < 0 )
-                    NewPosition.X = 0;
+            ObjectEntity C = Parent as ObjectEntity;
 
-                if ( NewPosition.Y < 0 )
-                    NewPosition.Y = 0;
+            if ( NewPosition.X < 0 )
+                NewPosition.X = 0;
 
-                if ( NewPosition.X + this.BoundingVolume.Width > C.BoundingVolume.Width )
-                    NewPosition.X = C.BoundingVolume.Width - this.BoundingVolume.Width;
+            if ( NewPosition.Y < 0 )
+                NewPosition.Y = 0;
 
-                if ( NewPosition.Y + this.BoundingVolume.Height > C.BoundingVolume.Height )
-                    NewPosition.Y = C.BoundingVolume.Height - this.BoundingVolume.Height;
-            }
+            if ( NewPosition.X + this.BoundingVolume.Width > C.BoundingVolume.Width )
+                NewPosition.X = C.BoundingVolume.Width - this.BoundingVolume.Width;
+
+            if ( NewPosition.Y + this.BoundingVolume.Height > C.BoundingVolume.Height )
+                NewPosition.Y = C.BoundingVolume.Height - this.BoundingVolume.Height;
 
             return NewPosition;
         }
@@ -61,7 +85,7 @@ namespace SharpLib2D.UI
             Vector2 Center;
             if ( HasParent )
             {
-                ObjectEntity C = Parent as ObjectEntity;
+                ObjectEntity C = ( ObjectEntity ) Parent;
                 Center = C.Size / 2f;
             }
             else
@@ -70,9 +94,24 @@ namespace SharpLib2D.UI
             this.SetPosition( Center.X - this.BoundingVolume.Width / 2, Center.Y - this.BoundingVolume.Height / 2 );
         }
 
+        public override MouseEntity GetTopChild( Vector2 CheckPosition )
+        {
+            MouseEntity E = GetChildAt( CheckPosition ) as MouseEntity;
+            return E != null ? E.GetTopChild( CheckPosition ) : ( this.IgnoreMouseInput ? this.Parent as MouseEntity : this );
+        }
+
+        protected virtual void DrawSelf( )
+        {
+            Canvas.Skin.DrawPanel( this );
+        }
+
         public override void Draw( FrameEventArgs e )
         {
+            BoundingRectangle Visible = this.VisibleRectangle;
+
+            Scissor.SetScissorRectangle( Visible.Left, Visible.Top, Visible.Width, Visible.Height );
             DrawSelf( );
+
             base.Draw( e );
         }
 
