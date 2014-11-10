@@ -1,14 +1,36 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using OpenTK;
+using OpenTK.Input;
 using SharpLib2D.Entities;
 using SharpLib2D.Graphics;
 using SharpLib2D.Objects;
+using Mouse = SharpLib2D.Info.Mouse;
 
 namespace SharpLib2D.UI
 {
     public abstract class Control : MouseEntity, IDisposable
     {
+        /// <summary>
+        /// Handles UI events.
+        /// </summary>
+        /// <param name="Control">The control for which the event occured.</param>
+        public delegate void SharpLibUIEventHandler<in T>( T Control ) where T : Control;
+
+        private readonly Hashtable ClickPositions = new Hashtable( );
+
+        #region Events
+
+        /// <summary>
+        /// Gets raised whenever the control is resized.
+        /// </summary>
+        public event SharpLibUIEventHandler<Control> OnSizeChanged;
+
+        public event SharpLibUIEventHandler<Control> OnLeftClick;
+        public event SharpLibUIEventHandler<Control> OnRightClick; 
+        #endregion
+
         #region Properties
         protected new IEnumerable<Control> Children
         {
@@ -16,12 +38,7 @@ namespace SharpLib2D.UI
         }
 
         public bool PreventLeavingParent { set; get; }
-        public bool IgnoreMouseInput { protected set; get; }
-
-        #region Events
-
-        public event EventHandler<Control> OnSizeChanged;
-        #endregion
+        public bool IgnoreMouseInput { set; get; }
 
         protected Canvas Canvas 
         {
@@ -37,7 +54,7 @@ namespace SharpLib2D.UI
             get { return Position; }
         }
 
-        protected BoundingRectangle VisibleRectangle
+        public virtual BoundingRectangle VisibleRectangle
         {
             get
             {
@@ -64,6 +81,75 @@ namespace SharpLib2D.UI
             this.PreventLeavingParent = false;
         }
 
+        #region Alignment
+
+        public void Center( )
+        {
+            Vector2 Center;
+            if ( HasParent )
+            {
+                ObjectEntity C = ( ObjectEntity ) Parent;
+                Center = C.Size / 2f;
+            }
+            else
+                Center = Canvas.Size / 2f;
+
+            this.SetPosition( Center.X - this.BoundingVolume.Width / 2, Center.Y - this.BoundingVolume.Height / 2 );
+        }
+
+        #endregion
+
+        public override MouseEntity GetTopChild( Vector2 CheckPosition )
+        {
+            MouseEntity E = GetChildAt( CheckPosition ) as MouseEntity;
+            return E != null ? E.GetTopChild( CheckPosition ) : ( this.IgnoreMouseInput ? this.Parent as MouseEntity : this );
+        }
+
+        #region Drawing
+
+        protected virtual void DrawSelf( )
+        {
+            Canvas.Skin.DrawPanel( this );
+        }
+
+        public override void Draw( FrameEventArgs e )
+        {
+            BoundingRectangle Visible = this.VisibleRectangle;
+            if ( Visible.Width <= 0 || Visible.Height <= 0 ) return;
+
+            Scissor.SetScissorRectangle( Visible.Left, Visible.Top, Visible.Width, Visible.Height );
+            DrawSelf( );
+
+            base.Draw( e );
+        }
+
+        #endregion
+
+        public virtual void Dispose( )
+        {
+            foreach ( Control C in this.Children )
+                C.Dispose( );
+
+            this.OnSizeChanged = null;
+            this.OnLeftClick = null;
+            this.OnRightClick = null;
+        }
+
+        protected override void OnRemove( )
+        {
+            base.OnRemove( );
+
+            this.Dispose( );
+        }
+
+        #region Events
+
+        protected override void OnResize( Vector2 NewSize )
+        {
+            if ( this.OnSizeChanged != null )
+                this.OnSizeChanged( this );
+        }
+
         protected override void OnPositionChanged( Vector2 NewPosition )
         {
             if ( !PreventLeavingParent || !HasParent || !( Parent is ObjectEntity ) ) return;
@@ -85,64 +171,35 @@ namespace SharpLib2D.UI
             m_Position = NewPosition;
         }
 
-        public void Center( )
+        #region Mouse Input
+
+        public override void OnButtonPressed( MouseButton Button )
         {
-            Vector2 Center;
-            if ( HasParent )
+            ClickPositions[ Button ] = Mouse.Position;
+            base.OnButtonPressed( Button );
+        }
+
+        public override void OnButtonReleased( MouseButton Button )
+        {
+            if ( ClickPositions[ Button ] != null && ( Vector2 )ClickPositions[ Button ] == Mouse.Position )
             {
-                ObjectEntity C = ( ObjectEntity ) Parent;
-                Center = C.Size / 2f;
+                switch ( Button )
+                {
+                    case MouseButton.Left:
+                        if ( OnLeftClick != null )
+                            OnLeftClick( this );
+                        break;
+
+                    case MouseButton.Right:
+                        if ( OnRightClick != null )
+                            OnRightClick( this );
+                        break;
+                }
             }
-            else
-                Center = Canvas.Size / 2f;
-
-            this.SetPosition( Center.X - this.BoundingVolume.Width / 2, Center.Y - this.BoundingVolume.Height / 2 );
+            base.OnButtonReleased( Button );
         }
 
-        public override MouseEntity GetTopChild( Vector2 CheckPosition )
-        {
-            MouseEntity E = GetChildAt( CheckPosition ) as MouseEntity;
-            return E != null ? E.GetTopChild( CheckPosition ) : ( this.IgnoreMouseInput ? this.Parent as MouseEntity : this );
-        }
-
-        protected virtual void DrawSelf( )
-        {
-            Canvas.Skin.DrawPanel( this );
-        }
-
-        public override void Draw( FrameEventArgs e )
-        {
-            BoundingRectangle Visible = this.VisibleRectangle;
-            if ( Visible.Width <= 0 || Visible.Height <= 0 ) return;
-
-            Scissor.SetScissorRectangle( Visible.Left, Visible.Top, Visible.Width, Visible.Height );
-            DrawSelf( );
-
-            base.Draw( e );
-        }
-
-        public virtual void Dispose( )
-        {
-            foreach ( Control C in this.Children )
-                C.Dispose( );
-
-            this.OnSizeChanged = null;
-        }
-
-        protected override void OnRemove( )
-        {
-            base.OnRemove( );
-
-            this.Dispose( );
-        }
-
-        #region Events
-
-        protected override void OnResize( Vector2 NewSize )
-        {
-            if ( this.OnSizeChanged != null )
-                this.OnSizeChanged( this, this );
-        }
+        #endregion
 
         #endregion
     }

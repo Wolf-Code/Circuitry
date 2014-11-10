@@ -10,5 +10,6 @@ namespace SharpLib2D.UI.Skin
         public abstract void DrawWindowTitleBar( WindowTitleBar B );
         public abstract void DrawWindowCloseButton( WindowCloseButton B );
         public abstract void DrawWindow( Window W );
+        public abstract void DrawCheckbox( Checkbox C );
     }
 }

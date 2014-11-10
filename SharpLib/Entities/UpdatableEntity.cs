@@ -1,5 +1,4 @@
-﻿using System;
-using OpenTK;
+﻿using OpenTK;
 using SharpLib2D.States;
 
 namespace SharpLib2D.Entities

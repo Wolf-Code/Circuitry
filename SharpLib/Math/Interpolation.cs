@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenTK;
+﻿using OpenTK;
 
 namespace SharpLib2D.Math
 {

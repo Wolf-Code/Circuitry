@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
 using SharpLib2D.Objects;
-using SharpLib2D.UI;
 
 namespace SharpLib2D.Entities
 {
     public abstract class ObjectEntity : ParentableEntity
     {
         #region Properties
-
-        protected List<T> OrderedEntities<T>( ) where T : UpdatableEntity
-        {
-            return Children.OrderByDescending( O => O.Z ).OfType<T>( ).ToList( );
-        }
-
 
         protected Vector2 m_Position;
         public Vector2 Position
@@ -158,6 +150,11 @@ namespace SharpLib2D.Entities
         #endregion
 
         #region Collection
+
+        protected List<T> OrderedEntities<T>( ) where T : UpdatableEntity
+        {
+            return Children.OrderByDescending( O => O.Z ).OfType<T>( ).ToList( );
+        }
 
         public bool ContainsPosition( Vector2 WorldPosition )
         {

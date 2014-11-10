@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharpLib2D.Objects;
+﻿using SharpLib2D.Objects;
 
 namespace SharpLib2D.Math
 {

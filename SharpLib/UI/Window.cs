@@ -7,9 +7,9 @@ namespace SharpLib2D.UI
     {
         public WindowTitleBar TitleBar { private set; get; }
 
-        public Window( Canvas Cnv )
+        public Window( string Title, Canvas Cnv )
         {
-            this.TitleBar = new WindowTitleBar( this );
+            this.TitleBar = new WindowTitleBar( Title, this );
             this.TitleBar.SetParent( Cnv );
             this.SetParent( TitleBar );
             this.SetSize( 100, 100 );

@@ -77,5 +77,10 @@ namespace SharpLib2D.UI.Skin
         {
             DrawControl( W );
         }
+
+        public override void DrawCheckbox( Checkbox C )
+        {
+            throw new System.NotImplementedException( );
+        }
     }
 }

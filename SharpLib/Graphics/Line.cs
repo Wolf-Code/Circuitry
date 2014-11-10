@@ -1,6 +1,5 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using SharpLib2D.Graphics.Objects;
 using SharpLib2D.Math;
 using SharpLib2D.Resources;
 

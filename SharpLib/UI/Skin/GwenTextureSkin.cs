@@ -15,7 +15,8 @@ namespace SharpLib2D.UI.Skin
 
         private static readonly NinePatch [ ]
             NinePatch_Buttons = NinePatch.CreateNinePatches( 480, 0, 31, 31, 2, 2, 2, 2, 4, false, true, 1 ),
-            NinePatch_CloseButtons = NinePatch.CreateNinePatches( 3, 225, 21, 17, 2, 1, 2, 2, 4, true, true, 11 );
+            NinePatch_CloseButtons = NinePatch.CreateNinePatches( 3, 225, 21, 17, 2, 1, 2, 2, 4, true, true, 11 ),
+            NinePatch_CheckBox_Enabled = NinePatch.CreateNinePatches( 448, 32, 15, 15, 2, 2, 2, 2, 2, true, true, 1 );
 
         public GwenTextureSkin( Texture GwenTexture )
         {
@@ -50,6 +51,11 @@ namespace SharpLib2D.UI.Skin
         public override void DrawWindow( Window W )
         {
             DrawControl( W, NinePatch_Window );
+        }
+
+        public override void DrawCheckbox( Checkbox C )
+        {
+            DrawControl( C, NinePatch_CheckBox_Enabled[ C.Checked ? 0 : 1 ] );
         }
     }
 }

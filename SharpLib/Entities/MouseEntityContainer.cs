@@ -1,5 +1,4 @@
 ﻿using System;
-
 using OpenTK;
 using OpenTK.Input;
 using Mouse = SharpLib2D.Info.Mouse;
