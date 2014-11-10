@@ -9,15 +9,24 @@ namespace SharpLib2D.Math
 {
     public static class BoundingVolumes
     {
-        public static BoundingRectangle ClampRectangle( BoundingRectangle Container, BoundingRectangle ToClamp )
+        public static BoundingRectangle IntersectionRectangle( BoundingRectangle Container, BoundingRectangle Intersector )
         {
-            BoundingRectangle New = new BoundingRectangle( ToClamp.Left, ToClamp.Top, ToClamp.Width, ToClamp.Height );
+            BoundingRectangle New = new BoundingRectangle( Intersector.Left, Intersector.Top, Intersector.Width, Intersector.Height );
 
+            float Diff = 0;
             if ( New.Left < Container.Left )
-                New.Position.X = Container.Left;
+            {
+                Diff = Container.Left - New.Left;
+                New.Position.X += Diff;
+                New.Size.X -= Diff;
+            }
 
             if ( New.Top < Container.Top )
-                New.Position.Y = Container.Top;
+            {
+                Diff = Container.Top - New.Top;
+                New.Position.Y += Diff;
+                New.Size.Y -= Diff;
+            }
 
             if ( New.Right > Container.Right )
                 New.Size.X -= ( New.Right - Container.Right );

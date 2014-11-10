@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using SharpLib2D.States;
 
 namespace SharpLib2D.Entities
@@ -18,7 +19,7 @@ namespace SharpLib2D.Entities
         /// <summary>
         /// Removes the entity from its state.
         /// </summary>
-        public virtual void Remove( )
+        public void Remove( )
         {
             OnRemove( );
         }

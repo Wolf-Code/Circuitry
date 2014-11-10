@@ -91,6 +91,7 @@
     <Compile Include="Resources\Loaders\Textures.cs" />
     <Compile Include="States\UIState.cs" />
     <Compile Include="States\State.cs" />
+    <Compile Include="UI\Internal\WindowCloseButton.cs" />
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\Skin\GwenTextureSkin.cs" />
     <Compile Include="UI\Internal\WindowTitleBar.cs" />

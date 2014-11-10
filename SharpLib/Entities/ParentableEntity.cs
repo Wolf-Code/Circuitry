@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SharpLib2D.States;
 
 namespace SharpLib2D.Entities
 {
     public class ParentableEntity : DrawableEntity
     {
-        protected List<ParentableEntity> Children = new List<ParentableEntity>( );
+        protected readonly List<ParentableEntity> Children = new List<ParentableEntity>( );
 
         public ParentableEntity Parent { protected set; get; }
 
@@ -30,13 +27,23 @@ namespace SharpLib2D.Entities
                 this.Parent.Children.Remove( this );
                 this.Parent.OnChildRemoved( this );
             }
+            else if ( Parent != null )
+                Unlist( );
 
-            this.OnParentChanged( this.Parent, Parent );
+
+            ParentableEntity Old = this.Parent;
             this.Parent = Parent;
+            this.OnParentChanged( Old, Parent );
+
             if ( this.Parent != null )
             {
                 this.Parent.Children.Add( this );
                 this.Parent.OnChildAdded( this );
+            }
+            else
+            {
+                if ( Old != null )
+                    Enlist( );
             }
         }
 
@@ -61,7 +68,10 @@ namespace SharpLib2D.Entities
                 Children[ 0 ].Remove( );
 
             if ( HasParent )
+            {
                 this.SetParent( null );
+                Unlist( );
+            }
             else
             {
                 if ( State.ActiveState.Entities.Contains( this ) )

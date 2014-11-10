@@ -13,8 +13,9 @@ namespace SharpLib2D.UI.Skin
             NinePatch_Window = new NinePatch( 0, 24, 127, 104, 2, 1, 2, 2 ),
             NinePatch_WindowTitleBar = new NinePatch( 0, 0, 127, 24, 2, 2, 2, 1 );
 
-        private static readonly NinePatch [ ] NinePatch_Buttons = NinePatch.CreateNinePatches( 480, 0, 31, 31, 2, 2, 2, 2, 4,
-            false, true, 1 );
+        private static readonly NinePatch [ ]
+            NinePatch_Buttons = NinePatch.CreateNinePatches( 480, 0, 31, 31, 2, 2, 2, 2, 4, false, true, 1 ),
+            NinePatch_CloseButtons = NinePatch.CreateNinePatches( 3, 225, 21, 17, 2, 1, 2, 2, 4, true, true, 11 );
 
         public GwenTextureSkin( Texture GwenTexture )
         {
@@ -39,6 +40,11 @@ namespace SharpLib2D.UI.Skin
         public override void DrawWindowTitleBar( WindowTitleBar B )
         {
             DrawControl( B, NinePatch_WindowTitleBar );
+        }
+
+        public override void DrawWindowCloseButton( WindowCloseButton B )
+        {
+            DrawControl( B, B.IsDown ? NinePatch_CloseButtons[ 2 ] : NinePatch_CloseButtons[ B.IsMouseOn ? 1 : 0 ] );
         }
 
         public override void DrawWindow( Window W )

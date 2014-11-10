@@ -68,6 +68,11 @@ namespace SharpLib2D.UI.Skin
             throw new System.NotImplementedException( );
         }
 
+        public override void DrawWindowCloseButton( WindowCloseButton B )
+        {
+            throw new System.NotImplementedException( );
+        }
+
         public override void DrawWindow( Window W )
         {
             DrawControl( W );

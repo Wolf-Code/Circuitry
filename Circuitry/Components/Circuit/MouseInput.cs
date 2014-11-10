@@ -30,12 +30,12 @@ namespace Circuitry.Components
 
         public override MouseEntity GetTopChild( Vector2 CheckPosition )
         {
-            List<Entity> Ents = OrderedEntities;
-            Entity E = Ents.FirstOrDefault( O => O.GetChildAt( CheckPosition ) != null );
+            List<Entity> Ents = OrderedEntities<Entity>( );
+            ObjectEntity E = Ents.FirstOrDefault( O => O.GetChildAt( CheckPosition ) != null );
             if ( E == null )
                 return ( MouseEntity )Ents.FirstOrDefault( O => O.ContainsPosition( CheckPosition ) ) ?? this;
 
-            Entity E2 = E.GetChildAt( CheckPosition );
+            ObjectEntity E2 = E.GetChildAt( CheckPosition );
             while ( E2 != null )
             {
                 E = E2;

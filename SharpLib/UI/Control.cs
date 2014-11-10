@@ -18,6 +18,11 @@ namespace SharpLib2D.UI
         public bool PreventLeavingParent { set; get; }
         public bool IgnoreMouseInput { protected set; get; }
 
+        #region Events
+
+        public event EventHandler<Control> OnSizeChanged;
+        #endregion
+
         protected Canvas Canvas 
         {
             get
@@ -32,7 +37,7 @@ namespace SharpLib2D.UI
             get { return Position; }
         }
 
-        public BoundingRectangle VisibleRectangle
+        protected BoundingRectangle VisibleRectangle
         {
             get
             {
@@ -45,7 +50,7 @@ namespace SharpLib2D.UI
                     ParentRect = ( ( ObjectEntity ) this.Parent ).BoundingVolume.BoundingBox;
 
                 BoundingRectangle Clamped =
-                    Math.BoundingVolumes.ClampRectangle( ParentRect,
+                    Math.BoundingVolumes.IntersectionRectangle( ParentRect,
                         BoundingVolume.BoundingBox );
 
                 return Clamped;
@@ -59,9 +64,9 @@ namespace SharpLib2D.UI
             this.PreventLeavingParent = false;
         }
 
-        protected override Vector2 OnPositionChanged( Vector2 NewPosition )
+        protected override void OnPositionChanged( Vector2 NewPosition )
         {
-            if ( !PreventLeavingParent || !HasParent || !( Parent is ObjectEntity ) ) return NewPosition;
+            if ( !PreventLeavingParent || !HasParent || !( Parent is ObjectEntity ) ) return;
 
             ObjectEntity C = Parent as ObjectEntity;
 
@@ -77,7 +82,7 @@ namespace SharpLib2D.UI
             if ( NewPosition.Y + this.BoundingVolume.Height > C.BoundingVolume.Height )
                 NewPosition.Y = C.BoundingVolume.Height - this.BoundingVolume.Height;
 
-            return NewPosition;
+            m_Position = NewPosition;
         }
 
         public void Center( )
@@ -108,12 +113,10 @@ namespace SharpLib2D.UI
         public override void Draw( FrameEventArgs e )
         {
             BoundingRectangle Visible = this.VisibleRectangle;
-            if ( Visible.Width > 0 && Visible.Height > 0 )
-            {
-                Console.WriteLine( this + ", " + Visible );
-                Scissor.SetScissorRectangle( Visible.Left, Visible.Top, Visible.Width, Visible.Height );
-                DrawSelf( );
-            }
+            if ( Visible.Width <= 0 || Visible.Height <= 0 ) return;
+
+            Scissor.SetScissorRectangle( Visible.Left, Visible.Top, Visible.Width, Visible.Height );
+            DrawSelf( );
 
             base.Draw( e );
         }
@@ -122,6 +125,25 @@ namespace SharpLib2D.UI
         {
             foreach ( Control C in this.Children )
                 C.Dispose( );
+
+            this.OnSizeChanged = null;
         }
+
+        protected override void OnRemove( )
+        {
+            base.OnRemove( );
+
+            this.Dispose( );
+        }
+
+        #region Events
+
+        protected override void OnResize( Vector2 NewSize )
+        {
+            if ( this.OnSizeChanged != null )
+                this.OnSizeChanged( this, this );
+        }
+
+        #endregion
     }
 }

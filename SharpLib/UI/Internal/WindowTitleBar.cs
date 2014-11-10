@@ -7,11 +7,13 @@ namespace SharpLib2D.UI.Internal
     public class WindowTitleBar : Control
     {
         protected readonly Window Window;
+        protected readonly WindowCloseButton Button;
 
         public WindowTitleBar( Window W )
         {
             this.Window = W;
-            this.SetSize( 100, 20 );
+            this.SetSize( 100, 23 );
+            this.Button = new WindowCloseButton( this );
         }
 
         public override void OnButtonPressed( MouseButton Button )

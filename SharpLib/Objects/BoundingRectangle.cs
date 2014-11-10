@@ -1,5 +1,4 @@
-﻿using System.Security.Policy;
-using OpenTK;
+﻿using OpenTK;
 
 namespace SharpLib2D.Objects
 {

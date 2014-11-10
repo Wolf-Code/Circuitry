@@ -14,21 +14,28 @@ namespace SharpLib2D.UI
 
         public bool IsDown { private set; get; }
         protected Vector2 DownPosition;
-        protected readonly Label Label;
+        protected Label Label;
 
-        public EventHandler OnClick;
+        public event EventHandler<Button> OnClick;
 
         public Button( string Text )
         {
             this.Label = new Label( );
             this.Label.SetParent( this );
+            this.SetText( Text );
         }
 
-        public void SetText( string Text )
+        public void SetText( string NewText )
         {
-            this.Label.SetText( Text );
+            this.Label.SetText( NewText );
             this.Label.SizeToContents( );
             this.Label.Center( );
+        }
+
+        protected override void OnResize( Vector2 NewSize )
+        {
+            this.Label.Center( );
+            base.OnResize( NewSize );
         }
 
         public override void OnButtonPressed( MouseButton Button )
@@ -48,10 +55,17 @@ namespace SharpLib2D.UI
             {
                 IsDown = false;
                 if ( DownPosition == Mouse.Position && OnClick != null )
-                    OnClick( this, null );
+                    OnClick( this, this );
             }
 
             base.OnButtonReleased( Button );
+        }
+
+        public override void Dispose( )
+        {
+            this.OnClick = null;
+
+            base.Dispose( );
         }
 
         protected override void DrawSelf( )

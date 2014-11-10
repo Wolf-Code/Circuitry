@@ -1,5 +1,9 @@
-﻿using OpenTK;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using OpenTK;
 using SharpLib2D.Objects;
+using SharpLib2D.UI;
 
 namespace SharpLib2D.Entities
 {
@@ -7,10 +11,20 @@ namespace SharpLib2D.Entities
     {
         #region Properties
 
+        protected List<T> OrderedEntities<T>( ) where T : UpdatableEntity
+        {
+            return Children.OrderByDescending( O => O.Z ).OfType<T>( ).ToList( );
+        }
+
+
         protected Vector2 m_Position;
         public Vector2 Position
         {
-            protected set { m_Position = OnPositionChanged( value ); }
+            protected set
+            {
+                m_Position = value;
+                OnPositionChanged( value );
+            }
             get
             {
                 return ( HasParent && Parent is ObjectEntity )
@@ -22,7 +36,11 @@ namespace SharpLib2D.Entities
         protected Vector2 m_Size;
         public Vector2 Size
         {
-            protected set { m_Size = OnResize( value ); }
+            protected set
+            {
+                m_Size = value;
+                OnResize( value );
+            }
             get { return m_Size; }
         }
 
@@ -100,18 +118,18 @@ namespace SharpLib2D.Entities
 
         #endregion
 
-        protected virtual Vector2 OnResize( Vector2 NewSize )
+        protected virtual void OnResize( Vector2 NewSize )
         {
-            return NewSize;
+            
         }
 
         #endregion
 
         #region Position
 
-        protected virtual Vector2 OnPositionChanged( Vector2 NewPosition )
+        protected virtual void OnPositionChanged( Vector2 NewPosition )
         {
-            return NewPosition;
+            
         }
 
         #region SetPosition
@@ -139,6 +157,21 @@ namespace SharpLib2D.Entities
 
         #endregion
 
+        #region Collection
+
+        public bool ContainsPosition( Vector2 WorldPosition )
+        {
+            return this.BoundingVolume.Contains( WorldPosition );
+        }
+
+        public ObjectEntity GetChildAt( Vector2 WorldPosition )
+        {
+            List<ObjectEntity> Ents = OrderedEntities<ObjectEntity>( );
+            return Ents.FirstOrDefault( T => T.ContainsPosition( WorldPosition ) );
+        }
+
+        #endregion
+
         #region ToLocal / ToWorld
 
         public virtual Vector2 ToLocal( Vector2 WorldPosition )
@@ -149,6 +182,25 @@ namespace SharpLib2D.Entities
         public virtual Vector2 ToWorld( Vector2 LocalPosition )
         {
             return this.Position + LocalPosition;
+        }
+
+        #endregion
+
+        #region Update / Draw
+
+        public override void Update( FrameEventArgs e )
+        {
+            List<UpdatableEntity> Ents = OrderedEntities<UpdatableEntity>( ); ;
+            // ReSharper disable once ForCanBeConvertedToForeach
+            for ( int Q = 0; Q < Ents.Count; Q++ )
+                Ents[ Q ].Update( e );
+        }
+
+        public override void Draw( FrameEventArgs e )
+        {
+            List<DrawableEntity> Ents = OrderedEntities<DrawableEntity>( );
+            foreach ( DrawableEntity T in Ents )
+                T.Draw( e );
         }
 
         #endregion
