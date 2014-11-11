@@ -32,9 +32,10 @@ namespace SharpLib2D.UI.Internal.Scrollbar
 
         protected override void OnPositionChanged( Vector2 NewPosition )
         {
-            this.Bar.OnDrag( );
-
             base.OnPositionChanged( NewPosition );
+
+            if ( Canvas.Dragger.IsDragging<ScrollbarBarDragger>( ) && Canvas.Dragger.DraggingEntity == this )
+                this.Bar.OnDrag( );
         }
 
         protected override void DrawSelf( )
@@ -63,23 +64,26 @@ namespace SharpLib2D.UI.Internal.Scrollbar
 
         void Scrollbar_OnValueChanged( Scrollbar Control )
         {
+            if ( Canvas.Dragger.IsDragging<ScrollbarBarDragger>( ) && Canvas.Dragger.DraggingEntity == this.Dragger )
+                return;
+
             if ( Control.Value <= 0 )
             {
                 Dragger.SetPosition( 0, 0 );
                 return;
             }
 
-            double Div = ( Control.MinValue + Control.MaxValue ) / Control.Value;
+            double Div = Control.Value / ( Control.MinValue + Control.MaxValue );
             float MaxMovement = this.Length - Dragger.Length;
 
-            //this.Dragger.SetPosition( Scrollbar.LengthVector * ( float ) ( MaxMovement * Div ) );
+            this.Dragger.SetPosition( Scrollbar.LengthVector * ( float ) ( MaxMovement * Div ) );
         }
 
         internal void OnDrag( )
         {
             float MaxMovement = this.Length - Dragger.Length;
             float Movement = ( this.Dragger.LocalPosition * this.Scrollbar.LengthVector ).Length;
-            Console.WriteLine( this.Dragger.LocalPosition + ", " + MaxMovement );
+
             this.Scrollbar.Value = ( Movement / MaxMovement ) * 
                                    ( this.Scrollbar.MaxValue - this.Scrollbar.MinValue ) +
                                    this.Scrollbar.MinValue;

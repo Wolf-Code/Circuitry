@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using SharpLib2D.Graphics;
-using SharpLib2D.Objects;
+using SharpLib2D.Info;
 using Mouse = SharpLib2D.Info.Mouse;
 
 namespace Circuitry.Components
@@ -26,22 +25,6 @@ namespace Circuitry.Components
         public List<Output> Outputs
         {
             protected set;
-            get;
-        }
-
-        #endregion
-
-        #region Dragging
-
-        protected bool Dragging
-        {
-            private set;
-            get;
-        }
-
-        protected Vector2 DragPosition
-        {
-            private set;
             get;
         }
 
@@ -109,8 +92,8 @@ namespace Circuitry.Components
         {
             MenuEntry[ ] Ents = new MenuEntry[ Entries.Length + 1 ];
             Ents[ 0 ] = new MenuEntry( "Remove", Control => Remove( ) );
-            for ( int X = 0; X < Entries.Length; X++ )
-                Ents[ X + 1 ] = Entries[ X ];
+            for ( int Q = 0; Q < Entries.Length; Q++ )
+                Ents[ Q + 1 ] = Entries[ Q ];
 
             Circuit.ShowMenu( Ents );
         }
@@ -188,9 +171,9 @@ namespace Circuitry.Components
         {
             float Diff = Size.Y / ( Inputs.Count + 1 );
 
-            for( int X = 0; X < Inputs.Count; X++ )
+            for( int Q = 0; Q < Inputs.Count; Q++ )
             {
-                Inputs[ X ].SetPosition( -( IODistance + Size.X / 2 ), Diff * ( X + 1 ) - Size.Y / 2 );
+                Inputs[ Q ].SetPosition( -( IODistance + Size.X / 2 ), Diff * ( Q + 1 ) - Size.Y / 2 );
             }
         }
 
@@ -198,9 +181,9 @@ namespace Circuitry.Components
         {
             float Diff = Size.Y /( Outputs.Count + 1 );
 
-            for ( int X = 0; X < Outputs.Count; X++ )
+            for ( int Q = 0; Q < Outputs.Count; Q++ )
             {
-                Outputs[ X ].SetPosition( Size.X / 2 + IODistance, Diff * ( X + 1 ) - Size.Y / 2 );
+                Outputs[ Q ].SetPosition( Size.X / 2 + IODistance, Diff * ( Q + 1 ) - Size.Y / 2 );
             }
         }
 
@@ -283,7 +266,7 @@ namespace Circuitry.Components
 
             if ( Circuit != null && Circuit.ShowLabels )
             {
-                Text.SetAlignments( Text.HorizontalAlignment.Center, Text.VerticalAlignment.Center );
+                Text.SetAlignments( Directions.HorizontalAlignment.Center, Directions.VerticalAlignment.Center );
                 Text.DrawString( Name, "Lucida Console", SizeUnit / 6f, TextPosition, Color4.Black );
             }
         }
