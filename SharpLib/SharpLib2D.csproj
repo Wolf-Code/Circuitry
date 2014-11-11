@@ -49,6 +49,8 @@
     <Compile Include="Entities\Dragger.cs" />
     <Compile Include="Entities\DrawableEntity.cs" />
     <Compile Include="Entities\EntityRotatable.cs" />
+    <Compile Include="Entities\IPositionable.cs" />
+    <Compile Include="Entities\ISizable.cs" />
     <Compile Include="Entities\MouseEntity.cs" />
     <Compile Include="Entities\MouseEntityContainer.cs" />
     <Compile Include="Entities\Entity.cs" />

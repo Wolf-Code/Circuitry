@@ -97,6 +97,13 @@ namespace SharpLib2D.UI
             this.SetPosition( Center.X - this.BoundingVolume.Width / 2, Center.Y - this.BoundingVolume.Height / 2 );
         }
 
+        public void MoveBelow( Control C, float Offset = 0f )
+        {
+            Vector2 P;
+            if ( HasParent )
+                P = ( Parent as ObjectEntity ).ToLocal( C.Position );
+        }
+
         #endregion
 
         public override MouseEntity GetTopChild( Vector2 CheckPosition )
@@ -125,6 +132,8 @@ namespace SharpLib2D.UI
 
         #endregion
 
+        #region Removal
+
         public virtual void Dispose( )
         {
             foreach ( Control C in this.Children )
@@ -141,6 +150,8 @@ namespace SharpLib2D.UI
 
             this.Dispose( );
         }
+
+        #endregion
 
         #region Events
 

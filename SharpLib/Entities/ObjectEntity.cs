@@ -5,7 +5,7 @@ using SharpLib2D.Objects;
 
 namespace SharpLib2D.Entities
 {
-    public abstract class ObjectEntity : ParentableEntity
+    public abstract class ObjectEntity : ParentableEntity, IPositionable, ISizable
     {
         #region Properties
 
@@ -106,6 +106,16 @@ namespace SharpLib2D.Entities
         public void SetSize( Vector2 NewSize )
         {
             Size = NewSize;
+        }
+
+        public void SetWidth( float NewW )
+        {
+            this.SetSize( NewW, this.Size.Y );
+        }
+
+        public void SetHeight( float NewHeight )
+        {
+            this.SetSize( this.Size.X, NewHeight );
         }
 
         #endregion

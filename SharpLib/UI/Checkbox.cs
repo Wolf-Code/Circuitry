@@ -6,7 +6,7 @@ namespace SharpLib2D.UI
     {
         public bool Checked { private set; get; }
         protected readonly Label Label;
-        public event SharpLibUIEventHandler<Checkbox> OnValueChanged;
+        public event SharpLibUIEventHandler<Checkbox> OnCheckedChanged;
 
         public override BoundingRectangle VisibleRectangle
         {
@@ -44,8 +44,8 @@ namespace SharpLib2D.UI
         {
             this.Checked = NewChecked;
 
-            if ( OnValueChanged != null )
-                OnValueChanged( this );
+            if ( OnCheckedChanged != null )
+                OnCheckedChanged( this );
         }
 
         protected override void DrawSelf( )

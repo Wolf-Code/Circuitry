@@ -1,12 +1,10 @@
-﻿using OpenTK;
-using OpenTK.Input;
+﻿using OpenTK.Input;
 
 namespace SharpLib2D.UI
 {
     public class Button : Label
     {
         public bool IsDown { private set; get; }
-        protected Vector2 DownPosition;
 
         public event SharpLibUIEventHandler<Button> OnClick;
 
