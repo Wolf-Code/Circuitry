@@ -1,6 +1,8 @@
 ﻿using SharpLib2D.Graphics.Objects;
+using SharpLib2D.Info;
 using SharpLib2D.Resources;
 using SharpLib2D.UI.Internal;
+using SharpLib2D.UI.Internal.Scrollbar;
 
 namespace SharpLib2D.UI.Skin
 {
@@ -16,7 +18,11 @@ namespace SharpLib2D.UI.Skin
         private static readonly NinePatch [ ]
             NinePatch_Buttons = NinePatch.CreateNinePatches( 480, 0, 31, 31, 2, 2, 2, 2, 4, false, true, 1 ),
             NinePatch_CloseButtons = NinePatch.CreateNinePatches( 3, 225, 21, 17, 2, 1, 2, 2, 4, true, true, 11 ),
-            NinePatch_CheckBox_Enabled = NinePatch.CreateNinePatches( 448, 32, 15, 15, 2, 2, 2, 2, 2, true, true, 1 );
+            NinePatch_CheckBox_Enabled = NinePatch.CreateNinePatches( 448, 32, 15, 15, 2, 2, 2, 2, 2, true, true, 1 ),
+            NinePatch_ScrollbarButtons_Normal = NinePatch.CreateNinePatches( 464, 208, 15, 15, 2, 2, 2, 2, 4, false,true, 1 ),
+            NinePatch_ScrollbarButtons_Hover = NinePatch.CreateNinePatches( 480, 208, 15, 15, 2, 2, 2, 2, 4, false, true,1 ),
+            NinePatch_ScrollbarButtons_Down = NinePatch.CreateNinePatches( 464, 272, 15, 15, 2, 2, 2, 2, 4, false, true,1 ),
+            NinePatch_Scrollbars = NinePatch.CreateNinePatches( 384, 208, 15, 127, 2, 2, 2, 2, 5, true, true, 1 );
 
         public GwenTextureSkin( Texture GwenTexture )
         {
@@ -28,6 +34,11 @@ namespace SharpLib2D.UI.Skin
             NinePatch.Draw( Texture, C.Position.X, C.Position.Y, C.Size.X, C.Size.Y, Patch );
         }
 
+        private void DrawButtonDefault( Button B, NinePatch [ ] Patches, int Down = 2, int Hover = 1, int Normal = 0 )
+        {
+            DrawControl( B, B.IsDown ? Patches[ Down ] : Patches[ B.IsMouseOn ? Hover : Normal ] );
+        }
+
         public override void DrawPanel( Control P )
         {
             DrawControl( P, NinePatch_Panel );
@@ -35,7 +46,7 @@ namespace SharpLib2D.UI.Skin
 
         public override void DrawButton( Button B )
         {
-            DrawControl( B, B.IsDown ? NinePatch_Buttons[ 3 ] : NinePatch_Buttons[ B.IsMouseOn ? 1 : 0 ] );
+            DrawButtonDefault( B, NinePatch_Buttons, 3 );
         }
 
         public override void DrawWindowTitleBar( WindowTitleBar B )
@@ -45,7 +56,7 @@ namespace SharpLib2D.UI.Skin
 
         public override void DrawWindowCloseButton( WindowCloseButton B )
         {
-            DrawControl( B, B.IsDown ? NinePatch_CloseButtons[ 2 ] : NinePatch_CloseButtons[ B.IsMouseOn ? 1 : 0 ] );
+            DrawButtonDefault( B, NinePatch_CloseButtons );
         }
 
         public override void DrawWindow( Window W )
@@ -56,6 +67,40 @@ namespace SharpLib2D.UI.Skin
         public override void DrawCheckbox( Checkbox C )
         {
             DrawControl( C, NinePatch_CheckBox_Enabled[ C.Checked ? 0 : 1 ] );
+        }
+
+        public override void DrawScrollbarButton( ScrollbarButton B )
+        {
+            int ID = 0;
+            switch ( B.Direction )
+            {
+                case Directions.Direction.Up:
+                    ID = 1;
+                    break;
+
+                case Directions.Direction.Right:
+                    ID = 2;
+                    break;
+
+                case Directions.Direction.Down:
+                    ID = 3;
+                    break;
+            }
+
+            DrawControl( B,
+                B.IsDown
+                    ? NinePatch_ScrollbarButtons_Down[ ID ]
+                    : ( B.IsMouseOn ? NinePatch_ScrollbarButtons_Hover[ ID ] : NinePatch_ScrollbarButtons_Normal[ ID ] ) );
+        }
+
+        public override void DrawScrollbarBarContainer( ScrollbarBar B )
+        {
+            DrawControl( B, NinePatch_Scrollbars[ 0 ] );
+        }
+
+        public override void DrawScrollbarBar( ScrollbarBarDragger D )
+        {
+            DrawButtonDefault( D, NinePatch_Scrollbars, 3, 2, 1 );
         }
     }
 }

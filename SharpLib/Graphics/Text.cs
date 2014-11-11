@@ -4,6 +4,7 @@ using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
 using SharpLib2D.Graphics.Objects;
+using SharpLib2D.Info;
 using SharpLib2D.Resources;
 using Font = System.Drawing.Font;
 
@@ -60,22 +61,8 @@ namespace SharpLib2D.Graphics
     public static class Text
     {
         private static readonly System.Drawing.Graphics Gfx;
-        private static HorizontalAlignment HorAlignment = HorizontalAlignment.Left;
-        private static VerticalAlignment VerAlignment = VerticalAlignment.Top;
-
-        public enum HorizontalAlignment
-        {
-            Left,
-            Right,
-            Center
-        }
-
-        public enum VerticalAlignment
-        {
-            Top,
-            Bottom,
-            Center
-        }
+        private static Directions.HorizontalAlignment HorAlignment = Directions.HorizontalAlignment.Left;
+        private static Directions.VerticalAlignment VerAlignment = Directions.VerticalAlignment.Top;
 
         /// <summary>
         /// The amount of different text-font-size combinations currently in memory.
@@ -126,7 +113,7 @@ namespace SharpLib2D.Graphics
 
         #region Set parameters
 
-        public static void SetAlignments( HorizontalAlignment Horizontal, VerticalAlignment Vertical )
+        public static void SetAlignments( Directions.HorizontalAlignment Horizontal, Directions.VerticalAlignment Vertical )
         {
             HorAlignment = Horizontal;
             VerAlignment = Vertical;
@@ -152,22 +139,22 @@ namespace SharpLib2D.Graphics
 
             switch ( HorAlignment )
             {
-                case HorizontalAlignment.Center:
+                case Directions.HorizontalAlignment.Center:
                     Position.X -= S.X / 2;
                     break;
 
-                case HorizontalAlignment.Right:
+                case Directions.HorizontalAlignment.Right:
                     Position.X -= S.X;
                     break;
             }
 
             switch ( VerAlignment )
             {
-                case VerticalAlignment.Center:
+                case Directions.VerticalAlignment.Center:
                     Position.Y -= S.Y / 2;
                     break;
 
-                    case VerticalAlignment.Bottom:
+                    case Directions.VerticalAlignment.Bottom:
                     Position.Y -= S.Y;
                     break;
             }

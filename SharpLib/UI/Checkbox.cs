@@ -1,4 +1,5 @@
-﻿using SharpLib2D.Objects;
+﻿using SharpLib2D.Info;
+using SharpLib2D.Objects;
 
 namespace SharpLib2D.UI
 {
@@ -20,7 +21,7 @@ namespace SharpLib2D.UI
             this.Label.SetParent( this );
             this.Label.IgnoreMouseInput = false;
             this.Label.FontSize = 10;
-            this.Label.VerticalAlignment= Graphics.Text.VerticalAlignment.Center;
+            this.Label.VerticalAlignment = Directions.VerticalAlignment.Center;
             this.SetText( Text );
 
             this.OnLeftClick += LeftClick;

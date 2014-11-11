@@ -1,4 +1,5 @@
 ﻿using OpenTK.Input;
+using SharpLib2D.Info;
 
 namespace SharpLib2D.UI
 {
@@ -12,8 +13,8 @@ namespace SharpLib2D.UI
         {
             this.SetText( Text );
             this.IgnoreMouseInput = false;
-            this.HorizontalAlignment = Graphics.Text.HorizontalAlignment.Center;
-            this.VerticalAlignment = Graphics.Text.VerticalAlignment.Center;
+            this.HorizontalAlignment = Directions.HorizontalAlignment.Center;
+            this.VerticalAlignment = Directions.VerticalAlignment.Center;
             this.OnLeftClick += Control => { if ( OnClick != null ) OnClick( this ); };
         }
 

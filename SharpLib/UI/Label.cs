@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
 using SharpLib2D.Graphics;
+using SharpLib2D.Info;
 
 namespace SharpLib2D.UI
 {
@@ -9,8 +10,8 @@ namespace SharpLib2D.UI
         public string Text { set; get; }
         public string Font { set; get; }
         public float FontSize { set; get; }
-        public Text.HorizontalAlignment HorizontalAlignment { set; get; }
-        public Text.VerticalAlignment VerticalAlignment { set; get; }
+        public Directions.HorizontalAlignment HorizontalAlignment { set; get; }
+        public Directions.VerticalAlignment VerticalAlignment { set; get; }
 
         public Label( )
         {
@@ -19,8 +20,8 @@ namespace SharpLib2D.UI
             this.Text = string.Empty;
             this.IgnoreMouseInput = true;
             this.PreventLeavingParent = false;
-            this.HorizontalAlignment= Graphics.Text.HorizontalAlignment.Left;
-            this.VerticalAlignment = Graphics.Text.VerticalAlignment.Top;
+            this.HorizontalAlignment = Directions.HorizontalAlignment.Left;
+            this.VerticalAlignment = Directions.VerticalAlignment.Top;
             this.SizeToContents( );
         }
 
@@ -33,25 +34,26 @@ namespace SharpLib2D.UI
         {
             if ( this.Text.Length <= 0 )
                 return;
+
             Vector2 Pos = this.Position;
             switch ( HorizontalAlignment )
             {
-                case Graphics.Text.HorizontalAlignment.Center:
+                case Directions.HorizontalAlignment.Center:
                     Pos.X += this.Width / 2f;
                     break;
 
-                case Graphics.Text.HorizontalAlignment.Right:
+                case Directions.HorizontalAlignment.Right:
                     Pos.X += this.Width;
                     break;
             }
 
             switch ( VerticalAlignment )
             {
-                case Graphics.Text.VerticalAlignment.Center:
+                case Directions.VerticalAlignment.Center:
                     Pos.Y += this.Height / 2f;
                     break;
 
-                case Graphics.Text.VerticalAlignment.Bottom:
+                case Directions.VerticalAlignment.Bottom:
                     Pos.Y += this.Height;
                     break;
             }

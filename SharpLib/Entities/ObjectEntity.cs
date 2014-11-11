@@ -12,7 +12,7 @@ namespace SharpLib2D.Entities
         protected Vector2 m_Position;
         public Vector2 Position
         {
-            protected set
+            private set
             {
                 m_Position = value;
                 OnPositionChanged( value );
@@ -25,10 +25,15 @@ namespace SharpLib2D.Entities
             }
         }
 
+        public Vector2 LocalPosition
+        {
+            get { return m_Position; }
+        }
+
         protected Vector2 m_Size;
         public Vector2 Size
         {
-            protected set
+            private set
             {
                 m_Size = value;
                 OnResize( value );

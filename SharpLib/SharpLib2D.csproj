@@ -73,6 +73,7 @@
     <Compile Include="Graphics\Renderer.cs" />
     <Compile Include="Graphics\Scissor.cs" />
     <Compile Include="Graphics\Text.cs" />
+    <Compile Include="Info\Directions.cs" />
     <Compile Include="Math\BoundingVolumes.cs" />
     <Compile Include="Resources\Font.cs" />
     <Compile Include="Resources\Loaders\Font.cs" />
@@ -94,6 +95,10 @@
     <Compile Include="States\UIState.cs" />
     <Compile Include="States\State.cs" />
     <Compile Include="UI\Checkbox.cs" />
+    <Compile Include="UI\HorizontalScrollbar.cs" />
+    <Compile Include="UI\Internal\Scrollbar\Scrollbar.cs" />
+    <Compile Include="UI\Internal\Scrollbar\ScrollbarBar.cs" />
+    <Compile Include="UI\Internal\Scrollbar\ScrollbarButton.cs" />
     <Compile Include="UI\Internal\WindowCloseButton.cs" />
     <Compile Include="UI\Label.cs" />
     <Compile Include="UI\Skin\GwenTextureSkin.cs" />

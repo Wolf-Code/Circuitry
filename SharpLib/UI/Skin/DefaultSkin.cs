@@ -2,6 +2,7 @@
 using OpenTK.Graphics;
 using SharpLib2D.Graphics;
 using SharpLib2D.UI.Internal;
+using SharpLib2D.UI.Internal.Scrollbar;
 
 namespace SharpLib2D.UI.Skin
 {
@@ -79,6 +80,21 @@ namespace SharpLib2D.UI.Skin
         }
 
         public override void DrawCheckbox( Checkbox C )
+        {
+            throw new System.NotImplementedException( );
+        }
+
+        public override void DrawScrollbarButton( ScrollbarButton B )
+        {
+            throw new System.NotImplementedException( );
+        }
+
+        public override void DrawScrollbarBarContainer( ScrollbarBar B )
+        {
+            throw new System.NotImplementedException( );
+        }
+
+        public override void DrawScrollbarBar( ScrollbarBarDragger D )
         {
             throw new System.NotImplementedException( );
         }

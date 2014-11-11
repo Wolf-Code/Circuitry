@@ -20,20 +20,20 @@ namespace SharpLib2D.Entities
             return Children.OfType<T>( );
         }
 
-        public void SetParent( ParentableEntity Parent )
+        public void SetParent( ParentableEntity NewParent )
         {
             if ( this.HasParent )
             {
                 this.Parent.Children.Remove( this );
                 this.Parent.OnChildRemoved( this );
             }
-            else if ( Parent != null )
+            else if ( NewParent != null )
                 Unlist( );
 
 
             ParentableEntity Old = this.Parent;
-            this.Parent = Parent;
-            this.OnParentChanged( Old, Parent );
+            this.Parent = NewParent;
+            this.OnParentChanged( Old, NewParent );
 
             if ( this.Parent != null )
             {
