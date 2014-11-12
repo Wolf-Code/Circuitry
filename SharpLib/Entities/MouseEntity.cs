@@ -9,13 +9,10 @@ namespace SharpLib2D.Entities
         {
             get
             {
-                if ( HasParent )
-                    return ( ( MouseEntity ) Parent ).Container;
-                
-                if ( this is MouseEntityContainer )
-                    return this as MouseEntityContainer;
+                if ( IsParent<MouseEntity>( ) )
+                    return GetParent<MouseEntity>( ).Container;
 
-                return null;
+                return this as MouseEntityContainer;
             }
         }
 
@@ -23,7 +20,7 @@ namespace SharpLib2D.Entities
 
         public virtual MouseEntity GetTopChild( Vector2 CheckPosition )
         {
-            MouseEntity E = GetChildAt( CheckPosition ) as MouseEntity;
+            MouseEntity E = GetTopChildAt( CheckPosition ) as MouseEntity;
             return E != null ? E.GetTopChild( CheckPosition ) : this;
         }
 

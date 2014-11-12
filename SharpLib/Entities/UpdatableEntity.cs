@@ -11,7 +11,7 @@ namespace SharpLib2D.Entities
 
         protected UpdatableEntity( )
         {
-            ParentState = State.ActiveState;
+            ParentState = State.GetActiveState<State>( );
             Enlist( );
         }
 

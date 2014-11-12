@@ -6,6 +6,7 @@ using OpenTK.Input;
 using SharpLib2D.Entities;
 using SharpLib2D.Graphics;
 using SharpLib2D.Objects;
+using SharpLib2D.States;
 using Mouse = SharpLib2D.Info.Mouse;
 
 namespace SharpLib2D.UI
@@ -76,39 +77,38 @@ namespace SharpLib2D.UI
 
         #endregion
 
-        protected Control( )
+        public Control( )
         {
             this.PreventLeavingParent = false;
+            this.SetParent( ( ( UIState ) State.ActiveState ).Canvas );
+        }
+
+        public Control( Control Parent )
+        {
+            this.PreventLeavingParent = false;
+            this.SetParent( Parent );
         }
 
         #region Alignment
 
         public void Center( )
         {
-            Vector2 Center;
-            if ( HasParent )
-            {
-                Entity C = ( Entity ) Parent;
-                Center = C.Size / 2f;
-            }
-            else
-                Center = Canvas.Size / 2f;
+            Vector2 Center = GetParent<Entity>( ).Size / 2f;
 
             this.SetPosition( Center.X - this.BoundingVolume.Width / 2, Center.Y - this.BoundingVolume.Height / 2 );
         }
 
         public void MoveBelow( Control C, float Offset = 0f )
         {
-            Vector2 P;
-            if ( HasParent )
-                P = ( Parent as Entity ).ToLocal( C.Position );
+            Vector2 P = this.GetParent<Entity>( ).ToLocal( C.Position );
+            this.SetPosition( P + new Vector2( 0, C.Size.Y + Offset ) );
         }
 
         #endregion
 
         public override MouseEntity GetTopChild( Vector2 CheckPosition )
         {
-            MouseEntity E = GetChildAt( CheckPosition ) as MouseEntity;
+            MouseEntity E = GetTopChildAt( CheckPosition ) as MouseEntity;
             return E != null ? E.GetTopChild( CheckPosition ) : ( this.IgnoreMouseInput ? this.Parent as MouseEntity : this );
         }
 

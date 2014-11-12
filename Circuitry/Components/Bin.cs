@@ -18,7 +18,11 @@ namespace Circuitry.Components
 
         public override BoundingVolume BoundingVolume
         {
-            get { return new BoundingTriangle( this.TopLeft, this.TopRight, this.BottomRight ); }
+            get
+            {
+                return new BoundingTriangle( this.TopLeft, new Vector2( this.BottomRight.X, this.TopLeft.Y ),
+                    this.BottomRight );
+            }
         }
 
         public override void Update( FrameEventArgs e )
@@ -32,7 +36,8 @@ namespace Circuitry.Components
         public override void Draw( FrameEventArgs e )
         {
             Color.Set( Color4.Black );
-            Triangle.Draw( this.TopLeft, this.TopRight, this.BottomRight );
+            BoundingTriangle T = ( BoundingTriangle ) this.BoundingVolume;
+            Triangle.Draw( T.Corner1, T.Corner2, T.Corner3 );
 
             Closed.Bind( );
             Color.Set( Color4.White );

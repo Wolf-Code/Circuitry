@@ -26,7 +26,12 @@ namespace SharpLib2D.Entities
 
         public virtual Vector2 TopLeft
         {
-            get { return Position; }
+            get { return Position - Size / 2f; }
+        }
+
+        public Vector2 BottomRight
+        {
+            get { return TopLeft + Size; }
         }
 
         public float X
@@ -63,6 +68,11 @@ namespace SharpLib2D.Entities
             SetPosition( NewPosition.X, NewPosition.Y );
         }
 
+        public bool ContainsPosition( Vector2 WorldPosition )
+        {
+            return BoundingVolume.Contains( WorldPosition );
+        }
+
         #region ToLocal / ToWorld
 
         public virtual Vector2 ToLocal( Vector2 WorldPosition )
@@ -76,6 +86,5 @@ namespace SharpLib2D.Entities
         }
 
         #endregion
-
     }
 }

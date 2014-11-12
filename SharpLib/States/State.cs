@@ -21,14 +21,33 @@ namespace SharpLib2D.States
         }
 
         /// <summary>
-        /// The currently active state, or null if there is none.
+        /// Returns the currently active state as a given type, or null if there is none.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T GetActiveState<T>( ) where T : State
+        {
+            return States.Count <= 0 ? null : States.Peek( ) as T;
+        }
+
         public static State ActiveState
         {
-            get
-            {
-                return States.Count <= 0 ? null : States.Peek( );
-            }
+            get { return GetActiveState<State>( ); }
+        }
+
+        /// <summary>
+        /// Returns whether the currently active state is valid and of a given type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static bool IsActiveState<T>( ) where T : State
+        {
+            return GetActiveState<T>( ) != null;
+        }
+
+        public static bool IsActiveState( )
+        {
+            return IsActiveState<State>( );
         }
 
         /// <summary>
@@ -44,7 +63,7 @@ namespace SharpLib2D.States
                 throw new SharpException( "Attempted to start a state of type {0}, something went wrong.",
                     typeof ( T ) );
 
-            if ( ActiveState != null )
+            if ( IsActiveState( ) )
                 ActiveState.OnPause( );
 
             States.Push( S );
@@ -57,7 +76,7 @@ namespace SharpLib2D.States
         /// </summary>
         public static void StopActiveState( )
         {
-            if ( ActiveState == null )
+            if ( !IsActiveState( ) )
                 return;
 
             State S = States.Peek( );
@@ -66,7 +85,7 @@ namespace SharpLib2D.States
             S.Dispose( );
             States.Pop( );
 
-            if ( ActiveState == null )
+            if ( !IsActiveState( ) )
                 return;
 
             ActiveState.OnResume( );
