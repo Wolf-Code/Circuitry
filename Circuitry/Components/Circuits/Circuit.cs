@@ -11,7 +11,7 @@ namespace Circuitry.Components.Circuits
         private Menu Menu;
 
         public Bin Bin { protected set; get; }
-        private NodeConnector Connector;
+        public readonly NodeConnector Connector;
 
         public readonly CircuitDragger Dragger;
 

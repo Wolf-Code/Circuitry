@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Circuitry.UI;
+﻿using Circuitry.UI;
 using OpenTK;
 using OpenTK.Input;
 using SharpLib2D.Entities;
@@ -28,12 +27,12 @@ namespace Circuitry.Components.Circuits.Components
             return Node != null;
         }
 
-        private bool Finish( IONode Node )
+        private void Finish( IONode Node )
         {
             if ( ConnectingOutput )
             {
                 if ( !IONode.CanConnect( ConnectionNode, Node ) )
-                    return false;
+                    return;
 
                 ConnectionNode.NextNode = Node;
                 Node.PreviousNode = ConnectionNode;
@@ -41,14 +40,13 @@ namespace Circuitry.Components.Circuits.Components
             else
             {
                 if ( !IONode.CanConnect( Node, ConnectionNode ) )
-                    return false;
+                    return;
 
                 ConnectionNode.PreviousNode = Node;
                 Node.NextNode = ConnectionNode;
             }
 
             ConnectingNodes = false;
-            return true;
         }
 
         public void Cancel( )
@@ -70,14 +68,20 @@ namespace Circuitry.Components.Circuits.Components
             {
                 if ( !ConnectingNodes )
                 {
-                    if ( ( Node.IsInput && !Node.HasNextNode ) || ( Node.IsOutput && !Node.HasPreviousNode ) )
+                    if ( ( Node.IsInput && !Node.HasPreviousNode ) || ( Node.IsOutput && !Node.HasNextNode ) )
                     {
                         ConnectingNodes = true;
                         ConnectionNode = Node;
                         ConnectingOutput = Node.IsOutput;
                     }
                     else if ( !Manager.MouseInsideUI( ) )
-                        Circuit.Dragger.StartDragging( Node.IsLink ? Node as Entity : Node.Gate );
+                    {
+                        Entity E = Node.IsLink ? Node as Entity : Node.Gate;
+                        if ( E is Gate )
+                            E.SetPosition( E.GetParent<Entity>( ).ToLocal( Mouse.WorldPosition ) );
+
+                        Circuit.Dragger.StartDragging( E );
+                    }
                 }
                 else
                     Finish( Node );
@@ -119,23 +123,11 @@ namespace Circuitry.Components.Circuits.Components
                 if ( E is IONode )
                     Finish( E as IONode );
             }
-            else
-            {
-
-            }
         }
 
         private void OnRightMouseDown( )
         {
-            IONode Node;
-            if ( IsMouseOnNode( out Node ) )
-            {
-
-            }
-            else
-            {
-                
-            }
+            
         }
 
         private void OnRightMouseUp( )

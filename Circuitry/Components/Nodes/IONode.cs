@@ -276,6 +276,9 @@ namespace Circuitry.Components
 
         public static bool CanConnect( IONode First, IONode Second )
         {
+            if ( Second.HasPreviousNode || First.HasNextNode )
+                return false;
+
             if ( First.Direction == Second.Direction )
                 return false;
 
