@@ -69,12 +69,12 @@ namespace SharpLib2D.Resources
 
         public float XToU( int X )
         {
-            return X / ( float ) this.Width;
+            return X / ( float ) Width;
         }
 
         public float YToV( int Y )
         {
-            return Y / ( float ) this.Height;
+            return Y / ( float ) Height;
         }
 
         public Vector2 PixelToUV( int X, int Y )
@@ -84,7 +84,7 @@ namespace SharpLib2D.Resources
 
         public Point UVToPixel( float X, float Y )
         {
-            return new Point( ( int ) ( X * this.Width ), ( int ) ( Y * this.Height ) );
+            return new Point( ( int ) ( X * Width ), ( int ) ( Y * Height ) );
         }
 
         public override void Dispose( )

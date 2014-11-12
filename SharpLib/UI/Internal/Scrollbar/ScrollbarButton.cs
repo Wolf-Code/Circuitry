@@ -9,7 +9,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
         public ScrollbarButton( Directions.Direction Direction )
         {
             this.Direction = Direction;
-            this.SetSize( 15, 15 );
+            SetSize( 15, 15 );
         }
 
         protected override void DrawSelf( )

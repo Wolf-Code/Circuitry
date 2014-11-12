@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Input;
+using Mouse = SharpLib2D.Info.Mouse;
 
 namespace SharpLib2D.Entities
 {
@@ -11,19 +12,19 @@ namespace SharpLib2D.Entities
 
         public Dragger( )
         {
-            Info.Mouse.OnMouseButton += OnMouseButton;
+            Mouse.OnMouseButton += OnMouseButton;
         }
 
         protected override void OnRemove( )
         {
-            Info.Mouse.OnMouseButton -= OnMouseButton;
+            Mouse.OnMouseButton -= OnMouseButton;
             base.OnRemove( );
         }
 
         private void OnMouseButton( object Sender, MouseButtonEventArgs MouseButtonEventArgs )
         {
             if ( MouseButtonEventArgs.Button == MouseButton.Left && !MouseButtonEventArgs.IsPressed )
-                this.StopDragging( );
+                StopDragging( );
         }
 
         public void StartDragging( Entity E )
@@ -33,7 +34,7 @@ namespace SharpLib2D.Entities
 
             Dragging = true;
             DraggingEntity = E;
-            LocalGrabPoint = E.ToLocal( Info.Mouse.WorldPosition );
+            LocalGrabPoint = E.ToLocal( Mouse.WorldPosition );
         }
 
         /// <summary>
@@ -55,7 +56,7 @@ namespace SharpLib2D.Entities
         {
             if ( !Dragging ) return;
 
-            Vector2 DPos = Info.Mouse.Position - LocalGrabPoint;
+            Vector2 DPos = Mouse.Position - LocalGrabPoint;
             Vector2 Pos = ParentState.Camera.ToWorld( DPos );
 
             DraggingEntity.SetPosition(

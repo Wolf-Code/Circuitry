@@ -20,28 +20,28 @@ namespace Circuitry.Components
         {
             get
             {
-                return new BoundingTriangle( this.TopLeft, new Vector2( this.BottomRight.X, this.TopLeft.Y ),
-                    this.BottomRight );
+                return new BoundingTriangle( TopLeft, new Vector2( BottomRight.X, TopLeft.Y ),
+                    BottomRight );
             }
         }
 
         public override void Update( FrameEventArgs e )
         {
-            this.SetSize( Screen.Size.Y / 6, Screen.Size.Y / 6 );
-            this.SetPosition(
-                ParentState.Camera.ToWorld( new Vector2( Screen.Size.X - this.Size.X / 2, this.Size.Y / 2 ) ) );
+            SetSize( Screen.Size.Y / 6, Screen.Size.Y / 6 );
+            SetPosition(
+                ParentState.Camera.ToWorld( new Vector2( Screen.Size.X - Size.X / 2, Size.Y / 2 ) ) );
             base.Update( e );
         }
 
         public override void Draw( FrameEventArgs e )
         {
             Color.Set( Color4.Black );
-            BoundingTriangle T = ( BoundingTriangle ) this.BoundingVolume;
+            BoundingTriangle T = ( BoundingTriangle ) BoundingVolume;
             Triangle.Draw( T.Corner1, T.Corner2, T.Corner3 );
 
             Closed.Bind( );
             Color.Set( Color4.White );
-            Rectangle.DrawTextured( this.TopLeft.X + Size.X / 2 - 5, this.TopLeft.Y + 5, this.Size.X / 2, this.Size.Y / 2 );
+            Rectangle.DrawTextured( TopLeft.X + Size.X / 2 - 5, TopLeft.Y + 5, Size.X / 2, Size.Y / 2 );
 
             base.Draw( e );
         }

@@ -12,18 +12,18 @@ namespace SharpLib2D.UI.Internal
 
         public WindowTitleBar( string Title, Window W )
         {
-            this.Window = W;
-            this.Button = new WindowCloseButton( this );
-            this.Label = new Label( );
-            this.Label.SetParent( this );
-            this.Label.SetText( Title );
-            this.SetSize( 100, 23 );
+            Window = W;
+            Button = new WindowCloseButton( this );
+            Label = new Label( );
+            Label.SetParent( this );
+            Label.SetText( Title );
+            SetSize( 100, 23 );
         }
 
         protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
         {
-            this.Button.SetPosition( this.Width - this.Button.Width - 4, 1 );
-            this.Label.SetSize( this.Button.TopLeft.X, this.Height );
+            Button.SetPosition( Width - Button.Width - 4, 1 );
+            Label.SetSize( Button.TopLeft.X, Height );
 
             base.OnResize( OldSize, NewSize );
         }
@@ -41,7 +41,7 @@ namespace SharpLib2D.UI.Internal
 
         public override BoundingVolume BoundingVolume
         {
-            get { return new BoundingRectangle( this.TopLeft, this.TopLeft + new Vector2( this.Size.X, this.Size.Y + this.Window.Height ) ); }
+            get { return new BoundingRectangle( TopLeft, TopLeft + new Vector2( Size.X, Size.Y + Window.Height ) ); }
         }
     }
 }

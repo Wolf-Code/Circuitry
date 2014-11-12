@@ -24,25 +24,25 @@ namespace SharpLib2D.Graphics.Objects
         public NinePatch( int Left, int Top, int Width, int Height, int LeftPatch, int TopPatch, int RightPatch,
             int BottomPatch )
         {
-            Rect Region = new System.Drawing.Rectangle( Left, Top, Width, Height );
+            Rect Region = new Rect( Left, Top, Width, Height );
             this.TopPatch = TopPatch;
             this.RightPatch = RightPatch;
             this.BottomPatch = BottomPatch;
             this.LeftPatch = LeftPatch;
 
-            this.Center = new Rect( Left + LeftPatch, Top + TopPatch,
+            Center = new Rect( Left + LeftPatch, Top + TopPatch,
                 Region.Width - LeftPatch - RightPatch, Region.Height - TopPatch - BottomPatch );
 
-            this.TopLeft = new Rect( Region.Left, Region.Top, LeftPatch, TopPatch );
+            TopLeft = new Rect( Region.Left, Region.Top, LeftPatch, TopPatch );
             this.Top = new Rect( Center.Left, Region.Top, Center.Width, TopPatch );
-            this.TopRight = new Rect( Center.Right, Region.Top, RightPatch, TopPatch );
+            TopRight = new Rect( Center.Right, Region.Top, RightPatch, TopPatch );
 
-            this.BottomLeft = new Rect( Region.Left, Region.Bottom - BottomPatch, LeftPatch, BottomPatch );
-            this.Bottom = new Rect( BottomLeft.Right, BottomLeft.Top, Center.Width, BottomPatch );
-            this.BottomRight = new Rect( Center.Right, BottomLeft.Top, RightPatch, BottomPatch );
+            BottomLeft = new Rect( Region.Left, Region.Bottom - BottomPatch, LeftPatch, BottomPatch );
+            Bottom = new Rect( BottomLeft.Right, BottomLeft.Top, Center.Width, BottomPatch );
+            BottomRight = new Rect( Center.Right, BottomLeft.Top, RightPatch, BottomPatch );
 
             this.Left = new Rect( Left, TopLeft.Bottom, LeftPatch, Center.Height );
-            this.Right = new Rect( Center.Right, TopRight.Bottom, RightPatch, Center.Height );
+            Right = new Rect( Center.Right, TopRight.Bottom, RightPatch, Center.Height );
         }
 
         public static NinePatch [ ] CreateNinePatches( int X, int Y, int Width, int Height, int Left, int Top, int Right,

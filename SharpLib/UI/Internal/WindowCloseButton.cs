@@ -7,10 +7,10 @@ namespace SharpLib2D.UI.Internal
 
         public WindowCloseButton( WindowTitleBar Bar )
         {
-            this.TitleBar = Bar;
-            this.SetParent( this.TitleBar );
-            this.SetSize( 21, 17 );
-            this.OnClick += Control => this.TitleBar.Remove( );
+            TitleBar = Bar;
+            SetParent( TitleBar );
+            SetSize( 21, 17 );
+            OnClick += Control => TitleBar.Remove( );
         }
 
         protected override void DrawSelf( )

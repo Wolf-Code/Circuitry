@@ -10,7 +10,7 @@ namespace Circuitry.Components
 
         public Input ConnectedInput
         {
-            get { return this.LastNode as Input; }
+            get { return LastNode as Input; }
         }
 
         public bool HasConnectedInput

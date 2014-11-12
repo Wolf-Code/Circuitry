@@ -33,7 +33,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
 
         private float RequiredThickness
         {
-            get { return this.Buttons[ 0 ].Size.X; }
+            get { return Buttons[ 0 ].Size.X; }
         }
 
         internal protected Vector2 LengthVector
@@ -51,18 +51,18 @@ namespace SharpLib2D.UI.Internal.Scrollbar
 
         internal protected float Length
         {
-            get { return Horizontal ? this.Width : this.Height; }
+            get { return Horizontal ? Width : Height; }
         }
 
         internal protected float Thickness
         {
-            get { return Horizontal ? this.Height : this.Width; }
+            get { return Horizontal ? Height : Width; }
         }
 
         protected Scrollbar( bool Horizontal )
         {
-            this.MinValue = 0;
-            this.MaxValue = 100;
+            MinValue = 0;
+            MaxValue = 100;
 
             this.Horizontal = Horizontal;
             if ( Horizontal )
@@ -72,7 +72,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
                 Buttons = new [ ]
                 { new ScrollbarButton( Directions.Direction.Up ), new ScrollbarButton( Directions.Direction.Down ) };
 
-            foreach ( ScrollbarButton B in this.Buttons )
+            foreach ( ScrollbarButton B in Buttons )
                 B.SetParent( this );
 
             Bar = new ScrollbarBar( this );
@@ -85,13 +85,13 @@ namespace SharpLib2D.UI.Internal.Scrollbar
 
         protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
         {
-            if ( ( int ) this.Thickness != ( int ) RequiredThickness )
-                this.SetSize( this.LengthVector * this.Length + this.ThicknessVector * RequiredThickness );
+            if ( ( int ) Thickness != ( int ) RequiredThickness )
+                SetSize( LengthVector * Length + ThicknessVector * RequiredThickness );
 
-            this.Buttons[ 0 ].SetPosition( this.GetOffsetPosition( 0 ) );
-            this.Buttons[ 1 ].SetPosition( this.GetOffsetPosition( this.Length - RequiredThickness ) );
-            Bar.SetPosition( this.GetOffsetPosition( RequiredThickness ) );
-            Bar.SetSize( this.LengthVector * ( Length - RequiredThickness * 2 ) + this.ThicknessVector * this.Thickness );
+            Buttons[ 0 ].SetPosition( GetOffsetPosition( 0 ) );
+            Buttons[ 1 ].SetPosition( GetOffsetPosition( Length - RequiredThickness ) );
+            Bar.SetPosition( GetOffsetPosition( RequiredThickness ) );
+            Bar.SetSize( LengthVector * ( Length - RequiredThickness * 2 ) + ThicknessVector * Thickness );
 
             base.OnResize( OldSize, NewSize );
         }

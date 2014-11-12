@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using SharpLib2D.Entities;
+using SharpLib2D.Entities.Camera;
 using SharpLib2D.Graphics;
 using SharpLib2D.Info;
 
@@ -12,19 +13,19 @@ namespace SharpLib2D.UI
 
         public override Vector2 TopLeft
         {
-            get { return this.Position; }
+            get { return Position; }
         }
 
         public Canvas( Skin.Skin S )
         {
             Dragger = new Dragger( );
             Dragger.SetParent( this );
-            this.SetSkin( S );
+            SetSkin( S );
         }
 
         public void SetSkin( Skin.Skin S )
         {
-            this.Skin = S;
+            Skin = S;
         }
 
         protected override Vector2 GetMousePosition( )
@@ -36,7 +37,7 @@ namespace SharpLib2D.UI
         {
             Scissor.Enable( );
             {
-                Renderer.RenderWithCamera( Entities.Camera.ScreenCamera.Get, ( ) => base.Draw( e ) );
+                Renderer.RenderWithCamera( ScreenCamera.Get, ( ) => base.Draw( e ) );
             }
             Scissor.Disable( );
         }

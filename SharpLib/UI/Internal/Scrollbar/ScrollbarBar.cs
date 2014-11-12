@@ -11,15 +11,15 @@ namespace SharpLib2D.UI.Internal.Scrollbar
         {
             get
             {
-                return ( this.Bar.Scrollbar.LengthVector * this.Size ).Length;
+                return ( Bar.Scrollbar.LengthVector * Size ).Length;
             }
         }
 
         public ScrollbarBarDragger( ScrollbarBar Bar )
         {
             this.Bar = Bar;
-            this.SetParent( Bar );
-            this.PreventLeavingParent = true;
+            SetParent( Bar );
+            PreventLeavingParent = true;
         }
 
         public override void OnButtonPressed( MouseButton Button )
@@ -35,7 +35,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             base.OnReposition( OldPosition, NewPosition );
 
             if ( Canvas.Dragger.IsDragging<ScrollbarBarDragger>( ) && Canvas.Dragger.DraggingEntity == this )
-                this.Bar.OnDrag( );
+                Bar.OnDrag( );
         }
 
         protected override void DrawSelf( )
@@ -51,20 +51,20 @@ namespace SharpLib2D.UI.Internal.Scrollbar
 
         private float Length
         {
-            get { return ( this.Scrollbar.LengthVector * this.Size ).Length; }
+            get { return ( Scrollbar.LengthVector * Size ).Length; }
         }
 
         public ScrollbarBar( Scrollbar Scrollbar )
         {
             this.Scrollbar = Scrollbar;
-            this.SetParent( this.Scrollbar );
-            this.Dragger = new ScrollbarBarDragger( this );
+            SetParent( this.Scrollbar );
+            Dragger = new ScrollbarBarDragger( this );
             this.Scrollbar.OnValueChanged += Scrollbar_OnValueChanged;
         }
 
         void Scrollbar_OnValueChanged( Scrollbar Control )
         {
-            if ( Canvas.Dragger.IsDragging<ScrollbarBarDragger>( ) && Canvas.Dragger.DraggingEntity == this.Dragger )
+            if ( Canvas.Dragger.IsDragging<ScrollbarBarDragger>( ) && Canvas.Dragger.DraggingEntity == Dragger )
                 return;
 
             if ( Control.Value <= 0 )
@@ -74,43 +74,43 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             }
 
             double Div = Control.Value / ( Control.MinValue + Control.MaxValue );
-            float MaxMovement = this.Length - Dragger.Length;
+            float MaxMovement = Length - Dragger.Length;
 
-            this.Dragger.SetPosition( Scrollbar.LengthVector * ( float ) ( MaxMovement * Div ) );
+            Dragger.SetPosition( Scrollbar.LengthVector * ( float ) ( MaxMovement * Div ) );
         }
 
         internal void OnDrag( )
         {
-            float MaxMovement = this.Length - Dragger.Length;
-            float Movement = ( this.ToLocal( Dragger.Position ) * this.Scrollbar.LengthVector ).Length;
+            float MaxMovement = Length - Dragger.Length;
+            float Movement = ( ToLocal( Dragger.Position ) * Scrollbar.LengthVector ).Length;
 
-            this.Scrollbar.Value = ( Movement / MaxMovement ) * 
-                                   ( this.Scrollbar.MaxValue - this.Scrollbar.MinValue ) +
-                                   this.Scrollbar.MinValue;
+            Scrollbar.Value = ( Movement / MaxMovement ) * 
+                                   ( Scrollbar.MaxValue - Scrollbar.MinValue ) +
+                                   Scrollbar.MinValue;
         }
 
         private float DraggerMultiplier( )
         {
-            double Diff = this.Scrollbar.MaxValue - this.Scrollbar.MinValue;
+            double Diff = Scrollbar.MaxValue - Scrollbar.MinValue;
             if ( Diff <= 0 )
-                return this.Length;
+                return Length;
 
-            return ( float ) ( this.Length / Diff );
+            return ( float ) ( Length / Diff );
         }
 
         private void ResizeDragger( )
         {
-            float NewLength = this.Length * this.DraggerMultiplier( );
-            if ( NewLength < this.Scrollbar.Thickness )
-                NewLength = this.Scrollbar.Thickness;
+            float NewLength = Length * DraggerMultiplier( );
+            if ( NewLength < Scrollbar.Thickness )
+                NewLength = Scrollbar.Thickness;
 
-            this.Dragger.SetSize( this.Scrollbar.ThicknessVector * this.Scrollbar.Thickness +
-                                  this.Scrollbar.LengthVector * NewLength );
+            Dragger.SetSize( Scrollbar.ThicknessVector * Scrollbar.Thickness +
+                                  Scrollbar.LengthVector * NewLength );
         }
 
         protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
         {
-            this.ResizeDragger( );
+            ResizeDragger( );
         }
 
         protected override void DrawSelf( )

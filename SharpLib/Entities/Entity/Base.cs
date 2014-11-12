@@ -7,12 +7,12 @@ namespace SharpLib2D.Entities
     {
         public virtual BoundingVolume BoundingVolume
         {
-            get { return new BoundingRectangle( this.TopLeft, this.TopLeft + this.Size ); }
+            get { return new BoundingRectangle( TopLeft, TopLeft + Size ); }
         }
 
         protected Entity( )
         {
-            this.m_Size = new Vector2( 100, 100 );
+            m_Size = new Vector2( 100, 100 );
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Circuitry.Components
 
         public Output ConnectedOutput
         {
-            get { return this.FirstNode as Output; }
+            get { return FirstNode as Output; }
         }
 
         public bool HasConnectedOutput

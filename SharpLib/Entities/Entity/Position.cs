@@ -36,13 +36,13 @@ namespace SharpLib2D.Entities
 
         public float X
         {
-            set { SetPosition( value, this.Y ); }
+            set { SetPosition( value, Y ); }
             get { return m_Position.X; }
         }
 
         public float Y
         {
-            set { SetPosition( this.X, value ); }
+            set { SetPosition( X, value ); }
             get { return m_Position.Y; }
         }
 
@@ -55,7 +55,7 @@ namespace SharpLib2D.Entities
 
         public void SetPosition( float NewX, float NewY )
         {
-            Vector2 Old = this.Position;
+            Vector2 Old = Position;
 
             m_Position.X = NewX;
             m_Position.Y = NewY;
@@ -77,12 +77,12 @@ namespace SharpLib2D.Entities
 
         public virtual Vector2 ToLocal( Vector2 WorldPosition )
         {
-            return WorldPosition - this.Position;
+            return WorldPosition - Position;
         }
 
         public virtual Vector2 ToWorld( Vector2 LocalPosition )
         {
-            return this.Position + LocalPosition;
+            return Position + LocalPosition;
         }
 
         #endregion

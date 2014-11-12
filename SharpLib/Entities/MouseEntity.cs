@@ -36,12 +36,12 @@ namespace SharpLib2D.Entities
 
         public virtual void OnMouseEnter( )
         {
-            this.IsMouseOn = true;
+            IsMouseOn = true;
         }
 
         public virtual void OnMouseExit( )
         {
-            this.IsMouseOn = false;
+            IsMouseOn = false;
         }
     }
 }

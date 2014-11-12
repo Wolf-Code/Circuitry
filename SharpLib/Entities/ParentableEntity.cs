@@ -22,23 +22,23 @@ namespace SharpLib2D.Entities
 
         public void SetParent( ParentableEntity NewParent )
         {
-            if ( this.HasParent )
+            if ( HasParent )
             {
-                this.Parent.Children.Remove( this );
-                this.Parent.OnChildRemoved( this );
+                Parent.Children.Remove( this );
+                Parent.OnChildRemoved( this );
             }
             else if ( NewParent != null )
                 Unlist( );
 
 
-            ParentableEntity Old = this.Parent;
-            this.Parent = NewParent;
-            this.OnParentChanged( Old, NewParent );
+            ParentableEntity Old = Parent;
+            Parent = NewParent;
+            OnParentChanged( Old, NewParent );
 
-            if ( this.Parent != null )
+            if ( Parent != null )
             {
-                this.Parent.Children.Add( this );
-                this.Parent.OnChildAdded( this );
+                Parent.Children.Add( this );
+                Parent.OnChildAdded( this );
             }
             else
             {
@@ -69,7 +69,7 @@ namespace SharpLib2D.Entities
 
             if ( HasParent )
             {
-                this.SetParent( null );
+                SetParent( null );
                 Unlist( );
             }
             else

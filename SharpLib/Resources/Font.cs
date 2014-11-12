@@ -11,7 +11,7 @@ namespace SharpLib2D.Resources
 
         public Font( FontFamily Fam )
         {
-            this.Family = Fam;
+            Family = Fam;
         }
 
         public System.Drawing.Font Get( float Size )
@@ -19,7 +19,7 @@ namespace SharpLib2D.Resources
             if ( LoadedFonts.ContainsKey( Size ) )
                 return LoadedFonts[ Size ];
 
-            System.Drawing.Font F = new System.Drawing.Font( this.Family, Size );
+            System.Drawing.Font F = new System.Drawing.Font( Family, Size );
             LoadedFonts.Add( Size, F );
 
             return F;

@@ -44,14 +44,14 @@ namespace SharpLib2D.Objects
 
         public BoundingRectangle( Vector2 TopLeft, Vector2 BottomRight )
         {
-            this.Position = TopLeft;
-            this.Size = BottomRight - TopLeft;
+            Position = TopLeft;
+            Size = BottomRight - TopLeft;
         }
 
         public BoundingRectangle( float X, float Y, float Width, float Height )
         {
-            this.Position = new Vector2( X, Y );
-            this.Size = new Vector2( Width, Height );
+            Position = new Vector2( X, Y );
+            Size = new Vector2( Width, Height );
         }
 
         public override bool Contains( Vector2 Position )

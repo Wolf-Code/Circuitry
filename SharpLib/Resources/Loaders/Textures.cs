@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using OpenTK.Graphics.OpenGL;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace SharpLib2D.Resources.Loaders
 {
@@ -53,7 +54,7 @@ namespace SharpLib2D.Resources.Loaders
             T.Height = B.Height;
 
             BitmapData bmp_data = B.LockBits( new Rectangle( 0, 0, B.Width, B.Height ),
-                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb );
+                ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb );
             {
                 GL.TexImage2D( TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height,
                     0,

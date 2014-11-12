@@ -9,16 +9,16 @@ namespace SharpLib2D.UI
 
         public Window( string Title, Canvas Cnv )
         {
-            this.TitleBar = new WindowTitleBar( Title, this );
-            this.TitleBar.SetParent( Cnv );
-            this.SetParent( TitleBar );
-            this.SetSize( 100, 100 );
-            this.SetPosition( 0, 0 );
+            TitleBar = new WindowTitleBar( Title, this );
+            TitleBar.SetParent( Cnv );
+            SetParent( TitleBar );
+            SetSize( 100, 100 );
+            SetPosition( 0, 0 );
         }
 
         protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
         {
-            NewSize.Y -= this.TitleBar.Size.Y;
+            NewSize.Y -= TitleBar.Size.Y;
             if ( NewSize.Y < 0 )
                 NewSize.Y = 0;
 
@@ -29,9 +29,9 @@ namespace SharpLib2D.UI
 
         protected override void OnReposition( Vector2 OldPosition, Vector2 NewPosition )
         {
-            this.TitleBar.SetPosition( NewPosition );
+            TitleBar.SetPosition( NewPosition );
 
-            m_Position = new Vector2( 0, this.TitleBar.Height );
+            m_Position = new Vector2( 0, TitleBar.Height );
         }
 
         protected override void DrawSelf( )

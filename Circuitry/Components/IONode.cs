@@ -1,4 +1,5 @@
 ﻿using System;
+using Circuitry.UI;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
@@ -9,7 +10,6 @@ namespace Circuitry.Components
 {
     public class IONode : CircuitryEntity
     {
-
         #region Enums
 
         public enum NodeType
@@ -131,7 +131,7 @@ namespace Circuitry.Components
         {
             get
             {
-                IONode Prev = this.PreviousNode ?? this;
+                IONode Prev = PreviousNode ?? this;
 
                 while ( Prev != null && Prev.HasPreviousNode )
                 {
@@ -146,7 +146,7 @@ namespace Circuitry.Components
         {
             get
             {
-                IONode Next = this.NextNode ?? this;
+                IONode Next = NextNode ?? this;
 
                 while ( Next != null && Next.HasNextNode )
                 {
@@ -160,9 +160,9 @@ namespace Circuitry.Components
         public IONode( NodeType Type, NodeDirection Dir )
         {
             this.Type = Type;
-            this.Value = 0f;
-            this.SetSize( NodeSize, NodeSize );
-            this.Direction = Dir;
+            Value = 0f;
+            SetSize( NodeSize, NodeSize );
+            Direction = Dir;
         }
 
         protected IONode( NodeType Type, NodeDirection Direction, string Name, string Description ) : this( Type, Direction )
@@ -196,7 +196,7 @@ namespace Circuitry.Components
 
         public override void Draw( FrameEventArgs e )
         {
-            DrawNode( this.Position );
+            DrawNode( Position );
 
             base.Draw( e );
         }
@@ -216,7 +216,7 @@ namespace Circuitry.Components
 
         public override void OnButtonPressed( MouseButton Button )
         {
-            if ( UI.Manager.MouseInsideUI( ) || Gate == null )
+            if ( Manager.MouseInsideUI( ) || Gate == null )
                 return;
 
             if ( Gate.Circuit.OnChildMouseAction( this,
@@ -228,7 +228,7 @@ namespace Circuitry.Components
 
         public override void OnButtonReleased( MouseButton Button )
         {
-            if ( UI.Manager.MouseInsideUI( ) || Gate == null )
+            if ( Manager.MouseInsideUI( ) || Gate == null )
                 return;
 
             if ( Gate.Circuit.OnChildMouseAction( this,
@@ -243,7 +243,7 @@ namespace Circuitry.Components
         public void RemoveEntireConnection( )
         {
             IONode N = this;
-            IONode Prev = this.PreviousNode;
+            IONode Prev = PreviousNode;
             while ( N.HasNextNode )
             {
                 if ( !( N is Input || N is Output ) )

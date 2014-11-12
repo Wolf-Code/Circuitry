@@ -5,6 +5,7 @@ using Circuitry.UI;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using SharpLib2D.Resources;
 using SharpLib2D.States;
 
 namespace Circuitry
@@ -22,7 +23,7 @@ namespace Circuitry
 
             Manager.Initialize( this );
 
-            SharpLib2D.Resources.Loader.CacheFolder( "Resources" );
+            Loader.CacheFolder( "Resources" );
 
             State.StartState<Game>( );
 

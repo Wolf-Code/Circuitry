@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using SharpLib2D.Exceptions;
 using SharpLib2D.Resources.Loaders;
 
 namespace SharpLib2D.Resources
@@ -47,7 +48,7 @@ namespace SharpLib2D.Resources
             if ( Loaders.TryGetValue( File.Extension.TrimStart( '.' ).ToLower( ), out L ) )
                 L.CacheResource( File.FullName );
             else
-                throw new Exceptions.NoResourceLoaderFoundException( File );
+                throw new NoResourceLoaderFoundException( File );
         }
 
         public static void CacheFolder( string Folder )

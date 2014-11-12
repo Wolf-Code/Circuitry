@@ -125,10 +125,10 @@ namespace Circuitry.Components
 
         protected override void OnRemove( )
         {
-            foreach ( Input I in this.Inputs )
+            foreach ( Input I in Inputs )
                 I.RemoveEntireConnection( );
 
-            foreach ( Output O in this.Outputs )
+            foreach ( Output O in Outputs )
                 O.RemoveEntireConnection( );
 
             base.OnRemove( );

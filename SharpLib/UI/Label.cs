@@ -15,14 +15,14 @@ namespace SharpLib2D.UI
 
         public Label( )
         {
-            this.Font = "Arial";
-            this.FontSize = 12;
-            this.Text = string.Empty;
-            this.IgnoreMouseInput = true;
-            this.PreventLeavingParent = false;
-            this.HorizontalAlignment = Directions.HorizontalAlignment.Left;
-            this.VerticalAlignment = Directions.VerticalAlignment.Top;
-            this.SizeToContents( );
+            Font = "Arial";
+            FontSize = 12;
+            Text = string.Empty;
+            IgnoreMouseInput = true;
+            PreventLeavingParent = false;
+            HorizontalAlignment = Directions.HorizontalAlignment.Left;
+            VerticalAlignment = Directions.VerticalAlignment.Top;
+            SizeToContents( );
         }
 
         public void SetText( string Text )
@@ -32,41 +32,41 @@ namespace SharpLib2D.UI
 
         protected override void DrawSelf( )
         {
-            if ( this.Text.Length <= 0 )
+            if ( Text.Length <= 0 )
                 return;
 
-            Vector2 Pos = this.Position;
+            Vector2 Pos = Position;
             switch ( HorizontalAlignment )
             {
                 case Directions.HorizontalAlignment.Center:
-                    Pos.X += this.Width / 2f;
+                    Pos.X += Width / 2f;
                     break;
 
                 case Directions.HorizontalAlignment.Right:
-                    Pos.X += this.Width;
+                    Pos.X += Width;
                     break;
             }
 
             switch ( VerticalAlignment )
             {
                 case Directions.VerticalAlignment.Center:
-                    Pos.Y += this.Height / 2f;
+                    Pos.Y += Height / 2f;
                     break;
 
                 case Directions.VerticalAlignment.Bottom:
-                    Pos.Y += this.Height;
+                    Pos.Y += Height;
                     break;
             }
 
-            Graphics.Text.SetAlignments( this.HorizontalAlignment, this.VerticalAlignment );
-            Graphics.Text.DrawString( this.Text, this.Font, this.FontSize, Pos, new Color4( 25, 25, 25, 255 ) );
+            Graphics.Text.SetAlignments( HorizontalAlignment, VerticalAlignment );
+            Graphics.Text.DrawString( Text, Font, FontSize, Pos, new Color4( 25, 25, 25, 255 ) );
         }
 
 
         public void SizeToContents( )
         {
-            Vector2 S = Graphics.Text.MeasureString( this.Text, this.Font, this.FontSize );
-            this.SetSize( S.X, S.Y );
+            Vector2 S = Graphics.Text.MeasureString( Text, Font, FontSize );
+            SetSize( S.X, S.Y );
         }
     }
 }

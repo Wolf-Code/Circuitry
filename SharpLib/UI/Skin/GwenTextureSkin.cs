@@ -26,7 +26,7 @@ namespace SharpLib2D.UI.Skin
 
         public GwenTextureSkin( Texture GwenTexture )
         {
-            this.Texture = GwenTexture;
+            Texture = GwenTexture;
         }
 
         private void DrawControl( Control C, NinePatch Patch )

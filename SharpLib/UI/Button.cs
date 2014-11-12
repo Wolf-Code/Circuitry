@@ -11,11 +11,11 @@ namespace SharpLib2D.UI
 
         public Button( string Text = "" )
         {
-            this.SetText( Text );
-            this.IgnoreMouseInput = false;
-            this.HorizontalAlignment = Directions.HorizontalAlignment.Center;
-            this.VerticalAlignment = Directions.VerticalAlignment.Center;
-            this.OnLeftClick += Control => { if ( OnClick != null ) OnClick( this ); };
+            SetText( Text );
+            IgnoreMouseInput = false;
+            HorizontalAlignment = Directions.HorizontalAlignment.Center;
+            VerticalAlignment = Directions.VerticalAlignment.Center;
+            OnLeftClick += Control => { if ( OnClick != null ) OnClick( this ); };
         }
 
         public override void OnButtonPressed( MouseButton Button )
@@ -36,7 +36,7 @@ namespace SharpLib2D.UI
 
         public override void Dispose( )
         {
-            this.OnClick = null;
+            OnClick = null;
 
             base.Dispose( );
         }

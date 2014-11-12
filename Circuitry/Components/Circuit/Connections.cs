@@ -1,11 +1,12 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using Circuitry.UI;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
+using SharpLib2D.Entities;
 using SharpLib2D.Graphics;
+using Mouse = SharpLib2D.Info.Mouse;
 
 namespace Circuitry.Components
 {
@@ -22,13 +23,13 @@ namespace Circuitry.Components
                 switch ( B )
                 {
                     case MouseButton.Left:
-                        if ( UI.Manager.MouseInsideUI( ) )
+                        if ( Manager.MouseInsideUI( ) )
                             return;
 
                         IONode New = new IONode( ConnectionNode.Type, ConnectionNode.Direction );
                         New.SetParent( ConnectionNode.Gate );
 
-                        Vector2 LocalPos = New.Gate.ToLocal( ParentState.Camera.ToWorld( SharpLib2D.Info.Mouse.Position ) );
+                        Vector2 LocalPos = New.Gate.ToLocal( ParentState.Camera.ToWorld( Mouse.Position ) );
                         New.SetPosition( LocalPos );
 
                         if ( ConnectingOutput )
@@ -66,7 +67,7 @@ namespace Circuitry.Components
                 }
                 else
                 {
-                    if ( !UI.Manager.MouseInsideUI( ) )
+                    if ( !Manager.MouseInsideUI( ) )
                     {
                         if ( !Node.IsInput && !Node.IsOutput )
                             Dragger.StartDragging( Node );
@@ -77,25 +78,31 @@ namespace Circuitry.Components
             }
             else
             {
-                if ( ConnectingOutput )
-                {
-                    if ( !IONode.CanConnect( ConnectionNode, Node ) )
-                        return;
-
-                    ConnectionNode.NextNode = Node;
-                    Node.PreviousNode = ConnectionNode;
-                }
-                else
-                {
-                    if ( !IONode.CanConnect( Node, ConnectionNode ) )
-                        return;
-
-                    ConnectionNode.PreviousNode = Node;
-                    Node.NextNode = ConnectionNode;
-                }
-
-                ConnectingNodes = false;
+                FinishConnection( Node );
             }
+        }
+
+        private bool FinishConnection( IONode Node )
+        {
+            if ( ConnectingOutput )
+            {
+                if ( !IONode.CanConnect( ConnectionNode, Node ) )
+                    return false;
+
+                ConnectionNode.NextNode = Node;
+                Node.PreviousNode = ConnectionNode;
+            }
+            else
+            {
+                if ( !IONode.CanConnect( Node, ConnectionNode ) )
+                    return false;
+
+                ConnectionNode.PreviousNode = Node;
+                Node.NextNode = ConnectionNode;
+            }
+
+            ConnectingNodes = false;
+            return true;
         }
 
         private void CancelConnecting( )
@@ -107,7 +114,7 @@ namespace Circuitry.Components
 
         private void NodeMouseInput( IONode Node, MouseButtonEventArgs Args )
         {
-            if ( CurrentState != State.Build || UI.Manager.MouseInsideUI( ) ) return;
+            if ( CurrentState != State.Build || Manager.MouseInsideUI( ) ) return;
 
             if ( Args.IsPressed )
             {
@@ -122,12 +129,22 @@ namespace Circuitry.Components
             {
                 switch ( Args.Button )
                 {
+                        // Instantly connecting when dragging from node 1 to node 2.
+                    case MouseButton.Left:
+                        if ( ConnectingNodes )
+                        {
+                            MouseEntity E = Container.GetTopChild( Mouse.WorldPosition );
+                            if ( E is IONode )
+                                FinishConnection( E as IONode );
+                        }
+                        break;
+
                     case MouseButton.Right:
                         if ( !ConnectingNodes )
                         {
                             if ( Node.HasNextNode && Node.HasPreviousNode )
                             {
-                                this.ShowMenu(
+                                ShowMenu(
                                     new MenuEntry( "Remove node", Control =>
                                     {
                                         Node.PreviousNode.NextNode = Node.NextNode;
@@ -150,7 +167,8 @@ namespace Circuitry.Components
                                     new MenuEntry( "Remove entire connection", Control => Node.RemoveEntireConnection( ) ) );
                             }
                             else
-                                this.ShowMenu( new MenuEntry( "Remove connection", Control => Node.RemoveEntireConnection( ) ) );
+                                ShowMenu( new MenuEntry( "Remove connection",
+                                    Control => Node.RemoveEntireConnection( ) ) );
                         }
                         break;
                 }
@@ -191,12 +209,12 @@ namespace Circuitry.Components
             {
                 if ( Cur == ConnectionNode )
                 {
-                    DrawConnectionLine( C, Cur.Position, SharpLib2D.Info.Mouse.WorldPosition );
+                    DrawConnectionLine( C, Cur.Position, Mouse.WorldPosition );
                 }
                 else if ( Start == ConnectionNode )
-                    DrawConnectionLine( C, Start.Position, SharpLib2D.Info.Mouse.WorldPosition );
+                    DrawConnectionLine( C, Start.Position, Mouse.WorldPosition );
 
-                IONode.DrawNode( SharpLib2D.Info.Mouse.WorldPosition );
+                IONode.DrawNode( Mouse.WorldPosition );
             }
         }
 

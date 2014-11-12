@@ -1,4 +1,5 @@
 ﻿
+using System;
 using OpenTK.Graphics;
 using SharpLib2D.Graphics;
 using SharpLib2D.UI.Internal;
@@ -66,12 +67,12 @@ namespace SharpLib2D.UI.Skin
 
         public override void DrawWindowTitleBar( WindowTitleBar B )
         {
-            throw new System.NotImplementedException( );
+            throw new NotImplementedException( );
         }
 
         public override void DrawWindowCloseButton( WindowCloseButton B )
         {
-            throw new System.NotImplementedException( );
+            throw new NotImplementedException( );
         }
 
         public override void DrawWindow( Window W )
@@ -81,22 +82,22 @@ namespace SharpLib2D.UI.Skin
 
         public override void DrawCheckbox( Checkbox C )
         {
-            throw new System.NotImplementedException( );
+            throw new NotImplementedException( );
         }
 
         public override void DrawScrollbarButton( ScrollbarButton B )
         {
-            throw new System.NotImplementedException( );
+            throw new NotImplementedException( );
         }
 
         public override void DrawScrollbarBarContainer( ScrollbarBar B )
         {
-            throw new System.NotImplementedException( );
+            throw new NotImplementedException( );
         }
 
         public override void DrawScrollbarBar( ScrollbarBarDragger D )
         {
-            throw new System.NotImplementedException( );
+            throw new NotImplementedException( );
         }
     }
 }

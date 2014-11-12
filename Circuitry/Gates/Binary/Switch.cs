@@ -31,8 +31,8 @@ namespace Circuitry.Gates.Binary
 
         static Switch( )
         {
-            Off = SharpLib2D.Resources.Loader.Get<Texture>( "Resources\\Textures\\Components\\Button\\Toggle\\Button_Toggle_Off.png" );
-            On = SharpLib2D.Resources.Loader.Get<Texture>( "Resources\\Textures\\Components\\Button\\Toggle\\Button_Toggle_On.png" );
+            Off = Loader.Get<Texture>( "Resources\\Textures\\Components\\Button\\Toggle\\Button_Toggle_Off.png" );
+            On = Loader.Get<Texture>( "Resources\\Textures\\Components\\Button\\Toggle\\Button_Toggle_On.png" );
         }
 
         public Switch( )

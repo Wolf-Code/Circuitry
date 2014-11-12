@@ -20,8 +20,8 @@ namespace Circuitry.Gates.Binary
 
         static Button( )
         {
-            Off = SharpLib2D.Resources.Loader.Get<Texture>( @"Resources\Textures\Components\Button\Normal\Button_Off.png" );
-            On = SharpLib2D.Resources.Loader.Get<Texture>( @"Resources\Textures\Components\Button\Normal\Button_On.png" );
+            Off = Loader.Get<Texture>( @"Resources\Textures\Components\Button\Normal\Button_Off.png" );
+            On = Loader.Get<Texture>( @"Resources\Textures\Components\Button\Normal\Button_On.png" );
         }
 
         public Button( )

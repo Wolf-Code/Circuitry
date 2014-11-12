@@ -5,6 +5,7 @@ using OpenTK;
 using OpenTK.Input;
 using SharpLib2D.Entities;
 using SharpLib2D.Graphics;
+using SharpLib2D.Math;
 using SharpLib2D.Objects;
 using SharpLib2D.States;
 using Mouse = SharpLib2D.Info.Mouse;
@@ -35,7 +36,7 @@ namespace SharpLib2D.UI
         #region Properties
         protected new IEnumerable<Control> Children
         {
-            get { return this.GetChildren<Control>( ); }
+            get { return GetChildren<Control>( ); }
         }
 
         public bool PreventLeavingParent { set; get; }
@@ -59,16 +60,16 @@ namespace SharpLib2D.UI
         {
             get
             {
-                if ( !this.HasParent ) return BoundingVolume.BoundingBox;
+                if ( !HasParent ) return BoundingVolume.BoundingBox;
 
                 BoundingRectangle ParentRect;
-                if ( this.Parent is Control )
-                    ParentRect = ( this.Parent as Control ).VisibleRectangle;
+                if ( Parent is Control )
+                    ParentRect = ( Parent as Control ).VisibleRectangle;
                 else
-                    ParentRect = ( ( Entity ) this.Parent ).BoundingVolume.BoundingBox;
+                    ParentRect = ( ( Entity ) Parent ).BoundingVolume.BoundingBox;
 
                 BoundingRectangle Clamped =
-                    Math.BoundingVolumes.IntersectionRectangle( ParentRect,
+                    BoundingVolumes.IntersectionRectangle( ParentRect,
                         BoundingVolume.BoundingBox );
 
                 return Clamped;
@@ -79,14 +80,14 @@ namespace SharpLib2D.UI
 
         public Control( )
         {
-            this.PreventLeavingParent = false;
-            this.SetParent( ( ( UIState ) State.ActiveState ).Canvas );
+            PreventLeavingParent = false;
+            SetParent( ( ( UIState ) State.ActiveState ).Canvas );
         }
 
         public Control( Control Parent )
         {
-            this.PreventLeavingParent = false;
-            this.SetParent( Parent );
+            PreventLeavingParent = false;
+            SetParent( Parent );
         }
 
         #region Alignment
@@ -95,13 +96,13 @@ namespace SharpLib2D.UI
         {
             Vector2 Center = GetParent<Entity>( ).Size / 2f;
 
-            this.SetPosition( Center.X - this.BoundingVolume.Width / 2, Center.Y - this.BoundingVolume.Height / 2 );
+            SetPosition( Center.X - BoundingVolume.Width / 2, Center.Y - BoundingVolume.Height / 2 );
         }
 
         public void MoveBelow( Control C, float Offset = 0f )
         {
-            Vector2 P = this.GetParent<Entity>( ).ToLocal( C.Position );
-            this.SetPosition( P + new Vector2( 0, C.Size.Y + Offset ) );
+            Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
+            SetPosition( P + new Vector2( 0, C.Size.Y + Offset ) );
         }
 
         #endregion
@@ -109,7 +110,7 @@ namespace SharpLib2D.UI
         public override MouseEntity GetTopChild( Vector2 CheckPosition )
         {
             MouseEntity E = GetTopChildAt( CheckPosition ) as MouseEntity;
-            return E != null ? E.GetTopChild( CheckPosition ) : ( this.IgnoreMouseInput ? this.Parent as MouseEntity : this );
+            return E != null ? E.GetTopChild( CheckPosition ) : ( IgnoreMouseInput ? Parent as MouseEntity : this );
         }
 
         #region Drawing
@@ -121,7 +122,7 @@ namespace SharpLib2D.UI
 
         public override void Draw( FrameEventArgs e )
         {
-            BoundingRectangle Visible = this.VisibleRectangle;
+            BoundingRectangle Visible = VisibleRectangle;
             if ( Visible.Width <= 0 || Visible.Height <= 0 ) return;
 
             Scissor.SetScissorRectangle( Visible.Left, Visible.Top, Visible.Width, Visible.Height );
@@ -136,19 +137,19 @@ namespace SharpLib2D.UI
 
         public virtual void Dispose( )
         {
-            foreach ( Control C in this.Children )
+            foreach ( Control C in Children )
                 C.Dispose( );
 
-            this.SizeChanged = null;
-            this.OnLeftClick = null;
-            this.OnRightClick = null;
+            SizeChanged = null;
+            OnLeftClick = null;
+            OnRightClick = null;
         }
 
         protected override void OnRemove( )
         {
             base.OnRemove( );
 
-            this.Dispose( );
+            Dispose( );
         }
 
         #endregion
@@ -157,8 +158,8 @@ namespace SharpLib2D.UI
 
         protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
         {
-            if ( this.SizeChanged != null )
-                this.SizeChanged( this );
+            if ( SizeChanged != null )
+                SizeChanged( this );
         }
 
         protected override void OnReposition( Vector2 OldPosition, Vector2 NewPosition )
@@ -173,11 +174,11 @@ namespace SharpLib2D.UI
             if ( NewPosition.Y < 0 )
                 NewPosition.Y = 0;
 
-            if ( NewPosition.X + this.BoundingVolume.Width > C.BoundingVolume.Width )
-                NewPosition.X = C.BoundingVolume.Width - this.BoundingVolume.Width;
+            if ( NewPosition.X + BoundingVolume.Width > C.BoundingVolume.Width )
+                NewPosition.X = C.BoundingVolume.Width - BoundingVolume.Width;
 
-            if ( NewPosition.Y + this.BoundingVolume.Height > C.BoundingVolume.Height )
-                NewPosition.Y = C.BoundingVolume.Height - this.BoundingVolume.Height;
+            if ( NewPosition.Y + BoundingVolume.Height > C.BoundingVolume.Height )
+                NewPosition.Y = C.BoundingVolume.Height - BoundingVolume.Height;
 
             m_Position = NewPosition;
         }

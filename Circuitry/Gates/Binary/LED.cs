@@ -13,8 +13,8 @@ namespace Circuitry.Gates.Binary
 
         static LED( )
         {
-            On = SharpLib2D.Resources.Loader.Get<Texture>( "Resources\\Textures\\Components\\LED\\LED_On.png" );
-            Off = SharpLib2D.Resources.Loader.Get<Texture>( "Resources\\Textures\\Components\\LED\\LED_Off.png" );
+            On = Loader.Get<Texture>( "Resources\\Textures\\Components\\LED\\LED_On.png" );
+            Off = Loader.Get<Texture>( "Resources\\Textures\\Components\\LED\\LED_Off.png" );
         }
 
         public LED( )

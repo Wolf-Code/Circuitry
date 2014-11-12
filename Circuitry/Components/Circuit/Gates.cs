@@ -1,4 +1,5 @@
 ﻿using System;
+using Circuitry.UI;
 using OpenTK;
 using OpenTK.Input;
 using Mouse = SharpLib2D.Info.Mouse;
@@ -26,7 +27,7 @@ namespace Circuitry.Components
                 case State.Build:
                     if ( Args.Button == MouseButton.Left )
                     {
-                        if ( Args.IsPressed && !UI.Manager.MouseInsideUI( ) )
+                        if ( Args.IsPressed && !Manager.MouseInsideUI( ) )
                             Dragger.StartDragging( G );
                     }
 
