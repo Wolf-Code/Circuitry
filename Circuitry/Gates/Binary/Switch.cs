@@ -1,4 +1,5 @@
 ﻿using Circuitry.Components;
+using Circuitry.Components.Circuits;
 using Circuitry.States;
 using Gwen.Control;
 using OpenTK;

@@ -28,7 +28,14 @@ namespace SharpLib2D.Entities
 
                 Top.OnMouseEnter( );
 
-                HoverEntity = Top;
+                if ( HoverEntity != Top )
+                {
+                    if ( HoverEntity != null )
+                        HoverEntity.OnRemoved -= HoverWasRemoved;
+
+                    HoverEntity = Top;
+                    HoverEntity.OnRemoved += HoverWasRemoved;
+                }
             }
 
             foreach ( MouseButton B in Enum.GetValues( typeof( MouseButton ) ) )
@@ -36,7 +43,16 @@ namespace SharpLib2D.Entities
                 if ( Mouse.IsPressed( B ) )
                 {
                     Top.OnButtonPressed( B );
-                    LastDownEntity = Top;
+                    {
+                        if ( LastDownEntity != Top )
+                        {
+                            if ( LastDownEntity != null )
+                                LastDownEntity.OnRemoved -= LastDownWasRemoved;
+
+                            LastDownEntity = Top;
+                            LastDownEntity.OnRemoved += LastDownWasRemoved;
+                        }
+                    }
                 }
 
                 if ( !Mouse.IsReleased( B ) ) continue;
@@ -44,12 +60,23 @@ namespace SharpLib2D.Entities
                 if ( LastDownEntity != null )
                 {
                     LastDownEntity.OnButtonReleased( B );
+                    LastDownEntity.OnRemoved -= LastDownWasRemoved;
                     LastDownEntity = null;
                 }
                 else
                     Top.OnButtonReleased( B );
             }
             base.Update( e );
+        }
+
+        private void LastDownWasRemoved( object Sender, UpdatableEntity Entity )
+        {
+            LastDownEntity = null;
+        }
+
+        private void HoverWasRemoved( object Sender, UpdatableEntity Entity )
+        {
+            HoverEntity = null;
         }
     }
 }

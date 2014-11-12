@@ -3,7 +3,7 @@ using OpenTK;
 using SharpLib2D.Entities.Camera;
 using SharpLib2D.Graphics;
 
-namespace Circuitry.Components
+namespace Circuitry.Components.Circuits
 {
     public partial class Circuit
     {

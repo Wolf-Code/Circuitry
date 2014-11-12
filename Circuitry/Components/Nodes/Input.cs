@@ -1,5 +1,5 @@
 ﻿
-namespace Circuitry.Components
+namespace Circuitry.Components.Nodes
 {
     public class Input : IONode
     {

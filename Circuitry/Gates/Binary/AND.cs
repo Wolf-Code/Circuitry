@@ -1,4 +1,5 @@
 ﻿using Circuitry.Components;
+using Circuitry.Components.Nodes;
 using Gwen.Control.Property;
 using OpenTK;
 using OpenTK.Graphics;

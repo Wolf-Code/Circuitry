@@ -46,22 +46,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Bin.cs" />
-    <Compile Include="Components\Circuit\Circuit.cs" />
+    <Compile Include="Components\Circuits\Circuit.cs" />
     <Compile Include="Components\CircuitryEntity.cs" />
     <Compile Include="Components\CircuitDragger.cs" />
-    <Compile Include="Components\Circuit\Menu.cs" />
-    <Compile Include="Components\Circuit\Gates.cs" />
-    <Compile Include="Components\Circuit\Camera.cs" />
-    <Compile Include="Components\Circuit\MouseInput.cs" />
-    <Compile Include="Components\Circuit\Grid.cs" />
-    <Compile Include="Components\Circuit\Signals.cs" />
-    <Compile Include="Components\Circuit\Connections.cs" />
-    <Compile Include="Components\Circuit\State.cs" />
-    <Compile Include="Components\Circuit\Updating.cs" />
+    <Compile Include="Components\Circuits\Components\NodeConnector.cs" />
+    <Compile Include="Components\Circuits\Menu.cs" />
+    <Compile Include="Components\Circuits\Gates.cs" />
+    <Compile Include="Components\Circuits\Camera.cs" />
+    <Compile Include="Components\Circuits\MouseInput.cs" />
+    <Compile Include="Components\Circuits\Grid.cs" />
+    <Compile Include="Components\Circuits\Signals.cs" />
+    <Compile Include="Components\Circuits\Connections.cs" />
+    <Compile Include="Components\Circuits\State.cs" />
+    <Compile Include="Components\Circuits\Updating.cs" />
     <Compile Include="Components\Gate.cs" />
-    <Compile Include="Components\Output.cs" />
-    <Compile Include="Components\Input.cs" />
-    <Compile Include="Components\IONode.cs" />
+    <Compile Include="Components\Nodes\Output.cs" />
+    <Compile Include="Components\Nodes\Input.cs" />
+    <Compile Include="Components\Nodes\IONode.cs" />
     <Compile Include="Components\Signal.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Gates\BinaryNumeric\BitsToByte.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Gates\Binary\Button.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderers\NodesRenderer.cs" />
     <Compile Include="States\Game.cs" />
     <Compile Include="States\GwenState.cs" />
     <Compile Include="UI\Manager.cs" />

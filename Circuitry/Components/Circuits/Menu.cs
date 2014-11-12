@@ -1,9 +1,8 @@
-﻿using System;
-using Circuitry.States;
+﻿using Circuitry.States;
 using Gwen.Control;
 using SharpLib2D.Info;
 
-namespace Circuitry.Components
+namespace Circuitry.Components.Circuits
 {
     public class MenuEntry
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using Circuitry.Components.Nodes;
 using Circuitry.UI;
 using OpenTK;
 using OpenTK.Graphics;
@@ -123,6 +124,11 @@ namespace Circuitry.Components
         public virtual bool IsOutput
         {
             get { return false; }
+        }
+
+        public bool IsLink
+        {
+            get { return !IsInput && !IsOutput; }
         }
 
         #endregion

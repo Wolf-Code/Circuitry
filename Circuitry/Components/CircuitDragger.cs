@@ -3,13 +3,14 @@ using SharpLib2D.Entities;
 
 namespace Circuitry.Components
 {
-    class CircuitDragger : Dragger
+    public class CircuitDragger : Dragger
     {
-        private readonly Circuit Circuit;
+        private readonly Circuits.Circuit Circuit;
 
-        public CircuitDragger( Circuit C )
+        public CircuitDragger( Circuits.Circuit C )
         {
             Circuit = C;
+            this.SetParent( C );
         }
 
         protected override Vector2 TransformPosition( Vector2 NewEntityPosition )

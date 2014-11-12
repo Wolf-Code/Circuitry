@@ -5,7 +5,7 @@ using OpenTK;
 using OpenTK.Input;
 using SharpLib2D.Entities;
 
-namespace Circuitry.Components
+namespace Circuitry.Components.Circuits
 {
     public partial class Circuit
     {
@@ -18,31 +18,7 @@ namespace Circuitry.Components
                 return true;
             }
 
-            IONode N = Entity as IONode;
-            if ( N != null )
-            {
-                NodeMouseInput( N, Args );
-                return true;
-            }
-
             return false;
-        }
-
-        public override MouseEntity GetTopChild( Vector2 CheckPosition )
-        {
-            List<Entity> Ents = OrderedEntities<Entity>( );
-            Entity E = Ents.FirstOrDefault( O => O.GetTopChildAt( CheckPosition ) != null );
-            if ( E == null )
-                return ( MouseEntity )Ents.FirstOrDefault( O => O.ContainsPosition( CheckPosition ) ) ?? this;
-
-            Entity E2 = E.GetTopChildAt( CheckPosition );
-            while ( E2 != null )
-            {
-                E = E2;
-                E2 = E.GetTopChildAt( CheckPosition );
-            }
-
-            return ( MouseEntity )E;
         }
 
         public override void OnButtonPressed( MouseButton Button )
@@ -88,8 +64,6 @@ namespace Circuitry.Components
 
         public override void OnButtonReleased( MouseButton Button )
         {
-            NodePathClick( Button );
-
             switch ( Button )
             {
                 case MouseButton.Left:

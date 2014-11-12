@@ -1,7 +1,7 @@
 ﻿using Circuitry.UI;
 using SharpLib2D.Info;
 
-namespace Circuitry.Components
+namespace Circuitry.Components.Circuits
 {
     public partial class Circuit
     {

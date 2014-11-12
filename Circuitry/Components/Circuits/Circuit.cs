@@ -1,18 +1,19 @@
-﻿using Gwen.Control;
+﻿using Circuitry.Components.Circuits.Components;
+using Gwen.Control;
 using OpenTK;
 using SharpLib2D.Entities;
-using SharpLib2D.Graphics.Objects;
 using SharpLib2D.Resources;
 
-namespace Circuitry.Components
+namespace Circuitry.Components.Circuits
 {
     public partial class Circuit : MouseEntityContainer
     {
         private Menu Menu;
 
         public Bin Bin { protected set; get; }
+        private NodeConnector Connector;
 
-        private readonly CircuitDragger Dragger;
+        public readonly CircuitDragger Dragger;
 
         public Circuit( )
         {
@@ -23,6 +24,8 @@ namespace Circuitry.Components
 
             Bin = new Bin( );
             Bin.SetParent( this );
+
+            Connector = new NodeConnector( this );
 
             Dragger = new CircuitDragger( this );
         }

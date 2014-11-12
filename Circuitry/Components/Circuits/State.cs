@@ -1,10 +1,11 @@
 ﻿
 using System.Linq;
 
-namespace Circuitry.Components
+namespace Circuitry.Components.Circuits
 {
     public partial class Circuit
-    {/// <summary>
+    {
+        /// <summary>
         /// The possible game states.
         /// </summary>
         public enum State
@@ -18,11 +19,7 @@ namespace Circuitry.Components
         /// <summary>
         /// The current game state.
         /// </summary>
-        public State CurrentState
-        {
-            private set;
-            get;
-        }
+        public State CurrentState { private set; get; }
 
         /// <summary>
         /// Toggles the game's state.
@@ -40,11 +37,12 @@ namespace Circuitry.Components
             }
             else
             {
-                if ( ConnectingNodes )
-                    CancelConnecting( );
+                if ( Connector.ConnectingNodes )
+                    Connector.Cancel( );
+
                 CurrentState = State.Active;
             }
-        }
 
+        }
     }
 }

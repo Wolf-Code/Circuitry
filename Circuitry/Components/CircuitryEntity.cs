@@ -1,4 +1,5 @@
-﻿using Circuitry.UI;
+﻿using Circuitry.Components.Circuits;
+using Circuitry.UI;
 using SharpLib2D.Entities;
 
 namespace Circuitry.Components
@@ -7,8 +8,12 @@ namespace Circuitry.Components
     {
         public Circuit Circuit
         {
-            set;
-            get;
+            get
+            {
+                return this.IsParent<CircuitryEntity>( )
+                    ? this.GetParent<CircuitryEntity>( ).Circuit
+                    : this.GetParent<Circuit>( );
+            }
         }
 
         protected bool MouseCanSelect( )

@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Circuitry.Components.Circuits;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using SharpLib2D.Graphics;
 using SharpLib2D.Info;
+using Input = Circuitry.Components.Nodes.Input;
 using Mouse = SharpLib2D.Info.Mouse;
 
 namespace Circuitry.Components

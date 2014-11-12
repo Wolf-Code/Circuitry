@@ -1,10 +1,8 @@
 ﻿using System;
 using Circuitry.UI;
-using OpenTK;
 using OpenTK.Input;
-using Mouse = SharpLib2D.Info.Mouse;
 
-namespace Circuitry.Components
+namespace Circuitry.Components.Circuits
 {
     public partial class Circuit
     {
@@ -48,7 +46,7 @@ namespace Circuitry.Components
 
         public void StartGatePlacing( Type G )
         {
-            if ( ConnectingNodes )
+            if ( Connector.ConnectingNodes )
                 return;
 
             if ( GateToPlace != null )
@@ -61,7 +59,6 @@ namespace Circuitry.Components
         public void AddGate( Gate G )
         {
             G.SetParent( this );
-            G.Circuit = this;
             G.Reset( );
         }
     }

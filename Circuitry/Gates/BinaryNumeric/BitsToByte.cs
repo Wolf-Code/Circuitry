@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Circuitry.Components;
+using Circuitry.Components.Nodes;
 using OpenTK;
 using SharpLib2D.Graphics;
 

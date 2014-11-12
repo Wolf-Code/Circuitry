@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using SharpLib2D.States;
 
 namespace SharpLib2D.Entities
@@ -8,6 +9,8 @@ namespace SharpLib2D.Entities
         protected State ParentState { private set; get; }
 
         public float Z { internal set; get; }
+
+        public event EventHandler<UpdatableEntity> OnRemoved; 
 
         protected UpdatableEntity( )
         {
@@ -20,6 +23,9 @@ namespace SharpLib2D.Entities
         /// </summary>
         public void Remove( )
         {
+            if ( OnRemoved != null )
+                OnRemoved( this, this );
+
             OnRemove( );
         }
 

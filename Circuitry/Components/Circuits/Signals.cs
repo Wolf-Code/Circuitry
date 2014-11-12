@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Circuitry.Components
+namespace Circuitry.Components.Circuits
 {
     public partial class Circuit
     {

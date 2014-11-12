@@ -1,4 +1,6 @@
 ﻿
+using Circuitry.Components.Nodes;
+
 namespace Circuitry.Components
 {
     public class Signal

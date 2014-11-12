@@ -6,17 +6,17 @@ namespace SharpLib2D.Entities
 {
     public abstract partial class Entity
     {
-        protected bool IsParent<T>( ) where T : ParentableEntity
+        public bool IsParent<T>( ) where T : ParentableEntity
         {
             return Parent is T;
         }
 
-        protected T GetParent<T>( ) where T : ParentableEntity
+        public T GetParent<T>( ) where T : ParentableEntity
         {
             return Parent as T;
         }
 
-        private List<Entity> GetAllChildrenAtPosition( Vector2 CheckPosition )
+        protected List<Entity> GetAllChildrenAtPosition( Vector2 CheckPosition )
         {
             List<Entity> Ents = new List<Entity>( );
             foreach ( Entity P in GetChildren<Entity>( ) )

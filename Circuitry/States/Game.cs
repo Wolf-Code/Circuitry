@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Circuitry.Components;
+using Circuitry.Components.Circuits;
 using Gwen;
 using Gwen.Control;
 
