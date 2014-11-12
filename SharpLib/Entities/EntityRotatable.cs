@@ -5,8 +5,6 @@ namespace SharpLib2D.Entities
 {
     public abstract class RotatableEntity : Entity
     {
-        #region Position
-        
         #region ToLocal / ToWorld
 
         public override Vector2 ToLocal( Vector2 WorldPosition )
@@ -18,8 +16,6 @@ namespace SharpLib2D.Entities
         {
             return Position + Forward * LocalPosition.X + Up * LocalPosition.Y;
         }
-
-        #endregion
 
         #endregion
 

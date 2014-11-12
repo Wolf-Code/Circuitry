@@ -60,10 +60,11 @@ namespace SharpLib2D.States
             if ( ActiveState == null )
                 return;
 
-            State S = States.Pop( );
+            State S = States.Peek( );
             S.OnPause( );
             S.OnExit( );
             S.Dispose( );
+            States.Pop( );
 
             if ( ActiveState == null )
                 return;
