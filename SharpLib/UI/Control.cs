@@ -25,7 +25,7 @@ namespace SharpLib2D.UI
         /// <summary>
         /// Gets raised whenever the control is resized.
         /// </summary>
-        public event SharpLibUIEventHandler<Control> OnSizeChanged;
+        public event SharpLibUIEventHandler<Control> SizeChanged;
 
         public event SharpLibUIEventHandler<Control> OnLeftClick;
         public event SharpLibUIEventHandler<Control> OnRightClick; 
@@ -64,7 +64,7 @@ namespace SharpLib2D.UI
                 if ( this.Parent is Control )
                     ParentRect = ( this.Parent as Control ).VisibleRectangle;
                 else
-                    ParentRect = ( ( ObjectEntity ) this.Parent ).BoundingVolume.BoundingBox;
+                    ParentRect = ( ( Entity ) this.Parent ).BoundingVolume.BoundingBox;
 
                 BoundingRectangle Clamped =
                     Math.BoundingVolumes.IntersectionRectangle( ParentRect,
@@ -88,7 +88,7 @@ namespace SharpLib2D.UI
             Vector2 Center;
             if ( HasParent )
             {
-                ObjectEntity C = ( ObjectEntity ) Parent;
+                Entity C = ( Entity ) Parent;
                 Center = C.Size / 2f;
             }
             else
@@ -101,7 +101,7 @@ namespace SharpLib2D.UI
         {
             Vector2 P;
             if ( HasParent )
-                P = ( Parent as ObjectEntity ).ToLocal( C.Position );
+                P = ( Parent as Entity ).ToLocal( C.Position );
         }
 
         #endregion
@@ -139,7 +139,7 @@ namespace SharpLib2D.UI
             foreach ( Control C in this.Children )
                 C.Dispose( );
 
-            this.OnSizeChanged = null;
+            this.SizeChanged = null;
             this.OnLeftClick = null;
             this.OnRightClick = null;
         }
@@ -155,17 +155,17 @@ namespace SharpLib2D.UI
 
         #region Events
 
-        protected override void OnResize( Vector2 NewSize )
+        protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
         {
-            if ( this.OnSizeChanged != null )
-                this.OnSizeChanged( this );
+            if ( this.SizeChanged != null )
+                this.SizeChanged( this );
         }
 
-        protected override void OnPositionChanged( Vector2 NewPosition )
+        protected override void OnReposition( Vector2 OldPosition, Vector2 NewPosition )
         {
-            if ( !PreventLeavingParent || !HasParent || !( Parent is ObjectEntity ) ) return;
+            if ( !PreventLeavingParent || !HasParent || !( Parent is Entity ) ) return;
 
-            ObjectEntity C = Parent as ObjectEntity;
+            Entity C = Parent as Entity;
 
             if ( NewPosition.X < 0 )
                 NewPosition.X = 0;

@@ -83,7 +83,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             return LengthVector * Distance;
         }
 
-        protected override void OnResize( Vector2 NewSize )
+        protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
         {
             if ( ( int ) this.Thickness != ( int ) RequiredThickness )
                 this.SetSize( this.LengthVector * this.Length + this.ThicknessVector * RequiredThickness );
@@ -93,7 +93,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             Bar.SetPosition( this.GetOffsetPosition( RequiredThickness ) );
             Bar.SetSize( this.LengthVector * ( Length - RequiredThickness * 2 ) + this.ThicknessVector * this.Thickness );
 
-            base.OnResize( NewSize );
+            base.OnResize( OldSize, NewSize );
         }
     }
 }

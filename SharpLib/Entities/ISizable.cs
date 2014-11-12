@@ -4,6 +4,10 @@ namespace SharpLib2D.Entities
 {
     public interface ISizable
     {
+        Vector2 Size { get; }
+        float Width { get; }
+        float Height { get; }
+
         /// <summary>
         /// Sets the size of this object.
         /// </summary>

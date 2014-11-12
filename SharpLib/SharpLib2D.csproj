@@ -49,12 +49,15 @@
     <Compile Include="Entities\Dragger.cs" />
     <Compile Include="Entities\DrawableEntity.cs" />
     <Compile Include="Entities\EntityRotatable.cs" />
+    <Compile Include="Entities\Entity\Parenting.cs" />
+    <Compile Include="Entities\Entity\Position.cs" />
+    <Compile Include="Entities\Entity\Size.cs" />
+    <Compile Include="Entities\Entity\UpdateDraw.cs" />
     <Compile Include="Entities\IPositionable.cs" />
     <Compile Include="Entities\ISizable.cs" />
     <Compile Include="Entities\MouseEntity.cs" />
     <Compile Include="Entities\MouseEntityContainer.cs" />
-    <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\ObjectEntity.cs" />
+    <Compile Include="Entities\Entity\Base.cs" />
     <Compile Include="Entities\ParentableEntity.cs" />
     <Compile Include="Entities\UpdatableEntity.cs" />
     <Compile Include="Events\InputMouseEvents.cs" />

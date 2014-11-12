@@ -30,9 +30,9 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             base.OnButtonPressed( Button );
         }
 
-        protected override void OnPositionChanged( Vector2 NewPosition )
+        protected override void OnReposition( Vector2 OldPosition, Vector2 NewPosition )
         {
-            base.OnPositionChanged( NewPosition );
+            base.OnReposition( OldPosition, NewPosition );
 
             if ( Canvas.Dragger.IsDragging<ScrollbarBarDragger>( ) && Canvas.Dragger.DraggingEntity == this )
                 this.Bar.OnDrag( );
@@ -82,7 +82,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
         internal void OnDrag( )
         {
             float MaxMovement = this.Length - Dragger.Length;
-            float Movement = ( this.Dragger.LocalPosition * this.Scrollbar.LengthVector ).Length;
+            float Movement = ( this.ToLocal( Dragger.Position ) * this.Scrollbar.LengthVector ).Length;
 
             this.Scrollbar.Value = ( Movement / MaxMovement ) * 
                                    ( this.Scrollbar.MaxValue - this.Scrollbar.MinValue ) +
@@ -108,7 +108,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
                                   this.Scrollbar.LengthVector * NewLength );
         }
 
-        protected override void OnResize( Vector2 NewSize )
+        protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
         {
             this.ResizeDragger( );
         }

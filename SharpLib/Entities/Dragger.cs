@@ -5,7 +5,7 @@ namespace SharpLib2D.Entities
 {
     public class Dragger : ParentableEntity
     {
-        public ObjectEntity DraggingEntity { private set; get; }
+        public Entity DraggingEntity { private set; get; }
         public bool Dragging { private set; get; }
         public Vector2 LocalGrabPoint { private set; get; }
 
@@ -26,7 +26,7 @@ namespace SharpLib2D.Entities
                 this.StopDragging( );
         }
 
-        public void StartDragging( ObjectEntity E )
+        public void StartDragging( Entity E )
         {
             if ( Dragging )
                 StopDragging( );
@@ -41,7 +41,7 @@ namespace SharpLib2D.Entities
         /// </summary>
         /// <typeparam name="T">The type to check for.</typeparam>
         /// <returns></returns>
-        public bool IsDragging<T>( ) where T : ObjectEntity
+        public bool IsDragging<T>( ) where T : Entity
         {
             return Dragging && DraggingEntity is T;
         }
@@ -59,8 +59,8 @@ namespace SharpLib2D.Entities
             Vector2 Pos = ParentState.Camera.ToWorld( DPos );
 
             DraggingEntity.SetPosition(
-                TransformPosition( ( DraggingEntity.HasParent && DraggingEntity.Parent is ObjectEntity )
-                    ? ( DraggingEntity.Parent as ObjectEntity ).ToLocal( Pos )
+                TransformPosition( ( DraggingEntity.HasParent && DraggingEntity.Parent is Entity )
+                    ? ( DraggingEntity.Parent as Entity ).ToLocal( Pos )
                     : Pos ) );
 
             base.Update( e );

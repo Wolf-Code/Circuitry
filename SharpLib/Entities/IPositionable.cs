@@ -4,6 +4,10 @@ namespace SharpLib2D.Entities
 {
     public interface IPositionable
     {
+        Vector2 Position { get; }
+        float X { get; }
+        float Y { get; }
+
         /// <summary>
         /// Sets the position of this object.
         /// </summary>

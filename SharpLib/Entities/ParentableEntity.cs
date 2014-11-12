@@ -8,7 +8,7 @@ namespace SharpLib2D.Entities
     {
         protected readonly List<ParentableEntity> Children = new List<ParentableEntity>( );
 
-        public ParentableEntity Parent { protected set; get; }
+        public ParentableEntity Parent { private set; get; }
 
         public bool HasParent
         {

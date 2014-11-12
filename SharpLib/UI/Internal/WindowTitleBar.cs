@@ -20,12 +20,12 @@ namespace SharpLib2D.UI.Internal
             this.SetSize( 100, 23 );
         }
 
-        protected override void OnResize( Vector2 NewSize )
+        protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
         {
             this.Button.SetPosition( this.Width - this.Button.Width - 4, 1 );
             this.Label.SetSize( this.Button.TopLeft.X, this.Height );
 
-            base.OnResize( NewSize );
+            base.OnResize( OldSize, NewSize );
         }
 
         public override void OnButtonPressed( MouseButton Button )
@@ -41,7 +41,7 @@ namespace SharpLib2D.UI.Internal
 
         public override BoundingVolume BoundingVolume
         {
-            get { return new BoundingRectangle( this.TopLeft, this.BottomRight + new Vector2( 0, this.Window.Height ) ); }
+            get { return new BoundingRectangle( this.TopLeft, this.TopLeft + new Vector2( this.Size.X, this.Size.Y + this.Window.Height ) ); }
         }
     }
 }

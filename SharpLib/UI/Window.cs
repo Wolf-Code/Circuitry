@@ -16,7 +16,7 @@ namespace SharpLib2D.UI
             this.SetPosition( 0, 0 );
         }
 
-        protected override void OnResize( Vector2 NewSize )
+        protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
         {
             NewSize.Y -= this.TitleBar.Size.Y;
             if ( NewSize.Y < 0 )
@@ -27,7 +27,7 @@ namespace SharpLib2D.UI
             m_Size.Y = NewSize.Y;
         }
 
-        protected override void OnPositionChanged( Vector2 NewPosition )
+        protected override void OnReposition( Vector2 OldPosition, Vector2 NewPosition )
         {
             this.TitleBar.SetPosition( NewPosition );
 
