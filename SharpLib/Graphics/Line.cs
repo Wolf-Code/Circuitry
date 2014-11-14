@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System.Collections.Generic;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using SharpLib2D.Math;
 using SharpLib2D.Resources;
@@ -104,6 +105,31 @@ namespace SharpLib2D.Graphics
             }
 
             DrawConnected( Curve, Width );
+        }
+
+        public static void DrawCubicBezierCurve( BezierCurveCubic Curve, int Points, float Width = 1f )
+        {
+            Texture.EnableTextures( false );
+            Points += 1;
+            Vector2[ ] CurvePoints = new Vector2[ Points + 1 ];
+            for ( int X = 0; X < Points + 1; X++ )
+            {
+                float Progress = X / ( float )Points;
+
+                CurvePoints[ X ] = Curve.CalculatePoint( Progress );
+            }
+
+            DrawConnected( CurvePoints, Width );
+        }
+
+        public static void DrawCubicBezierPath( List<Vector2> Positions, int Points, float Scale = 0.3f, float Width = 1f )
+        {
+            Texture.EnableTextures( false );
+            List<BezierCurveCubic> Cubics = Interpolation.CubicBezierPath( Positions, Scale );
+            foreach ( BezierCurveCubic Cubic in Cubics )
+            {
+                DrawCubicBezierCurve( Cubic, Points, Width );
+            }
         }
 
         #endregion

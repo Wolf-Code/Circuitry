@@ -1,4 +1,6 @@
-﻿using Circuitry.Components;
+﻿using System;
+using System.Collections.Generic;
+using Circuitry.Components;
 using Circuitry.Components.Circuits;
 using OpenTK;
 using OpenTK.Graphics;
@@ -9,44 +11,43 @@ namespace Circuitry.Renderers
 {
     public static class NodesRenderer
     {
-        public static void DrawLine( Color4 Col, Vector2 Start, Vector2 End )
-        {
-            Color.Set( 0.2f, 0.2f, 0.2f );
-            /*Line.DrawCubicBezierCurve( Cur.Position, Cur.NextNode.Position,
-                Cur.Position + new Vector2( Math.Abs( Diff.X ), 0 ),
-                Cur.NextNode.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 6f );*/
-            Line.Draw( Start, End, 6f );
-
-            Color.Set( Col );
-
-            /*Line.DrawCubicBezierCurve( Cur.Position, Cur.NextNode.Position,
-                Cur.Position + new Vector2( Math.Abs( Diff.X ), 0 ),
-                Cur.NextNode.Position - new Vector2( Math.Abs( Diff.X ), 0 ), 32, 4f );*/
-            Line.Draw( Start, End, 4f );
-        }
-
         public static void DrawConnection( Circuit Circuit, IONode Start )
         {
+            if ( !Start.HasNextNode && !Circuit.Connector.ConnectingNodes )
+                return;
+
+            IONode PreviousCur = Start;
             IONode Cur = Start;
-            IONode Next = Start.NextNode;
             Color4 C = Cur.BinaryValue ? Color4.LimeGreen : Color4.Blue;
-
-            while ( Next != null )
+            List<Vector2> Positions = new List<Vector2>( );
+            while ( Cur != null )
             {
-                DrawLine( C, Cur.Position, Next.Position );
+                Positions.Add( Cur.Position );
 
-                Cur = Next;
-                Next = Next.NextNode;
+                PreviousCur = Cur;
+                Cur = Cur.NextNode;
             }
 
-            if ( !Circuit.Connector.ConnectingNodes ) return;
+            if ( Circuit.Connector.ConnectingNodes )
+            {
+                if ( Circuit.Connector.ConnectionNode == PreviousCur )
+                    Positions.Add( Mouse.WorldPosition );
+                else if ( Circuit.Connector.ConnectionNode == Start )
+                    Positions.Insert( 0, Mouse.WorldPosition );
+            }
 
-            if ( Cur == Circuit.Connector.ConnectionNode )
-                DrawLine( C, Cur.Position, Mouse.WorldPosition );
-            else if ( Start == Circuit.Connector.ConnectionNode )
-                DrawLine( C, Start.Position, Mouse.WorldPosition );
+            Action<float> Drawer = Width =>
+            {
+                if ( Positions.Count > 2 )
+                    Line.DrawCubicBezierPath( Positions, 8, 0.3f, Width );
+                else if ( Positions.Count > 1 )
+                    Line.Draw( Positions[ 0 ], Positions[ 1 ], Width );
+            };
 
-            IONode.DrawNode( Mouse.WorldPosition );
+            Color.Set( Color4.DimGray );
+            Drawer( 10f );
+            Color.Set( C );
+            Drawer( 5f );
         }
     }
 }

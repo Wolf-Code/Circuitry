@@ -10,7 +10,7 @@ namespace Circuitry.Components.Circuits.Components
     {
         private readonly Circuit Circuit;
 
-        private bool ConnectingOutput;
+        public bool ConnectingOutput { private set; get; }
         public IONode ConnectionNode { private set; get; }
         public bool ConnectingNodes { private set; get; }
 
