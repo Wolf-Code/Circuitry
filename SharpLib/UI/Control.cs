@@ -102,6 +102,8 @@ namespace SharpLib2D.UI
             SetPosition( Center.X - BoundingVolume.Width / 2, Center.Y - BoundingVolume.Height / 2 );
         }
 
+        #region Move
+
         public void MoveBelow( Control C, float Offset = 0f )
         {
             Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
@@ -125,6 +127,36 @@ namespace SharpLib2D.UI
             Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
             SetPosition( new Vector2( P.X - this.Size.X + Offset, this.LocalPosition.Y ) );
         }
+
+        #endregion Move
+
+        #region Align
+
+        public void AlignBottom( Control C, float Offset = 0f )
+        {
+            Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
+            SetPosition( new Vector2( this.LocalPosition.X, P.Y + C.Size.Y - this.Size.Y + Offset ) );
+        }
+
+        public void AlignTop( Control C, float Offset = 0f )
+        {
+            Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
+            SetPosition( new Vector2( this.LocalPosition.X, P.Y - Offset ) );
+        }
+
+        public void AlignRight( Control C, float Offset = 0f )
+        {
+            Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
+            SetPosition( new Vector2( P.X + C.Size.X - this.Size.X + Offset, this.LocalPosition.Y ) );
+        }
+
+        public void AlignLeft( Control C, float Offset = 0f )
+        {
+            Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
+            SetPosition( new Vector2( P.X - Offset, this.LocalPosition.Y ) );
+        }
+
+        #endregion Align
 
         #endregion
 

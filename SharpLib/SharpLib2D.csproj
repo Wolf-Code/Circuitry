@@ -78,6 +78,7 @@
     <Compile Include="Graphics\Text.cs" />
     <Compile Include="Info\Directions.cs" />
     <Compile Include="Math\BoundingVolumes.cs" />
+    <Compile Include="Math\Random.cs" />
     <Compile Include="Resources\Font.cs" />
     <Compile Include="Resources\Loaders\Font.cs" />
     <Compile Include="Resources\Loaders\ResourceLoader.cs" />
