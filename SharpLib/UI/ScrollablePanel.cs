@@ -14,7 +14,7 @@ namespace SharpLib2D.UI
         private readonly VerticalScrollbar VSBar;
         public bool ShowHorizontalScrollbar { set; get; }
         public bool ShowVerticalScrollbar { set; get; }
-        private readonly List<Control> Items = new List<Control>( );
+        protected readonly List<Control> Items = new List<Control>( );
         private Vector2 ScrollValues1;
 
         private bool ShouldHorizontalScrollbar
@@ -30,7 +30,7 @@ namespace SharpLib2D.UI
             }
         }
 
-        private Vector2 ContentSize
+        protected Vector2 ContentSize
         {
             get
             {

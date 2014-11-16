@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Gwen.Control;
 using Gwen.Input;
 
@@ -31,6 +32,7 @@ namespace Gwen
         {
             if (g_ToolTip == control)
             {
+                control.ToolTip = null;
                 g_ToolTip = null;
             }
         }

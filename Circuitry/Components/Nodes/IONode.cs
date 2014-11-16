@@ -1,6 +1,8 @@
 ﻿using System;
 using Circuitry.Components.Nodes;
+using Circuitry.States;
 using Circuitry.UI;
+using Gwen;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
@@ -209,14 +211,14 @@ namespace Circuitry.Components
 
         public override void OnMouseEnter( )
         {
-            //( ParentState as GwenState ).GwenCanvas.ToolTip.Show( );
-            //( ParentState as GwenState ).GwenCanvas.ToolTip.SetToolTipText( this.Name + ": " + this.Description );
+            ( ParentState as GwenState ).GwenCanvas.SetToolTipText( this.Name + ": " + this.Description );
+            ToolTip.Enable( ( ParentState as GwenState ).GwenCanvas );
             base.OnMouseEnter( );
         }
 
         public override void OnMouseExit( )
         {
-            //( ParentState as GwenState ).GwenCanvas.ToolTip.Hide( );
+            ToolTip.Disable( ( ParentState as GwenState ).GwenCanvas );
             base.OnMouseExit( );
         }
 

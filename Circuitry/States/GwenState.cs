@@ -19,7 +19,6 @@ namespace Circuitry.States
             GwenCanvas = new Canvas( Manager.Skin );
             Input = Manager.CreateInput( GwenCanvas );
 
-
             base.OnStart( );
         }
 
