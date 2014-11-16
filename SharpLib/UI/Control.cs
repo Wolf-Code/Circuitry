@@ -105,7 +105,25 @@ namespace SharpLib2D.UI
         public void MoveBelow( Control C, float Offset = 0f )
         {
             Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
-            SetPosition( P + new Vector2( 0, C.Size.Y + Offset ) );
+            SetPosition( new Vector2( this.LocalPosition.X, P.Y + C.Size.Y + Offset ) );
+        }
+
+        public void MoveAbove( Control C, float Offset = 0f )
+        {
+            Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
+            SetPosition( new Vector2( this.LocalPosition.X, P.Y - this.Size.Y + Offset ) );
+        }
+
+        public void MoveRightOf( Control C, float Offset = 0f )
+        {
+            Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
+            SetPosition( new Vector2( P.X + C.Size.X + Offset, this.LocalPosition.Y ) );
+        }
+
+        public void MoveLeftOf( Control C, float Offset = 0f )
+        {
+            Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
+            SetPosition( new Vector2( P.X - this.Size.X + Offset, this.LocalPosition.Y ) );
         }
 
         #endregion

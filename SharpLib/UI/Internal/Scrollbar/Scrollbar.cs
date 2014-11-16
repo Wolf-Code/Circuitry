@@ -17,12 +17,12 @@ namespace SharpLib2D.UI.Internal.Scrollbar
         {
             set
             {
-                if ( m_Value != value )
-                {
-                    m_Value = value;
-                    if ( OnValueChanged != null )
-                        OnValueChanged( this );
-                }
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                if ( m_Value == value ) return;
+
+                m_Value = value;
+                if ( OnValueChanged != null )
+                    OnValueChanged( this );
             }
             get { return m_Value; }
         }
@@ -47,7 +47,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             get { return Horizontal ? Vector2.UnitY : Vector2.UnitX; }
         }
 
-        protected internal float Length
+        private float Length
         {
             get { return Horizontal ? Width : Height; }
         }
