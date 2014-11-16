@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using OpenTK;
 using OpenTK.Input;
 using SharpLib2D.Entities;
@@ -38,7 +39,7 @@ namespace SharpLib2D.UI
         #region Properties
         protected new IEnumerable<Control> Children
         {
-            get { return GetChildren<Control>( ); }
+            get { return GetChildren<Control>( ).Where( O => O.Visible ); }
         }
 
         /// <summary>
@@ -48,6 +49,12 @@ namespace SharpLib2D.UI
 
         public bool PreventLeavingParent { set; get; }
         public bool IgnoreMouseInput { set; get; }
+        /// <summary>
+        /// Invisible controls don't receive any input and are invisible, and so are their children.
+        /// They are, in fact, not even listed in the children list.
+        /// </summary>
+        public bool Visible { set; get; }
+
         protected bool PreventDrawingOutsideVisibleArea { set; get; }
 
         protected Canvas Canvas 
@@ -88,6 +95,7 @@ namespace SharpLib2D.UI
 
         protected Control( )
         {
+            Visible = true;
             PreventLeavingParent = false;
             PreventDrawingOutsideVisibleArea = true;
             SetParent( ( ( UIState ) State.ActiveState ).Canvas );
@@ -95,6 +103,7 @@ namespace SharpLib2D.UI
 
         protected Control( Control Parent )
         {
+            Visible = true;
             PreventLeavingParent = false;
             PreventDrawingOutsideVisibleArea = true;
             SetParent( Parent );
@@ -167,6 +176,20 @@ namespace SharpLib2D.UI
 
         #endregion
 
+        public override IEnumerable<T> GetAllChildrenAtPosition<T>( Vector2 CheckPosition )
+        {
+            List<T> Ents = new List<T>( );
+            foreach ( T P in GetChildren<T>( ).Where( P => !( P is Control ) || ( P as Control ).Visible ) )
+            {
+                if ( P.ContainsPosition( CheckPosition ) )
+                    Ents.Add( P );
+
+                Ents.AddRange( P.GetAllChildrenAtPosition<T>( CheckPosition ) );
+            }
+
+            return Ents;
+        }
+
         public override bool ContainsPosition( Vector2 WorldPosition )
         {
             return VisibleRectangle.Width > 0 && VisibleRectangle.Height > 0 &&
@@ -188,6 +211,9 @@ namespace SharpLib2D.UI
 
         public override void Draw( FrameEventArgs e )
         {
+            if ( !this.Visible )
+                return;
+
             BoundingRectangle Visible = VisibleRectangle;
             if ( Visible.Width <= 0 || Visible.Height <= 0 ) return;
 

@@ -17,6 +17,9 @@ namespace SharpLib2D.UI.Internal.Scrollbar
                 MinValue1 = value;
                 if ( OnMinValueChanged != null )
                     OnMinValueChanged( this );
+
+                if ( Value < MinValue )
+                    Value = MinValue;
             }
             get { return MinValue1; }
         }
@@ -28,6 +31,9 @@ namespace SharpLib2D.UI.Internal.Scrollbar
                 MaxValue1 = value;
                 if ( OnMaxValueChanged != null )
                     OnMaxValueChanged( this );
+
+                if ( Value > MaxValue )
+                    Value = MaxValue;
             }
             get { return MaxValue1; }
         }
@@ -39,9 +45,10 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             set
             {
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
-                if ( m_Value == value ) return;
+                double Val = System.Math.Min( this.MaxValue, System.Math.Max( this.MinValue, value ) );
+                if ( m_Value == Val ) return;
 
-                m_Value = value;
+                m_Value = Val;
                 if ( OnValueChanged != null )
                     OnValueChanged( this );
             }

@@ -17,15 +17,15 @@ namespace SharpLib2D.Entities
             return Parent as T;
         }
 
-        protected List<Entity> GetAllChildrenAtPosition( Vector2 CheckPosition )
+        public virtual IEnumerable<T> GetAllChildrenAtPosition<T>( Vector2 CheckPosition ) where T : Entity
         {
-            List<Entity> Ents = new List<Entity>( );
-            foreach ( Entity P in GetChildren<Entity>( ) )
+            List<T> Ents = new List<T>( );
+            foreach ( T P in GetChildren<T>( ) )
             {
                 if ( P.ContainsPosition( CheckPosition ) )
                     Ents.Add( P );
 
-                Ents.AddRange( P.GetAllChildrenAtPosition( CheckPosition ) );
+                Ents.AddRange( P.GetAllChildrenAtPosition<T>( CheckPosition ) );
             }
 
             return Ents;
@@ -38,7 +38,7 @@ namespace SharpLib2D.Entities
 
         public Entity GetTopChildAt( Vector2 WorldPosition )
         {
-            List<Entity> Ents = GetAllChildrenAtPosition( WorldPosition );
+            IEnumerable<Entity> Ents = GetAllChildrenAtPosition<Entity>( WorldPosition );
             return Ents.OrderByDescending( O => O.Z ).FirstOrDefault( );
         }
     }

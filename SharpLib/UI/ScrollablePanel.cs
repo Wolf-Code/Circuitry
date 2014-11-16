@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using OpenTK;
+using SharpLib2D.Objects;
 using SharpLib2D.UI.Internal;
 using SharpLib2D.UI.Internal.Scrollbar;
 
@@ -10,12 +9,13 @@ namespace SharpLib2D.UI
 {
     public class ScrollablePanel : Panel
     {
-        private InvisiblePanel Pnl;
-        private HorizontalScrollbar HSBar;
-        private VerticalScrollbar VSBar;
+        private readonly InvisiblePanel Pnl;
+        private readonly HorizontalScrollbar HSBar;
+        private readonly VerticalScrollbar VSBar;
         public bool ShowHorizontalScrollbar { set; get; }
         public bool ShowVerticalScrollbar { set; get; }
         private readonly List<Control> Items = new List<Control>( );
+        private Vector2 ScrollValues1;
 
         private bool ShouldHorizontalScrollbar
         {
@@ -34,13 +34,24 @@ namespace SharpLib2D.UI
         {
             get
             {
+                if ( Items.Count <= 0 )
+                    return Vector2.Zero;
+
                 return new Vector2(
                     Items.Max( O => O.LocalPosition.X + O.Width ),
                     Items.Max( O => O.LocalPosition.Y + O.Height ) );
             }
         }
 
-        private Vector2 ScrollValues = Vector2.Zero;
+        private Vector2 ScrollValues
+        {
+            set
+            {
+                ScrollValues1 = value;
+                ScrollInternalPanel( );
+            }
+            get { return ScrollValues1; }
+        }
 
         public ScrollablePanel( )
         {
@@ -49,72 +60,81 @@ namespace SharpLib2D.UI
             this.Pnl = new InvisiblePanel( );
             this.Pnl.SetParent( this );
             this.Pnl.SetSize( this.Size );
+            this.Pnl.SetVisibleRegion( this.VisibleRectangle );
+
+            this.HSBar = new HorizontalScrollbar
+            {
+                Value = 0,
+                MinValue = 0,
+                Visible = false,
+            };
+            this.HSBar.SetParent( this );
+            this.HSBar.OnValueChanged += OnBarValueChanged;
+
+            this.VSBar = new VerticalScrollbar
+            {
+                Value = 0,
+                MinValue = 0,
+                Visible = false,
+            };
+            this.VSBar.SetParent( this );
+            this.VSBar.OnValueChanged += OnBarValueChanged;
+
+            ResizeScrollbars( );
         }
 
         private void CheckScrollbarRequirements( )
         {
-            if ( ShouldHorizontalScrollbar )
+            if ( !HSBar.Visible == ShouldHorizontalScrollbar )
             {
-                if ( HSBar == null )
-                {
-                    HSBar = new HorizontalScrollbar( );
-                    HSBar.SetParent( this );
-                    HSBar.OnValueChanged += HsBarOnOnValueChanged;
-                    Pnl.SetHeight( this.Height - HSBar.Height );
-                }
-
-                HSBar.AlignBottom( this );
-                HSBar.SetWidth( this.Width );
+                HSBar.Visible = ShouldHorizontalScrollbar;
+                if ( !ShouldHorizontalScrollbar )
+                    ScrollValues = new Vector2( 0, ScrollValues.Y );
             }
-            else
+
+            if ( ShouldHorizontalScrollbar )
+                HSBar.MaxValue = ContentSize.X - this.Width + ( VSBar != null ? VSBar.Width : 0 );
+
+
+
+            if ( !VSBar.Visible == ShouldVerticalScrollbar )
             {
-                if ( HSBar != null )
-                {
-                    Pnl.SetHeight( this.Height );
-                    HSBar.Remove( );
-                    HSBar = null;
-                    ScrollValues.X = 0;
-                }
+                VSBar.Visible = ShouldVerticalScrollbar;
+                if ( !ShouldVerticalScrollbar )
+                    ScrollValues = new Vector2( ScrollValues.X, 0 );
             }
 
             if ( ShouldVerticalScrollbar )
-            {
-                if ( VSBar == null )
-                {
-                    VSBar = new VerticalScrollbar( );
-                    VSBar.SetParent( this );
-                    VSBar.MinValue = 0;
-                    VSBar.Value = 0;
-                    VSBar.OnValueChanged += VsBarOnOnValueChanged;
-                    Pnl.SetWidth( this.Width - VSBar.Width );
-                }
+                VSBar.MaxValue = ContentSize.Y - this.Height + ( HSBar != null ? HSBar.Height : 0 );
 
-                VSBar.AlignRight( this );
-                VSBar.SetHeight( this.Height );
-                VSBar.MaxValue =  ContentSize.Y - this.Height;
-            }
-            else
-            {
-                if ( VSBar != null )
-                {
-                    Pnl.SetWidth( this.Width );
-                    VSBar.Remove( );
-                    VSBar = null;
-                    ScrollValues.Y = 0;
-                }
-            }
+            ResizeScrollbars( );
         }
 
-        private void HsBarOnOnValueChanged( Scrollbar Control )
+        private void ResizeScrollbars( )
         {
-            this.ScrollValues.X = ( float )Control.Value;
-            this.ScrollInternalPanel(  );
+            float W = this.Width;
+            float H = this.Height;
+            if ( ShouldHorizontalScrollbar && ShouldVerticalScrollbar )
+            {
+                W -= this.VSBar.Width;
+                H -= this.HSBar.Height;
+            }
+
+            HSBar.SetWidth( W );
+            HSBar.AlignBottom( this );
+
+            VSBar.SetHeight( H );
+            VSBar.AlignRight( this );
         }
 
-        private void VsBarOnOnValueChanged( Scrollbar Control )
+        private void OnBarValueChanged( Scrollbar Control )
         {
-            this.ScrollValues.Y = ( float ) Control.Value;
-            this.ScrollInternalPanel(  );
+            this.ScrollValues = Control == 
+                HSBar 
+                ? new Vector2( ( float ) Control.Value, ScrollValues.Y ) 
+                : new Vector2( ScrollValues.X, ( float ) Control.Value );
+
+            this.ScrollInternalPanel( );
         }
 
         private void ScrollInternalPanel( )
@@ -126,8 +146,11 @@ namespace SharpLib2D.UI
         {
             base.OnResize( OldSize, NewSize );
 
+            ResizeScrollbars( );
             CheckScrollbarRequirements( );
         }
+
+        #region Items
 
         public void AddItem( Control C )
         {
@@ -160,6 +183,23 @@ namespace SharpLib2D.UI
 
             this.Pnl.SetSize( this.ContentSize );
             this.CheckScrollbarRequirements( );
+        }
+
+        #endregion
+
+        public override void Update( FrameEventArgs e )
+        {
+            float W = this.Width;
+            if ( VSBar.Visible )
+                W -= VSBar.Width;
+
+            float H = this.Height;
+            if ( HSBar.Visible )
+                H -= HSBar.Height;
+
+            this.Pnl.SetVisibleRegion( new BoundingRectangle( this.TopLeft.X, this.TopLeft.Y, W, H ) );
+
+            base.Update( e );
         }
     }
 }

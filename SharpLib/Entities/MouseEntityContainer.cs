@@ -59,8 +59,8 @@ namespace SharpLib2D.Entities
 
                 if ( LastDownEntity != null )
                 {
-                    LastDownEntity.OnButtonReleased( B );
                     LastDownEntity.OnRemoved -= LastDownWasRemoved;
+                    LastDownEntity.OnButtonReleased( B );
                     LastDownEntity = null;
                 }
                 else
