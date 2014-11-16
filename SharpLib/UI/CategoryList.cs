@@ -16,5 +16,10 @@ namespace SharpLib2D.UI
 
             return Header;
         }
+
+        public void CategoryItemToggled( )
+        {
+            this.OnResize( this.Size, this.Size );
+        }
     }
 }

@@ -7,16 +7,6 @@ namespace SharpLib2D.Entities
 {
     public abstract partial class Entity
     {
-        public bool IsParent<T>( ) where T : ParentableEntity
-        {
-            return Parent is T;
-        }
-
-        public T GetParent<T>( ) where T : ParentableEntity
-        {
-            return Parent as T;
-        }
-
         public virtual IEnumerable<T> GetAllChildrenAtPosition<T>( Vector2 CheckPosition ) where T : Entity
         {
             List<T> Ents = new List<T>( );

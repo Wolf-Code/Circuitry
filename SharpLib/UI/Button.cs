@@ -41,10 +41,15 @@ namespace SharpLib2D.UI
             base.Dispose( );
         }
 
+        protected void DrawLabel( )
+        {
+            base.DrawSelf( );
+        }
+
         protected override void DrawSelf( )
         {
             Canvas.Skin.DrawButton( this );
-            base.DrawSelf( );
+            DrawLabel( );
         }
     }
 }

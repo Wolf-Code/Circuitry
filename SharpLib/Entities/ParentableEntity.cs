@@ -15,6 +15,16 @@ namespace SharpLib2D.Entities
             get { return Parent != null; }
         }
 
+        public bool IsParent<T>( ) where T : ParentableEntity
+        {
+            return Parent is T;
+        }
+
+        public T GetParent<T>( ) where T : ParentableEntity
+        {
+            return Parent as T;
+        }
+
         public IEnumerable<T> GetChildren<T>( ) where T : ParentableEntity
         {
             return Children.OfType<T>( );
