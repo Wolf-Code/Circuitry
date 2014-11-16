@@ -49,7 +49,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
         public ScrollbarBarDragger Dragger { private set; get; }
         public Scrollbar Scrollbar { private set; get; }
 
-        private float Length
+        internal float Length
         {
             get { return ( Scrollbar.LengthVector * Size ).Length; }
         }
@@ -89,7 +89,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
                                    Scrollbar.MinValue;
         }
 
-        private float DraggerMultiplier( )
+        internal float DraggerMultiplier( )
         {
             double Diff = Scrollbar.MaxValue - Scrollbar.MinValue;
             if ( Diff <= 0 )

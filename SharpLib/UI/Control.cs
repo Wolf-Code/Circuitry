@@ -41,6 +41,7 @@ namespace SharpLib2D.UI
 
         public bool PreventLeavingParent { set; get; }
         public bool IgnoreMouseInput { set; get; }
+        protected bool PreventDrawingOutsideVisibleArea { set; get; }
 
         protected Canvas Canvas 
         {
@@ -78,15 +79,17 @@ namespace SharpLib2D.UI
 
         #endregion
 
-        public Control( )
+        protected Control( )
         {
             PreventLeavingParent = false;
+            PreventDrawingOutsideVisibleArea = true;
             SetParent( ( ( UIState ) State.ActiveState ).Canvas );
         }
 
-        public Control( Control Parent )
+        protected Control( Control Parent )
         {
             PreventLeavingParent = false;
+            PreventDrawingOutsideVisibleArea = true;
             SetParent( Parent );
         }
 
@@ -125,6 +128,11 @@ namespace SharpLib2D.UI
             BoundingRectangle Visible = VisibleRectangle;
             if ( Visible.Width <= 0 || Visible.Height <= 0 ) return;
 
+            if ( !PreventDrawingOutsideVisibleArea )
+            {
+                Visible = this.GetParent<Control>( ).VisibleRectangle;
+                if ( Visible.Width <= 0 || Visible.Height <= 0 ) return;
+            }
             Scissor.SetScissorRectangle( Visible.Left, Visible.Top, Visible.Width, Visible.Height );
             DrawSelf( );
 

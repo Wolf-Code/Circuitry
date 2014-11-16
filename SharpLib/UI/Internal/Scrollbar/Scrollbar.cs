@@ -1,11 +1,12 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using SharpLib2D.Info;
 
 namespace SharpLib2D.UI.Internal.Scrollbar
 {
     public abstract class Scrollbar : Control
     {
-        public event SharpLibUIEventHandler<Scrollbar> OnValueChanged; 
+        public event SharpLibUIEventHandler<Scrollbar> OnValueChanged;
 
         public double MinValue { set; get; }
         public double MaxValue { set; get; }
@@ -36,25 +37,22 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             get { return Buttons[ 0 ].Size.X; }
         }
 
-        internal protected Vector2 LengthVector
+        protected internal Vector2 LengthVector
         {
             get { return Horizontal ? Vector2.UnitX : Vector2.UnitY; }
         }
 
-        internal protected Vector2 ThicknessVector
+        protected internal Vector2 ThicknessVector
         {
-            get
-            {
-                return Horizontal ? Vector2.UnitY : Vector2.UnitX;
-            }
+            get { return Horizontal ? Vector2.UnitY : Vector2.UnitX; }
         }
 
-        internal protected float Length
+        protected internal float Length
         {
             get { return Horizontal ? Width : Height; }
         }
 
-        internal protected float Thickness
+        protected internal float Thickness
         {
             get { return Horizontal ? Height : Width; }
         }
@@ -72,10 +70,30 @@ namespace SharpLib2D.UI.Internal.Scrollbar
                 Buttons = new [ ]
                 { new ScrollbarButton( Directions.Direction.Up ), new ScrollbarButton( Directions.Direction.Down ) };
 
-            foreach ( ScrollbarButton B in Buttons )
+            for ( int Index = 0; Index < Buttons.Length; Index++ )
+            {
+                ScrollbarButton B = Buttons[ Index ];
+                if ( Index <= 0 )
+                    B.OnClick += OnClickBack;
+                else
+                    B.OnClick += OnClickForward;
+
                 B.SetParent( this );
+            }
 
             Bar = new ScrollbarBar( this );
+        }
+
+        private void OnClickForward( Button Control )
+        {
+            this.Value = System.Math.Min( MaxValue,
+                this.Value + ( this.MaxValue - this.MinValue ) * this.Bar.DraggerMultiplier( ) );
+        }
+
+        private void OnClickBack( Button Control )
+        {
+            this.Value = System.Math.Max( MinValue,
+                this.Value - ( this.MaxValue - this.MinValue ) * this.Bar.DraggerMultiplier( ) );
         }
 
         private Vector2 GetOffsetPosition( float Distance )
