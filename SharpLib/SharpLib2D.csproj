@@ -99,6 +99,8 @@
     <Compile Include="States\UIState.cs" />
     <Compile Include="States\State.cs" />
     <Compile Include="UI\Checkbox.cs" />
+    <Compile Include="UI\Internal\InvisiblePanel.cs" />
+    <Compile Include="UI\ScrollablePanel.cs" />
     <Compile Include="UI\VerticalScrollbar.cs" />
     <Compile Include="UI\HorizontalScrollbar.cs" />
     <Compile Include="UI\Internal\Scrollbar\Scrollbar.cs" />

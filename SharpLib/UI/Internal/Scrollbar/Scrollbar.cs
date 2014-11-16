@@ -7,9 +7,30 @@ namespace SharpLib2D.UI.Internal.Scrollbar
     public abstract class Scrollbar : Control
     {
         public event SharpLibUIEventHandler<Scrollbar> OnValueChanged;
+        public event SharpLibUIEventHandler<Scrollbar> OnMinValueChanged;
+        public event SharpLibUIEventHandler<Scrollbar> OnMaxValueChanged;
 
-        public double MinValue { set; get; }
-        public double MaxValue { set; get; }
+        public double MinValue
+        {
+            set
+            {
+                MinValue1 = value;
+                if ( OnMinValueChanged != null )
+                    OnMinValueChanged( this );
+            }
+            get { return MinValue1; }
+        }
+
+        public double MaxValue
+        {
+            set
+            {
+                MaxValue1 = value;
+                if ( OnMaxValueChanged != null )
+                    OnMaxValueChanged( this );
+            }
+            get { return MaxValue1; }
+        }
 
         private double m_Value;
 
@@ -29,6 +50,8 @@ namespace SharpLib2D.UI.Internal.Scrollbar
 
         private readonly ScrollbarButton [ ] Buttons = new ScrollbarButton[ 2 ];
         private readonly ScrollbarBar Bar;
+        private double MinValue1;
+        private double MaxValue1;
 
         protected bool Horizontal { set; get; }
 
@@ -82,6 +105,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             }
 
             Bar = new ScrollbarBar( this );
+            this.SetSize( this.Size );
         }
 
         private void OnClickForward( Button Control )
@@ -112,6 +136,14 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             Bar.SetSize( LengthVector * ( Length - RequiredThickness * 2 ) + ThicknessVector * Thickness );
 
             base.OnResize( OldSize, NewSize );
+        }
+
+        public override void Dispose( )
+        {
+            this.OnValueChanged = null;
+            this.OnMinValueChanged = null;
+            this.OnMaxValueChanged = null;
+            base.Dispose( );
         }
     }
 }

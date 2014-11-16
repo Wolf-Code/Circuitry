@@ -29,6 +29,8 @@ namespace SharpLib2D.UI
         /// </summary>
         public event SharpLibUIEventHandler<Control> SizeChanged;
 
+        public event SharpLibUIEventHandler<Control> Removed; 
+
         public event SharpLibUIEventHandler<Control> OnLeftClick;
         public event SharpLibUIEventHandler<Control> OnRightClick; 
         #endregion
@@ -38,6 +40,11 @@ namespace SharpLib2D.UI
         {
             get { return GetChildren<Control>( ); }
         }
+
+        /// <summary>
+        /// Data which you can set to this control and retrieve later.
+        /// </summary>
+        public object UserData { set; get; }
 
         public bool PreventLeavingParent { set; get; }
         public bool IgnoreMouseInput { set; get; }
@@ -201,11 +208,14 @@ namespace SharpLib2D.UI
             SizeChanged = null;
             OnLeftClick = null;
             OnRightClick = null;
+            Removed = null;
         }
 
         protected override void OnRemove( )
         {
             base.OnRemove( );
+            if ( Removed != null )
+                Removed( this );
 
             Dispose( );
         }

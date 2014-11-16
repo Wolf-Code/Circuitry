@@ -60,6 +60,8 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             SetParent( this.Scrollbar );
             Dragger = new ScrollbarBarDragger( this );
             this.Scrollbar.OnValueChanged += Scrollbar_OnValueChanged;
+            this.Scrollbar.OnMinValueChanged += Control => ResizeDragger( );
+            this.Scrollbar.OnMaxValueChanged += Control => ResizeDragger( );
         }
 
         void Scrollbar_OnValueChanged( Scrollbar Control )
