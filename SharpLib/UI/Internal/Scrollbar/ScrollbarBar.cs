@@ -60,8 +60,14 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             SetParent( this.Scrollbar );
             Dragger = new ScrollbarBarDragger( this );
             this.Scrollbar.OnValueChanged += Scrollbar_OnValueChanged;
-            this.Scrollbar.OnMinValueChanged += Control => ResizeDragger( );
-            this.Scrollbar.OnMaxValueChanged += Control => ResizeDragger( );
+            SharpLibUIEventHandler<Scrollbar> MinMaxChange = Scrollbar1 =>
+            {
+                ResizeDragger( );
+                MoveDragger( Scrollbar1.MinValue, Scrollbar1.MaxValue, Scrollbar1.Value );
+            };
+
+            this.Scrollbar.OnMinValueChanged += MinMaxChange;
+            this.Scrollbar.OnMaxValueChanged += MinMaxChange;
         }
 
         void Scrollbar_OnValueChanged( Scrollbar Control )
@@ -75,10 +81,15 @@ namespace SharpLib2D.UI.Internal.Scrollbar
                 return;
             }
 
-            double Div = Control.Value / ( Control.MinValue + Control.MaxValue );
+            this.MoveDragger( Control.MinValue, Control.MaxValue, Control.Value );
+        }
+
+        public void MoveDragger( double Min, double Max, double Val )
+        {
+            double Div = Val / ( Min + Max );
             float MaxMovement = Length - Dragger.Length;
 
-            Dragger.SetPosition( Scrollbar.LengthVector * ( float ) ( MaxMovement * Div ) );
+            Dragger.SetPosition( Scrollbar.LengthVector * ( float )( MaxMovement * Div ) );
         }
 
         internal void OnDrag( )
