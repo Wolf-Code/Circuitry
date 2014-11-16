@@ -99,5 +99,10 @@ namespace SharpLib2D.UI.Skin
         {
             throw new NotImplementedException( );
         }
+
+        public override void DrawCategoryHeader( CategoryHeader H )
+        {
+            throw new NotImplementedException( );
+        }
     }
 }

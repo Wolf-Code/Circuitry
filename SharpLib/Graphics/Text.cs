@@ -99,6 +99,9 @@ namespace SharpLib2D.Graphics
         /// <returns></returns>
         public static Vector2 MeasureString( string Text, string Font, float Size )
         {
+            if ( string.IsNullOrEmpty( Text ) )
+                return Vector2.Zero;
+
             if ( TextObjectContainer.HasTextObject( Text, Font, Size ) )
             {
                 TextObject O = TextObjectContainer.GetTextObject( Text, Font, Size );
@@ -132,6 +135,9 @@ namespace SharpLib2D.Graphics
         /// <param name="Position"></param>
         public static void DrawString( string Text, string Font, float Size, Vector2 Position, Color4 Color )
         {
+            if ( string.IsNullOrEmpty( Text ) )
+                return;
+
             TextObject O = TextObjectContainer.GetTextObject( Text, Font, Size );
             O.Texture.Bind( );
 

@@ -2,10 +2,9 @@
 using System.Linq;
 using OpenTK;
 using SharpLib2D.Objects;
-using SharpLib2D.UI.Internal;
 using SharpLib2D.UI.Internal.Scrollbar;
 
-namespace SharpLib2D.UI
+namespace SharpLib2D.UI.Internal
 {
     public class ScrollablePanel : Panel
     {
@@ -127,7 +126,7 @@ namespace SharpLib2D.UI
             VSBar.AlignRight( this );
         }
 
-        private void OnBarValueChanged( Scrollbar Control )
+        private void OnBarValueChanged( Scrollbar.Scrollbar Control )
         {
             this.ScrollValues = Control == 
                 HSBar 
@@ -152,7 +151,7 @@ namespace SharpLib2D.UI
 
         #region Items
 
-        public void AddItem( Control C )
+        protected void AddItem( Control C )
         {
             Items.Add( C );
             C.SetParent( this.Pnl );
@@ -160,7 +159,7 @@ namespace SharpLib2D.UI
             OnItemAdded( C );
         }
 
-        public void RemoveItem( Control C )
+        protected void RemoveItem( Control C )
         {
             this.OnItemRemoved( C );
         }

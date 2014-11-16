@@ -15,5 +15,6 @@ namespace SharpLib2D.UI.Skin
         public abstract void DrawScrollbarButton( ScrollbarButton B );
         public abstract void DrawScrollbarBarContainer( ScrollbarBar B );
         public abstract void DrawScrollbarBar( ScrollbarBarDragger D );
+        public abstract void DrawCategoryHeader( CategoryHeader H );
     }
 }

@@ -36,11 +36,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debug.cs" />
@@ -99,9 +94,11 @@
     <Compile Include="Resources\Loaders\Textures.cs" />
     <Compile Include="States\UIState.cs" />
     <Compile Include="States\State.cs" />
+    <Compile Include="UI\CategoryList.cs" />
     <Compile Include="UI\Checkbox.cs" />
+    <Compile Include="UI\Internal\CategoryHeader.cs" />
     <Compile Include="UI\Internal\InvisiblePanel.cs" />
-    <Compile Include="UI\ScrollablePanel.cs" />
+    <Compile Include="UI\Internal\ScrollablePanel.cs" />
     <Compile Include="UI\VerticalScrollbar.cs" />
     <Compile Include="UI\HorizontalScrollbar.cs" />
     <Compile Include="UI\Internal\Scrollbar\Scrollbar.cs" />
