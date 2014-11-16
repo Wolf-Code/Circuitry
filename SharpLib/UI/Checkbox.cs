@@ -11,7 +11,7 @@ namespace SharpLib2D.UI
 
         public override BoundingRectangle VisibleRectangle
         {
-            get { return HasParent ? ( ( Control ) Parent ).VisibleRectangle : BoundingVolume.BoundingBox; }
+            get { return new BoundingRectangle( this.TopLeft, Label.BottomRight ); }
         }
 
         public Checkbox( string Text = "" )

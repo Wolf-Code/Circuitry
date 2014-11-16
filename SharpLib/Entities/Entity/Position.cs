@@ -68,7 +68,7 @@ namespace SharpLib2D.Entities
             SetPosition( NewPosition.X, NewPosition.Y );
         }
 
-        public bool ContainsPosition( Vector2 WorldPosition )
+        public virtual bool ContainsPosition( Vector2 WorldPosition )
         {
             return BoundingVolume.Contains( WorldPosition );
         }

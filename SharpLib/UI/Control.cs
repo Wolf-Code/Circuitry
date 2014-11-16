@@ -167,6 +167,12 @@ namespace SharpLib2D.UI
 
         #endregion
 
+        public override bool ContainsPosition( Vector2 WorldPosition )
+        {
+            return VisibleRectangle.Width > 0 && VisibleRectangle.Height > 0 &&
+                   VisibleRectangle.Contains( WorldPosition );
+        }
+
         public override MouseEntity GetTopChild( Vector2 CheckPosition )
         {
             MouseEntity E = GetTopChildAt( CheckPosition ) as MouseEntity;
