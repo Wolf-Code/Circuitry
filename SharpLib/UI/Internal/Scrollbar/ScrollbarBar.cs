@@ -5,7 +5,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
 {
     public class ScrollbarBarDragger : Button
     {
-        public ScrollbarBar Bar { private set; get; }
+        private ScrollbarBar Bar { set; get; }
         public float Length
         {
             get
@@ -45,7 +45,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
 
     public class ScrollbarBar : Control
     {
-        public ScrollbarBarDragger Dragger { private set; get; }
+        private ScrollbarBarDragger Dragger { set; get; }
         public Scrollbar Scrollbar { private set; get; }
 
         private float Length

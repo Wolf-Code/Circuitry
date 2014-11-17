@@ -6,11 +6,17 @@ namespace SharpLib2D.Entities.Camera
 {
     public class DefaultCamera : Entity
     {
+        /// <summary>
+        /// The projection matrix.
+        /// </summary>
         public virtual Matrix4 Projection
         {
             get { return Screen.Projection; }
         }
 
+        /// <summary>
+        /// The view matrix.
+        /// </summary>
         public virtual Matrix4 View
         {
             get { return Matrix4.CreateTranslation( -Position.X + Size.X / 2, -Position.Y + Size.Y / 2, 0 ); }

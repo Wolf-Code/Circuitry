@@ -27,12 +27,22 @@ namespace SharpLib2D.Resources
             }
         }
 
+        /// <summary>
+        /// Adds a custom file loaded to the resource loader.
+        /// </summary>
+        /// <param name="Loader">The loader to add.</param>
         public static void AddLoader( ResourceLoader Loader )
         {
             foreach ( string Extension in Loader.Extensions )
                 Loaders.Add( Extension, Loader );
         }
 
+        /// <summary>
+        /// Gets a resource of type <typeparamref name="T"/> from path <paramref name="File"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the resource.</typeparam>
+        /// <param name="File">The path to the resource.</param>
+        /// <returns>The loaded <typeparamref name="T"/>, or null if it hasn't been loaded.</returns>
         public static T Get<T>( string File ) where T : Resource
         {
             string Ext = File.Split( '.' ).Last( ).ToLower( );
@@ -42,7 +52,12 @@ namespace SharpLib2D.Resources
             return Loaders.FirstOrDefault( O => O.Value.ResourceType == typeof ( T ) ).Value.Load( File ) as T;
         }
 
-        private static void CacheFile( FileSystemInfo File )
+        /// <summary>
+        /// Caches a file.
+        /// </summary>
+        /// <exception cref="NoResourceLoaderFoundException">Thrown when the resource wasn't found.</exception>
+        /// <param name="File">The file path to cache.</param>
+        public static void CacheFile( FileSystemInfo File )
         {
             ResourceLoader L;
             if ( Loaders.TryGetValue( File.Extension.TrimStart( '.' ).ToLower( ), out L ) )
@@ -51,6 +66,10 @@ namespace SharpLib2D.Resources
                 throw new NoResourceLoaderFoundException( File );
         }
 
+        /// <summary>
+        /// Caches an entire folder.
+        /// </summary>
+        /// <param name="Folder">The folder path to cache.</param>
         public static void CacheFolder( string Folder )
         {
             DirectoryInfo D = new DirectoryInfo( Folder );
@@ -63,6 +82,9 @@ namespace SharpLib2D.Resources
                 Loader.CacheFolder( CacheFolder.FullName );
         }
 
+        /// <summary>
+        /// Disposes of all resources currently loaded.
+        /// </summary>
         public static void ClearAllResources( )
         {
             foreach ( ResourceLoader Loader in Loaders.Select( O => O.Value ) )

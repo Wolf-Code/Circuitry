@@ -5,6 +5,9 @@ namespace SharpLib2D.Entities
 {
     public abstract partial class Entity : ParentableEntity, IPositionable, ISizable
     {
+        /// <summary>
+        /// The bounding volume containing the entity in its entirety
+        /// </summary>
         public virtual BoundingVolume BoundingVolume
         {
             get { return new BoundingRectangle( TopLeft, TopLeft + Size ); }
