@@ -48,6 +48,10 @@ namespace SharpLib2D.UI.Internal
             }
         }
 
+        #endregion
+
+        #region Container
+
         public class CategoryHeaderContainer : Panel
         {
             public CategoryHeaderContainer( CategoryHeader Header )
@@ -57,7 +61,15 @@ namespace SharpLib2D.UI.Internal
 
             protected override void DrawSelf( )
             {
-                
+
+            }
+
+            protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
+            {
+                foreach ( CategoryButton B in this.GetChildren<CategoryButton>( ) )
+                    B.SetWidth( this.Width );
+
+                base.OnResize( OldSize, NewSize );
             }
         }
 
@@ -135,6 +147,7 @@ namespace SharpLib2D.UI.Internal
         {
             NewSize.Y = System.Math.Max( HeaderHeight, NewSize.Y );
 
+            Console.WriteLine(NewSize);
             this.TitleBar.SetSize( NewSize.X, HeaderHeight );
             this.Container.SetSize( NewSize.X, NewSize.Y - HeaderHeight );
 

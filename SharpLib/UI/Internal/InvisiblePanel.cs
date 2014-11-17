@@ -1,6 +1,4 @@
-﻿
-using OpenTK;
-using SharpLib2D.Objects;
+﻿using SharpLib2D.Objects;
 
 namespace SharpLib2D.UI.Internal
 {

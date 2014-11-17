@@ -21,5 +21,18 @@ namespace SharpLib2D.UI
         {
             this.OnResize( this.Size, this.Size );
         }
+
+        protected override void ScrollbarChanged( bool Horizontal, bool Visible )
+        {
+            if ( Horizontal ) return;
+
+            if ( Visible )
+                this.ContentPanel.SetWidth( this.Width - this.VerticalScrollBar.Width );
+            else
+                this.ContentPanel.SetWidth( this.Width );
+
+            foreach( Control C in this.Items )
+                C.SetWidth( this.ContentPanel.Width );
+        }
     }
 }

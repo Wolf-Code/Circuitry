@@ -1,5 +1,4 @@
-﻿using System;
-using OpenTK;
+﻿using OpenTK;
 using SharpLib2D.Info;
 
 namespace SharpLib2D.UI.Internal.Scrollbar

@@ -1,6 +1,5 @@
 ﻿using OpenTK;
 using OpenTK.Graphics;
-using SharpLib2D.Graphics;
 using SharpLib2D.Info;
 
 namespace SharpLib2D.UI

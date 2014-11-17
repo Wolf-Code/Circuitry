@@ -1,5 +1,4 @@
-﻿using System;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Input;
 
 namespace SharpLib2D.UI.Internal.Scrollbar
@@ -49,7 +48,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
         public ScrollbarBarDragger Dragger { private set; get; }
         public Scrollbar Scrollbar { private set; get; }
 
-        internal float Length
+        private float Length
         {
             get { return ( Scrollbar.LengthVector * Size ).Length; }
         }
@@ -84,7 +83,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             this.MoveDragger( Control.MinValue, Control.MaxValue, Control.Value );
         }
 
-        public void MoveDragger( double Min, double Max, double Val )
+        private void MoveDragger( double Min, double Max, double Val )
         {
             double Div = Val / ( Min + Max );
             float MaxMovement = Length - Dragger.Length;
