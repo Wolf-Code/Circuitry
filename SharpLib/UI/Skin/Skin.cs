@@ -1,5 +1,4 @@
-﻿
-using SharpLib2D.UI.Internal;
+﻿using SharpLib2D.UI.Internal;
 using SharpLib2D.UI.Internal.Scrollbar;
 
 namespace SharpLib2D.UI.Skin
@@ -16,5 +15,6 @@ namespace SharpLib2D.UI.Skin
         public abstract void DrawScrollbarBarContainer( ScrollbarBar B );
         public abstract void DrawScrollbarBar( ScrollbarBarDragger D );
         public abstract void DrawCategoryHeader( CategoryHeader H );
+        public abstract void DrawCategoryButton( CategoryHeader.CategoryButton B );
     }
 }

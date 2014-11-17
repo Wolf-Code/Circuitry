@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
@@ -23,8 +22,7 @@ namespace SharpLib2D.UI.Internal
 
             protected override void DrawSelf( )
             {
-                Graphics.Color.Set( Even ? Color4.White : new Color4( 240, 240, 240, 255 ) );
-                Graphics.Rectangle.Draw( this.TopLeft.X, this.TopLeft.Y, this.Width, this.Height );
+                Canvas.Skin.DrawCategoryButton( this );
                 this.DrawLabel( );
             }
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Input;
 
 namespace SharpLib2D.UI.Internal.Scrollbar
@@ -106,7 +105,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
         {
             double Diff = Scrollbar.MaxValue - Scrollbar.MinValue;
             if ( Diff <= 0 )
-                return Length;
+                return 1f;
 
             return ( float ) ( Length / ( Length + Diff ) );
         }

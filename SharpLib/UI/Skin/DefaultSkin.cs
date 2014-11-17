@@ -104,5 +104,10 @@ namespace SharpLib2D.UI.Skin
         {
             throw new NotImplementedException( );
         }
+
+        public override void DrawCategoryButton( CategoryHeader.CategoryButton B )
+        {
+            throw new NotImplementedException( );
+        }
     }
 }

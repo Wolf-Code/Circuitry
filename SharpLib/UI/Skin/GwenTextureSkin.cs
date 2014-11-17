@@ -1,4 +1,6 @@
-﻿using SharpLib2D.Graphics.Objects;
+﻿using OpenTK.Graphics;
+using SharpLib2D.Graphics;
+using SharpLib2D.Graphics.Objects;
 using SharpLib2D.Info;
 using SharpLib2D.Resources;
 using SharpLib2D.UI.Internal;
@@ -35,6 +37,12 @@ namespace SharpLib2D.UI.Skin
         private void DrawControl( Control C, NinePatch Patch )
         {
             NinePatch.Draw( Texture, C.Position.X, C.Position.Y, C.Size.X, C.Size.Y, Patch );
+        }
+
+        private void DrawControl( Control C, Color4 Color )
+        {
+            Graphics.Color.Set( Color );
+            Rectangle.Draw( C.Position.X, C.Position.Y, C.Size.X, C.Size.Y );
         }
 
         private void DrawButtonDefault( Button B, NinePatch [ ] Patches, int Down = 2, int Hover = 1, int Normal = 0 )
@@ -111,6 +119,22 @@ namespace SharpLib2D.UI.Skin
             DrawControl( H.TitleBar, H.Opened ? NinePatch_CategoryHeader_Open : NinePatch_CategoryHeader_Closed );
             if ( H.Opened )
                 DrawControl( H.Container, NinePatch_Category_Container );
+        }
+
+        public override void DrawCategoryButton( CategoryHeader.CategoryButton B )
+        {
+            Color4 Col;
+            if ( B.IsDown )
+                Col = new Color4( 150, 180, 255, 255 );
+            else
+            {
+                if ( B.IsMouseOn )
+                    Col = new Color4( 200, 220, 255, 255 );
+                else
+                    Col = B.Even ? Color4.White : new Color4( 240, 240, 240, 255 );
+            }
+
+            DrawControl( B, Col );
         }
     }
 }
