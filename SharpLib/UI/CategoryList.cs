@@ -5,10 +5,16 @@ namespace SharpLib2D.UI
 {
     public class CategoryList : ScrollablePanel
     {
+        /// <summary>
+        /// Adds a category to the category list and returns the new header.
+        /// </summary>
+        /// <param name="Title">The category's title.</param>
+        /// <returns>A new <see cref="CategoryHeader"/>.</returns>
         public CategoryHeader AddCategory( string Title )
         {
             CategoryHeader Header = new CategoryHeader( Title );
 
+            Header.SetWidth( this.ContentPanel.Width );
             Header.SetParent( this.ContentPanel );
             Header.SetPosition( 0, Items.Count > 0 ? Items.Max( O => O.LocalPosition.Y + O.Height ) : 0 );
 
@@ -16,9 +22,24 @@ namespace SharpLib2D.UI
             return Header;
         }
 
-        public void CategoryItemToggled( )
+        protected override void OnItemAdded( Control C )
         {
-            for ( int Q = 0; Q < Items.Count; Q++ )
+            base.OnItemAdded( C );
+
+            this.OnResize( this.Size, this.Size );
+        }
+
+        protected override void OnItemRemoved( Control C )
+        {
+            int ID = this.Items.IndexOf( C );
+            base.OnItemRemoved( C );
+
+            this.RepositionItemsFromIndex( ID );
+        }
+
+        private void RepositionItemsFromIndex( int StartIndex = 0 )
+        {
+            for ( int Q = StartIndex; Q < Items.Count; Q++ )
             {
                 Control Item = Items[ Q ];
                 if ( Q > 0 )
@@ -28,6 +49,14 @@ namespace SharpLib2D.UI
             }
 
             this.OnResize( this.Size, this.Size );
+        }
+
+        /// <summary>
+        /// Notifies the category list that a header inside it has been opened or closed.
+        /// </summary>
+        public void CategoryItemToggled( )
+        {
+            this.RepositionItemsFromIndex( );
         }
 
         protected override void ScrollbarChanged( bool Horizontal, bool ScrollbarVisible )

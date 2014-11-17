@@ -8,46 +8,72 @@ namespace SharpLib2D.Entities
 
         protected Vector2 m_Position;
 
+        /// <summary>
+        /// The entity's position.
+        /// </summary>
         public Vector2 Position
         {
             set { SetPosition( value ); }
             get
             {
-                return ( HasParent && IsParent<Entity>(  ) )
-                    ? GetParent<Entity>(  ).ToWorld( m_Position )
-                    : m_Position;
+                return ( HasParent && IsParent<Entity>( ) )
+                    ? GetParent<Entity>( ).ToWorld( m_Position )
+                    : LocalPosition;
             }
         }
 
+        /// <summary>
+        /// The entity's position relative to its parent.
+        /// </summary>
+        /// <remarks> 
+        /// If there is no parent, this returns the entity's actual position. 
+        /// </remarks>
         public Vector2 LocalPosition
         {
             get { return m_Position; }
         }
 
+        /// <summary>
+        /// The entity's top left.
+        /// </summary>
         public virtual Vector2 TopLeft
         {
             get { return Position - Size / 2f; }
         }
 
+        /// <summary>
+        /// The entity's bottom right.
+        /// </summary>
         public Vector2 BottomRight
         {
             get { return TopLeft + Size; }
         }
 
+        /// <summary>
+        /// The entity's X-coordinate.
+        /// </summary>
         public float X
         {
             set { SetPosition( value, Y ); }
-            get { return m_Position.X; }
+            get { return Position.X; }
         }
 
+        /// <summary>
+        /// The entity's Y-coordinate.
+        /// </summary>
         public float Y
         {
             set { SetPosition( X, value ); }
-            get { return m_Position.Y; }
+            get { return Position.Y; }
         }
 
         #endregion
 
+        /// <summary>
+        /// Gets called whenever the entity's position is changed.
+        /// </summary>
+        /// <param name="Old">The entity's old position.</param>
+        /// <param name="New">The entity's new position.</param>
         protected virtual void OnReposition( Vector2 Old, Vector2 New )
         {
 

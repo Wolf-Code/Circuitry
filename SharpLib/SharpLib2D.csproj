@@ -96,6 +96,8 @@
     <Compile Include="States\State.cs" />
     <Compile Include="UI\CategoryList.cs" />
     <Compile Include="UI\Checkbox.cs" />
+    <Compile Include="UI\Interfaces\ISizeToContentable.cs" />
+    <Compile Include="UI\Interfaces\ITextControl.cs" />
     <Compile Include="UI\Internal\CategoryHeader.cs" />
     <Compile Include="UI\Internal\InvisiblePanel.cs" />
     <Compile Include="UI\Internal\ScrollablePanel.cs" />

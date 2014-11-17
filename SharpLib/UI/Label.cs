@@ -4,12 +4,28 @@ using SharpLib2D.Info;
 
 namespace SharpLib2D.UI
 {
-    public class Label : Control
+    public class Label : Control, Interfaces.ITextControl, Interfaces.ISizeToContentable
     {
         public string Text { set; get; }
+
+        /// <summary>
+        /// The font of the label.
+        /// </summary>
         public string Font { set; get; }
+
+        /// <summary>
+        /// The font size of the label.
+        /// </summary>
         public float FontSize { set; get; }
+
+        /// <summary>
+        /// The horizontal alignment of the label's text.
+        /// </summary>
         public Directions.HorizontalAlignment HorizontalAlignment { set; get; }
+
+        /// <summary>
+        /// The vertical alignment of the label's text.
+        /// </summary>
         public Directions.VerticalAlignment VerticalAlignment { set; get; }
 
         public Label( )
@@ -24,9 +40,9 @@ namespace SharpLib2D.UI
             SizeToContents( );
         }
 
-        public void SetText( string Text )
+        public void SetText( string NewText )
         {
-            this.Text = Text;
+            this.Text = NewText;
         }
 
         protected override void DrawSelf( )
@@ -60,7 +76,6 @@ namespace SharpLib2D.UI
             Graphics.Text.SetAlignments( HorizontalAlignment, VerticalAlignment );
             Graphics.Text.DrawString( Text, Font, FontSize, Pos, new Color4( 25, 25, 25, 255 ) );
         }
-
 
         public void SizeToContents( )
         {

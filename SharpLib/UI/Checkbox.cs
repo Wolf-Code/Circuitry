@@ -3,15 +3,28 @@ using SharpLib2D.Objects;
 
 namespace SharpLib2D.UI
 {
-    public class Checkbox : Control
+    public class Checkbox : Control, Interfaces.ITextControl
     {
+        /// <summary>
+        /// Returns whether or not the checkbox is checked.
+        /// </summary>
         public bool Checked { private set; get; }
         protected readonly Label Label;
+
+        /// <summary>
+        /// Gets called whenever the checkbox is checked or unchecked.
+        /// </summary>
         public event SharpLibUIEventHandler<Checkbox> OnCheckedChanged;
 
         public override BoundingRectangle VisibleRectangle
         {
             get { return new BoundingRectangle( this.TopLeft, Label.BottomRight ); }
+        }
+
+        public string Text
+        {
+            protected set { this.Label.SetText( value ); }
+            get { return this.Label.Text; }
         }
 
         public Checkbox( string Text = "" )
@@ -33,9 +46,9 @@ namespace SharpLib2D.UI
             SetChecked( !Checked );
         }
 
-        public void SetText( string Text )
+        public void SetText( string NewText )
         {
-            Label.SetText( Text );
+            Label.SetText( NewText );
             Label.SizeToContents( );
             Label.SetPosition( Width, 0 );
             Label.SetSize( Label.Width, Height );
