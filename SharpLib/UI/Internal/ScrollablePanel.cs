@@ -108,7 +108,7 @@ namespace SharpLib2D.UI.Internal
             }
 
             if ( ShouldHorizontalScrollbar )
-                HorizontalScrollBar.MaxValue = ContentSize.X - this.Width + ( this.VerticalScrollBar != null ? this.VerticalScrollBar.Width : 0 );
+                HorizontalScrollBar.MaxValue = ContentSize.X - this.Width + ( ShouldVerticalScrollbar ? this.VerticalScrollBar.Width : 0 );
 
 
 
@@ -131,12 +131,12 @@ namespace SharpLib2D.UI.Internal
             }
 
             if ( ShouldVerticalScrollbar )
-                this.VerticalScrollBar.MaxValue = ContentSize.Y - this.Height + ( HorizontalScrollBar != null ? HorizontalScrollBar.Height : 0 );
+                this.VerticalScrollBar.MaxValue = ContentSize.Y - this.Height + ( ShouldHorizontalScrollbar ? HorizontalScrollBar.Height : 0 );
 
             ResizeScrollbars( );
         }
 
-        protected virtual void ScrollbarChanged( bool Horizontal, bool Visible )
+        protected virtual void ScrollbarChanged( bool Horizontal, bool ScrollbarVisible )
         {
 
         }

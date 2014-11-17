@@ -20,7 +20,6 @@ namespace Circuitry
 
             GL.Enable( EnableCap.Blend );
             GL.BlendFunc( BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha );
-
             Manager.Initialize( this );
 
             Loader.CacheFolder( "Resources" );
@@ -32,6 +31,7 @@ namespace Circuitry
 
         protected override void OnRenderFrame( FrameEventArgs e )
         {
+            Console.WriteLine(1f / e.Time);
             GL.ClearColor( Color4.CornflowerBlue );
 
             if ( Manager.Renderer.TextCacheSize > 256 )

@@ -13,15 +13,18 @@ namespace SharpLib2D.UI.Internal
 
         public class CategoryButton : Button
         {
-            public bool Even { internal set; get; }
+            public readonly bool Even;
 
-            public CategoryButton( CategoryHeader Header )
+            public CategoryButton( CategoryHeader Header, bool Even )
             {
+                this.Even = Even;
                 this.SetParent( Header.Container );
             }
 
             protected override void DrawSelf( )
             {
+                Graphics.Color.Set( Even ? Color4.White : new Color4( 240, 240, 240, 255 ) );
+                Graphics.Rectangle.Draw( this.TopLeft.X, this.TopLeft.Y, this.Width, this.Height );
                 this.DrawLabel( );
             }
         }
@@ -131,14 +134,16 @@ namespace SharpLib2D.UI.Internal
 
         public CategoryButton AddButton( string Text )
         {
-            CategoryButton B = new CategoryButton( this ) { Even = Buttons.Count % 2 == 0 };
+            CategoryButton B = new CategoryButton( this, Buttons.Count % 2 == 0 )
+            {
+                FontSize = 8f,
+            };
             B.SetText( Text );
             B.SizeToContents( );
             B.SetWidth( this.Width );
             B.SetHeight( B.Height + 5 );
-
+            B.SetPosition( 0, Buttons.Count > 0 ? Buttons.Max( O => O.LocalPosition.Y + O.Height ) : 0 );
             Buttons.Add( B );
-            B.SetPosition( 0, Buttons.Max( O => O.LocalPosition.Y + O.Height ) + this.Height );
 
             return B;
         }
@@ -147,7 +152,6 @@ namespace SharpLib2D.UI.Internal
         {
             NewSize.Y = System.Math.Max( HeaderHeight, NewSize.Y );
 
-            Console.WriteLine(NewSize);
             this.TitleBar.SetSize( NewSize.X, HeaderHeight );
             this.Container.SetSize( NewSize.X, NewSize.Y - HeaderHeight );
 

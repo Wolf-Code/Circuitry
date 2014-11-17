@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using OpenTK.Input;
 
 namespace SharpLib2D.UI.Internal.Scrollbar
@@ -107,7 +108,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             if ( Diff <= 0 )
                 return Length;
 
-            return ( float ) ( Length / Diff );
+            return ( float ) ( Length / ( Length + Diff ) );
         }
 
         private void ResizeDragger( )
