@@ -47,8 +47,16 @@ namespace SharpLib2D.UI
         /// </summary>
         public object UserData { set; get; }
 
+        /// <summary>
+        /// Prevents the control from being moved outside of its parent.
+        /// </summary>
         public bool PreventLeavingParent { set; get; }
+
+        /// <summary>
+        /// Sends any mouse input it receives back to its parent.
+        /// </summary>
         public bool IgnoreMouseInput { set; get; }
+
         /// <summary>
         /// Invisible controls don't receive any input and are invisible, and so are their children.
         /// They are, in fact, not even listed in the children list.
@@ -71,6 +79,9 @@ namespace SharpLib2D.UI
             get { return Position; }
         }
 
+        /// <summary>
+        /// The rectangle containing the area of the control which is actually visible.
+        /// </summary>
         public virtual BoundingRectangle VisibleRectangle
         {
             get
@@ -111,6 +122,9 @@ namespace SharpLib2D.UI
 
         #region Alignment
 
+        /// <summary>
+        /// Centers the control in its parent.
+        /// </summary>
         public void Center( )
         {
             Vector2 Center = GetParent<Entity>( ).Size / 2f;
@@ -120,24 +134,44 @@ namespace SharpLib2D.UI
 
         #region Move
 
+        /// <summary>
+        /// Moves the control below <paramref name="C"/>.
+        /// </summary>
+        /// <param name="C">The control to move us below.</param>
+        /// <param name="Offset">An optional additional offset to move it further down.</param>
         public void MoveBelow( Control C, float Offset = 0f )
         {
             Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
             SetPosition( new Vector2( this.LocalPosition.X, P.Y + C.Size.Y + Offset ) );
         }
 
+        /// <summary>
+        /// Moves the control above <paramref name="C"/>.
+        /// </summary>
+        /// <param name="C">The control to move us above.</param>
+        /// <param name="Offset">An optional additional offset to move it further up.</param>
         public void MoveAbove( Control C, float Offset = 0f )
         {
             Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
             SetPosition( new Vector2( this.LocalPosition.X, P.Y - this.Size.Y + Offset ) );
         }
 
+        /// <summary>
+        /// Moves the control to the right of <paramref name="C"/>.
+        /// </summary>
+        /// <param name="C">The control to move us to the right of.</param>
+        /// <param name="Offset">An optional additional offset to move it further to the right.</param>
         public void MoveRightOf( Control C, float Offset = 0f )
         {
             Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
             SetPosition( new Vector2( P.X + C.Size.X + Offset, this.LocalPosition.Y ) );
         }
 
+        /// <summary>
+        /// Moves the control to the left of <paramref name="C"/>.
+        /// </summary>
+        /// <param name="C">The control to move us to the left of.</param>
+        /// <param name="Offset">An optional additional offset to move it further to the left.</param>
         public void MoveLeftOf( Control C, float Offset = 0f )
         {
             Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
@@ -148,24 +182,44 @@ namespace SharpLib2D.UI
 
         #region Align
 
+        /// <summary>
+        /// Aligns the control's bottom with that of <paramref name="C"/>.
+        /// </summary>
+        /// <param name="C">The control to align our bottom with.</param>
+        /// <param name="Offset">An optional additional offset to move it further down.</param>
         public void AlignBottom( Control C, float Offset = 0f )
         {
             Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
             SetPosition( new Vector2( this.LocalPosition.X, P.Y + C.Size.Y - this.Size.Y + Offset ) );
         }
 
+        /// <summary>
+        /// Aligns the control's top with that of <paramref name="C"/>.
+        /// </summary>
+        /// <param name="C">The control to align our top with.</param>
+        /// <param name="Offset">An optional additional offset to move it further up.</param>
         public void AlignTop( Control C, float Offset = 0f )
         {
             Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
             SetPosition( new Vector2( this.LocalPosition.X, P.Y - Offset ) );
         }
 
+        /// <summary>
+        /// Aligns the control's right side with that of <paramref name="C"/>.
+        /// </summary>
+        /// <param name="C">The control to align our right side with.</param>
+        /// <param name="Offset">An optional additional offset to move it further to the right.</param>
         public void AlignRight( Control C, float Offset = 0f )
         {
             Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
             SetPosition( new Vector2( P.X + C.Size.X - this.Size.X + Offset, this.LocalPosition.Y ) );
         }
 
+        /// <summary>
+        /// Aligns the control's left side with that of <paramref name="C"/>.
+        /// </summary>
+        /// <param name="C">The control to align our left side with.</param>
+        /// <param name="Offset">An optional additional offset to move it further to the left.</param>
         public void AlignLeft( Control C, float Offset = 0f )
         {
             Vector2 P = GetParent<Entity>( ).ToLocal( C.Position );
@@ -232,6 +286,9 @@ namespace SharpLib2D.UI
 
         #region Removal
 
+        /// <summary>
+        /// Releases any resources used by the control, and clears all events.
+        /// </summary>
         public virtual void Dispose( )
         {
             foreach ( Control C in Children )

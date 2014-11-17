@@ -10,6 +10,12 @@ namespace SharpLib2D.Graphics
     {
         #region Draw - Width
 
+        /// <summary>
+        /// Draws a line between two points with a given width.
+        /// </summary>
+        /// <param name="Start">The line's starting point.</param>
+        /// <param name="End">The line's end point.</param>
+        /// <param name="Width">The line's width.</param>
         public static void Draw( Vector2 Start, Vector2 End, float Width = 1f )
         {
             if ( Width <= 1f )

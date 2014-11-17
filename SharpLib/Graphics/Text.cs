@@ -93,10 +93,10 @@ namespace SharpLib2D.Graphics
         /// <summary>
         /// Measures the size of a string using a given font and size.
         /// </summary>
-        /// <param name="Text"></param>
-        /// <param name="Font"></param>
-        /// <param name="Size"></param>
-        /// <returns></returns>
+        /// <param name="Text">The text to measure.</param>
+        /// <param name="Font">The font to measure it with.</param>
+        /// <param name="Size">The size to measure it with.</param>
+        /// <returns>A <see cref="Vector2"/> containing the size of the string.</returns>
         public static Vector2 MeasureString( string Text, string Font, float Size )
         {
             if ( string.IsNullOrEmpty( Text ) )

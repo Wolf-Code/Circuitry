@@ -5,8 +5,14 @@ namespace SharpLib2D.UI
 {
     public class Button : Label
     {
+        /// <summary>
+        /// Returns whether the button is being held down.
+        /// </summary>
         public bool IsDown { private set; get; }
 
+        /// <summary>
+        /// Gets called whenever the button is clicked and the cursor has not been moved.
+        /// </summary>
         public event SharpLibUIEventHandler<Button> OnClick;
 
         public Button( string Text = "" )

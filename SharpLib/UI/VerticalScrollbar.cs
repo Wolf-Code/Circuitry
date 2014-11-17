@@ -2,6 +2,9 @@
 
 namespace SharpLib2D.UI
 {
+    /// <summary>
+    /// A vertical scrollbar.
+    /// </summary>
     public class VerticalScrollbar : Scrollbar
     {
         public VerticalScrollbar( )

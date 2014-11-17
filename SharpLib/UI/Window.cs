@@ -5,6 +5,9 @@ namespace SharpLib2D.UI
 {
     public class Window : Control
     {
+        /// <summary>
+        /// The titlebar of the window.
+        /// </summary>
         public WindowTitleBar TitleBar { private set; get; }
 
         public Window( string Title, Canvas Cnv )

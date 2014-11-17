@@ -8,7 +8,14 @@ namespace SharpLib2D.UI
 {
     public class Canvas : MouseEntityContainer
     {
+        /// <summary>
+        /// The canvas' skin.
+        /// </summary>
         public Skin.Skin Skin { private set; get; }
+
+        /// <summary>
+        /// The dragger entity used to drag UI controls.
+        /// </summary>
         public Dragger Dragger { private set; get; }
 
         public override Vector2 TopLeft
@@ -23,6 +30,10 @@ namespace SharpLib2D.UI
             SetSkin( S );
         }
 
+        /// <summary>
+        /// Sets the skin with which to draw the canvas' children.
+        /// </summary>
+        /// <param name="S">The new skin.</param>
         public void SetSkin( Skin.Skin S )
         {
             Skin = S;
