@@ -211,14 +211,20 @@ namespace Circuitry.Components
 
         public override void OnMouseEnter( )
         {
-            ( ParentState as GwenState ).GwenCanvas.SetToolTipText( this.Name + ": " + this.Description );
-            ToolTip.Enable( ( ParentState as GwenState ).GwenCanvas );
+            if ( this.IsInput || this.IsOutput )
+            {
+                ( ParentState as GwenState ).GwenCanvas.SetToolTipText( this.Name + ": " + this.Description );
+                ToolTip.Enable( ( ParentState as GwenState ).GwenCanvas );
+            }
+
             base.OnMouseEnter( );
         }
 
         public override void OnMouseExit( )
         {
-            ToolTip.Disable( ( ParentState as GwenState ).GwenCanvas );
+            if ( this.IsInput || this.IsOutput )
+                ToolTip.Disable( ( ParentState as GwenState ).GwenCanvas );
+            
             base.OnMouseExit( );
         }
 
