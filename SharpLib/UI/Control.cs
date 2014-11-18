@@ -258,6 +258,9 @@ namespace SharpLib2D.UI
 
         #region Drawing
 
+        /// <summary>
+        /// Draws the control itself.
+        /// </summary>
         protected virtual void DrawSelf( )
         {
             Canvas.Skin.DrawPanel( this );

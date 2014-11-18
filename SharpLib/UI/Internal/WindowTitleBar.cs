@@ -7,7 +7,7 @@ namespace SharpLib2D.UI.Internal
     public class WindowTitleBar : Control
     {
         protected readonly Window Window;
-        protected readonly WindowCloseButton Button;
+        public readonly WindowCloseButton Button;
         protected readonly Label Label;
 
         public WindowTitleBar( string Title, Window W )

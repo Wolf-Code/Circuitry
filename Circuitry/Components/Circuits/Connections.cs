@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Circuitry.Components.Nodes;
 using Circuitry.Renderers;
 using SharpLib2D.Info;
 using Input = Circuitry.Components.Nodes.Input;

@@ -1,4 +1,5 @@
-﻿using Circuitry.UI;
+﻿using Circuitry.Components.Nodes;
+using Circuitry.UI;
 using OpenTK;
 using OpenTK.Input;
 using SharpLib2D.Entities;

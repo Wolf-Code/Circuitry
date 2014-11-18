@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Circuitry.Components;
 using Circuitry.Components.Circuits;
+using Circuitry.Components.Nodes;
 using OpenTK;
 using OpenTK.Graphics;
 using SharpLib2D.Graphics;

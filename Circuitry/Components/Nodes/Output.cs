@@ -1,20 +1,19 @@
 ﻿
-using Circuitry.Components.Nodes;
-
-namespace Circuitry.Components
+namespace Circuitry.Components.Nodes
 {
     public class Output : IONode
     {
-        public override bool IsOutput
-        {
-            get { return true; }
-        }
-
+        /// <summary>
+        /// Gets the <see cref="Input"/> connected to this output.
+        /// </summary>
         public Input ConnectedInput
         {
             get { return LastNode as Input; }
         }
 
+        /// <summary>
+        /// Checks to see if this output is connected to an <see cref="Input"/>.
+        /// </summary>
         public bool HasConnectedInput
         {
             get { return ConnectedInput != null; }

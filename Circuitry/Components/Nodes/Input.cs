@@ -3,16 +3,17 @@ namespace Circuitry.Components.Nodes
 {
     public class Input : IONode
     {
-        public override bool IsInput
-        {
-            get { return true; }
-        }
-
+        /// <summary>
+        /// Gets the <see cref="Output"/> this input is connected to.
+        /// </summary>
         public Output ConnectedOutput
         {
             get { return FirstNode as Output; }
         }
 
+        /// <summary>
+        /// Checks if this input has an <see cref="Output"/> connected to it.
+        /// </summary>
         public bool HasConnectedOutput
         {
             get { return ConnectedOutput != null; }

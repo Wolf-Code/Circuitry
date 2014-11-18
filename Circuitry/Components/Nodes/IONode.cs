@@ -1,6 +1,4 @@
-﻿using System;
-using Circuitry.Components.Nodes;
-using Circuitry.States;
+﻿using Circuitry.States;
 using Circuitry.UI;
 using Gwen;
 using OpenTK;
@@ -9,18 +7,24 @@ using OpenTK.Input;
 using SharpLib2D.Graphics;
 using Mouse = SharpLib2D.Info.Mouse;
 
-namespace Circuitry.Components
+namespace Circuitry.Components.Nodes
 {
     public class IONode : CircuitryEntity
     {
         #region Enums
 
+        /// <summary>
+        /// An enum containing different types of nodes.
+        /// </summary>
         public enum NodeType
         {
             Binary,
             Numeric
         }
 
+        /// <summary>
+        /// An enum containing different node directions.
+        /// </summary>
         public enum NodeDirection
         {
             In,
@@ -31,19 +35,32 @@ namespace Circuitry.Components
 
         #region Properties
 
+        /// <summary>
+        /// The <see cref="NodeDirection"/> of this node.
+        /// </summary>
         public NodeDirection Direction
         {
             protected set;
             get;
         }
 
+        /// <summary>
+        /// The <see cref="NodeType"/> of this node.
+        /// </summary>
         public NodeType Type
         {
             protected set;
             get;
         }
 
+        /// <summary>
+        /// The next node we're connected to.
+        /// </summary>
         public IONode NextNode { set; get; }
+
+        /// <summary>
+        /// The previous node we're connected to.
+        /// </summary>
         public IONode PreviousNode { set; get; }
 
         /// <summary>
@@ -118,16 +135,25 @@ namespace Circuitry.Components
             }
         }
 
-        public virtual bool IsInput
+        /// <summary>
+        /// Is this node an <see cref="Input"/>?
+        /// </summary>
+        public bool IsInput
         {
-            get { return false; }
+            get { return this is Input; }
         }
 
-        public virtual bool IsOutput
+        /// <summary>
+        /// Is this node an <see cref="Output"/>.
+        /// </summary>
+        public bool IsOutput
         {
-            get { return false; }
+            get { return this is Output; }
         }
 
+        /// <summary>
+        /// Is this node a connection node instead of an <see cref="Input"/> or <see cref="Output"/>?
+        /// </summary>
         public bool IsLink
         {
             get { return !IsInput && !IsOutput; }
@@ -135,6 +161,9 @@ namespace Circuitry.Components
 
         #endregion
 
+        /// <summary>
+        /// The <see cref="IONode"/> at the beginning of this connection, usually an <see cref="Output"/>.
+        /// </summary>
         public IONode FirstNode
         {
             get
@@ -150,6 +179,9 @@ namespace Circuitry.Components
             }
         }
 
+        /// <summary>
+        /// The <see cref="IONode"/> at the end of this connection, usually an <see cref="Input"/>.
+        /// </summary>
         public IONode LastNode
         {
             get
@@ -197,6 +229,10 @@ namespace Circuitry.Components
             Value = NewValue ? 1.0 : 0.0;
         }
 
+        /// <summary>
+        /// Draws a node.
+        /// </summary>
+        /// <param name="Pos"></param>
         public static void DrawNode( Vector2 Pos )
         {
             Circle.DrawOutlined( Pos.X, Pos.Y, NodeSize / 2f, 1f, Color4.Black, Color4.White );
@@ -281,25 +317,30 @@ namespace Circuitry.Components
         }
 
         /// <summary>
-        /// Checks whether two IONodes can connect.
+        /// Checks whether two <see cref="IONode"/>s can connect.
         /// </summary>
-        /// <param name="First"></param>
-        /// <param name="Second"></param>
+        /// <param name="First">The first <see cref="IONode"/>.</param>
+        /// <param name="Second">The second <see cref="IONode"/>.</param>
         /// <returns></returns>
         public static bool CanConnect( IONode First, IONode Second )
         {
+            // Is it already connected?
             if ( Second.HasPreviousNode || First.HasNextNode )
                 return false;
 
+            // Is the direction the same?
             if ( First.Direction == Second.Direction )
                 return false;
 
+            // Are we connecting 2 nodes belonging to the same gate?
             if ( First is Output && First.Gate == Second.LastNode.Gate )
                 return false;
 
+            // Are we connection 2 nodes belonging to the same gate?
             if ( Second is Input && First.FirstNode.Gate == Second.Gate )
                 return false;
 
+            // Are we trying to wire numeric to binary?
             return First.Type == NodeType.Numeric || Second.Type != NodeType.Numeric;
         }
         

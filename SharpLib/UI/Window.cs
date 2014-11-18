@@ -10,6 +10,15 @@ namespace SharpLib2D.UI
         /// </summary>
         public WindowTitleBar TitleBar { private set; get; }
 
+        /// <summary>
+        /// Whether to show the close button.
+        /// </summary>
+        public bool ShowCloseButton
+        {
+            set { this.TitleBar.Button.Visible = value; }
+            get { return this.TitleBar.Visible; }
+        }
+
         public Window( string Title, Canvas Cnv )
         {
             TitleBar = new WindowTitleBar( Title, this );

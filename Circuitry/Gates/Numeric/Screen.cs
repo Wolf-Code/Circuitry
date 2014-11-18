@@ -1,6 +1,7 @@
 ﻿
 using System.Globalization;
 using Circuitry.Components;
+using Circuitry.Components.Nodes;
 using OpenTK;
 using OpenTK.Graphics;
 using SharpLib2D.Graphics;

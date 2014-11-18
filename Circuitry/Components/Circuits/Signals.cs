@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Circuitry.Components.Nodes;
 
 namespace Circuitry.Components.Circuits
 {
