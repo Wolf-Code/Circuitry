@@ -24,18 +24,12 @@ namespace Circuitry.Components.Circuits
             {
                 case State.Build:
                     if ( Args.Button == MouseButton.Left )
-                    {
                         if ( Args.IsPressed && !Manager.MouseInsideUI( ) )
                             Dragger.StartDragging( G );
-                    }
 
                     if ( Args.Button == MouseButton.Right )
-                    {
                         if ( Args.IsPressed )
-                        {
                             G.ShowOptionsMenu( );
-                        }
-                    }
                     break;
 
                 case State.Build_Placing:

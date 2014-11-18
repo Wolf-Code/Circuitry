@@ -137,15 +137,9 @@ namespace Circuitry.Components.Circuits.Components
             {
                 if ( ConnectingNodes ) return;
 
-                if ( Node.HasNextNode && Node.HasPreviousNode )
+                if ( Node.IsLink )
                 {
                     Circuit.ShowMenu(
-                        new MenuEntry( "Remove node", Control =>
-                        {
-                            Node.PreviousNode.NextNode = Node.NextNode;
-                            Node.NextNode.PreviousNode = Node.PreviousNode;
-                            Node.Remove( );
-                        } ),
                         new MenuEntry( "Add node", Control =>
                         {
                             IONode New = new IONode( Node.Type, Node.Direction )

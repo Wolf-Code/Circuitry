@@ -29,6 +29,9 @@ namespace Circuitry.Components.Circuits
     {
         public void ShowMenu( params MenuEntry[ ] Items )
         {
+            if ( Items.Length <= 0 )
+                return;
+
             if ( Menu != null )
             {
                 Menu.DelayedDelete( );

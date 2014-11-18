@@ -92,10 +92,9 @@ namespace Circuitry.Components
 
         protected void BuildAndShowOptionsMenu( params MenuEntry [ ] Entries )
         {
-            MenuEntry[ ] Ents = new MenuEntry[ Entries.Length + 1 ];
-            Ents[ 0 ] = new MenuEntry( "Remove", Control => Remove( ) );
+            MenuEntry[ ] Ents = new MenuEntry[ Entries.Length ];
             for ( int Q = 0; Q < Entries.Length; Q++ )
-                Ents[ Q + 1 ] = Entries[ Q ];
+                Ents[ Q ] = Entries[ Q ];
 
             Circuit.ShowMenu( Ents );
         }

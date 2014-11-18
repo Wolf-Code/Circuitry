@@ -270,17 +270,14 @@ namespace Circuitry.Components
         public void RemoveEntireConnection( )
         {
             IONode Node = this.FirstNode;
-            while ( Node != null )
-            {
-                if ( !( Node is Input || Node is Output ) )
-                    Node.Remove( );
+            if ( !Node.HasNextNode )
+                return;
 
-                IONode Next = Node.NextNode;
+            while ( !( Node.NextNode is Input ) )
+                Node.NextNode.Remove( );
 
-                Node.PreviousNode = null;
-                Node.NextNode = null;
-                Node = Next;
-            }
+            Node.NextNode.PreviousNode = null;
+            Node.NextNode = null;
         }
 
         /// <summary>
