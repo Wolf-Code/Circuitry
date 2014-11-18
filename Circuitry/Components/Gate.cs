@@ -136,6 +136,12 @@ namespace Circuitry.Components
             base.OnRemove( );
         }
 
+        /// <summary>
+        /// Gets the <paramref name="T"/> with name <paramref name="IOName"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of IO node.</typeparam>
+        /// <param name="IOName">The name of the IO node.</param>
+        /// <returns>The <typeparamref name="T"/>.</returns>
         public T GetIO<T>( string IOName ) where T : IONode
         {
             if ( typeof( T ) == typeof( Input ) )
@@ -147,6 +153,11 @@ namespace Circuitry.Components
             return null;
         }
 
+        /// <summary>
+        /// Sets the output with name <paramref name="OutputName"/> to <paramref name="Value"/>.
+        /// </summary>
+        /// <param name="OutputName">The name of the output.</param>
+        /// <param name="Value">The value to set it to.</param>
         public void SetOutput( string OutputName, double Value )
         {
             Output O = GetOutput( OutputName );
@@ -154,16 +165,31 @@ namespace Circuitry.Components
             Circuit.PushSignal( O );
         }
 
+        /// <summary>
+        /// Sets the output with name <paramref name="OutputName"/> to <paramref name="Value"/>.
+        /// </summary>
+        /// <param name="OutputName">The name of the output.</param>
+        /// <param name="Value">The value to set it to.</param>
         public void SetOutput( string OutputName, bool Value )
         {
             SetOutput( OutputName, Value ? 1f : 0f );
         }
 
+        /// <summary>
+        /// Gets the input with name <paramref name="InputName"/>.
+        /// </summary>
+        /// <param name="InputName">The name of the input.</param>
+        /// <returns>The <see cref="Input"/> with name <paramref name="InputName"/>.</returns>
         public Input GetInput( string InputName )
         {
             return Inputs.FirstOrDefault( I => I.Name == InputName );
         }
 
+        /// <summary>
+        /// Gets the output with name <paramref name="OutputName"/>.
+        /// </summary>
+        /// <param name="OutputName">The name of the input.</param>
+        /// <returns>The <see cref="Output"/> with name <paramref name="OutputName"/>.</returns>
         public Output GetOutput( string OutputName )
         {
             return Outputs.FirstOrDefault( O => O.Name == OutputName );
@@ -266,11 +292,10 @@ namespace Circuitry.Components
 
             DrawBody( );
 
-            if ( Circuit != null && Circuit.ShowLabels )
-            {
-                Text.SetAlignments( Directions.HorizontalAlignment.Center, Directions.VerticalAlignment.Center );
-                Text.DrawString( Name, "Lucida Console", SizeUnit / 6f, TextPosition, Color4.Black );
-            }
+            if ( Circuit == null || !Circuit.ShowLabels ) return;
+
+            Text.SetAlignments( Directions.HorizontalAlignment.Center, Directions.VerticalAlignment.Center );
+            Text.DrawString( Name, "Lucida Console", SizeUnit / 6f, TextPosition, Color4.Black );
         }
     }
 }

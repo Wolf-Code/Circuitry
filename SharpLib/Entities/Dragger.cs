@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using OpenTK.Input;
 using Mouse = SharpLib2D.Info.Mouse;
 
@@ -10,6 +11,10 @@ namespace SharpLib2D.Entities
         public bool Dragging { private set; get; }
         public Vector2 LocalGrabPoint { private set; get; }
 
+        public delegate void DraggerDropEventHandler( Dragger Dragger, Entity DroppedEntity );
+
+        public event DraggerDropEventHandler OnDrop;
+
         public Dragger( )
         {
             Mouse.OnMouseButton += OnMouseButton;
@@ -18,6 +23,7 @@ namespace SharpLib2D.Entities
         protected override void OnRemove( )
         {
             Mouse.OnMouseButton -= OnMouseButton;
+            OnDrop = null;
             base.OnRemove( );
         }
 
@@ -71,6 +77,9 @@ namespace SharpLib2D.Entities
         {
             if ( !Dragging )
                 return;
+
+            if ( OnDrop != null )
+                OnDrop( this, DraggingEntity );
 
             Dragging = false;
             DraggingEntity = null;

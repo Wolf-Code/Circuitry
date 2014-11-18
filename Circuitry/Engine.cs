@@ -31,7 +31,6 @@ namespace Circuitry
 
         protected override void OnRenderFrame( FrameEventArgs e )
         {
-            Console.WriteLine(1f / e.Time);
             GL.ClearColor( Color4.CornflowerBlue );
 
             if ( Manager.Renderer.TextCacheSize > 256 )

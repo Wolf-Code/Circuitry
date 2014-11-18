@@ -12,13 +12,10 @@ namespace Circuitry.Components.Circuits
         internal bool OnChildMouseAction( CircuitryEntity Entity, MouseButtonEventArgs Args )
         {
             Gate G = Entity as Gate;
-            if ( G != null )
-            {
-                GateMouseInput( G, Args );
-                return true;
-            }
+            if ( G == null ) return false;
 
-            return false;
+            GateMouseInput( G, Args );
+            return true;
         }
 
         public override void OnButtonPressed( MouseButton Button )

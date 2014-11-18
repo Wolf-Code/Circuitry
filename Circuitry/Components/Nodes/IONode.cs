@@ -254,6 +254,19 @@ namespace Circuitry.Components
 
         #region Connection
 
+        protected override void OnRemove( )
+        {
+            if ( this.IsLink )
+            {
+                this.PreviousNode.NextNode = this.NextNode;
+                this.NextNode.PreviousNode = this.PreviousNode;
+            }
+            base.OnRemove( );
+        }
+
+        /// <summary>
+        /// Removes the entire connection.
+        /// </summary>
         public void RemoveEntireConnection( )
         {
             IONode Node = this.FirstNode;
@@ -270,6 +283,12 @@ namespace Circuitry.Components
             }
         }
 
+        /// <summary>
+        /// Checks whether two IONodes can connect.
+        /// </summary>
+        /// <param name="First"></param>
+        /// <param name="Second"></param>
+        /// <returns></returns>
         public static bool CanConnect( IONode First, IONode Second )
         {
             if ( Second.HasPreviousNode || First.HasNextNode )
@@ -278,7 +297,10 @@ namespace Circuitry.Components
             if ( First.Direction == Second.Direction )
                 return false;
 
-            if ( First.Gate == Second.Gate )
+            if ( First is Output && First.Gate == Second.LastNode.Gate )
+                return false;
+
+            if ( Second is Input && First.FirstNode.Gate == Second.Gate )
                 return false;
 
             return First.Type == NodeType.Numeric || Second.Type != NodeType.Numeric;

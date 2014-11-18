@@ -15,10 +15,9 @@ namespace Circuitry.Components
 
         protected override Vector2 TransformPosition( Vector2 NewEntityPosition )
         {
-            if ( Circuit.SnapToGrid )
-                return Circuit.SnapPositionToGrid( NewEntityPosition - LocalGrabPoint + new Vector2(Circuit.GridSize / 2f) );
-            
-            return base.TransformPosition( NewEntityPosition );
+            return Circuit.SnapToGrid 
+                ? Circuit.SnapPositionToGrid( NewEntityPosition - LocalGrabPoint + new Vector2(Circuit.GridSize / 2f) ) 
+                : base.TransformPosition( NewEntityPosition );
         }
     }
 }

@@ -18,16 +18,15 @@ namespace Circuitry.Components.Circuits
         public Circuit( )
         {
             CurrentState = State.Build;
-            GridSize = 64;
+            GridSize = 1 << 6;
             ShowGrid = true;
             SnapToGrid = true;
-
-            Bin = new Bin( );
-            Bin.SetParent( this );
 
             Connector = new NodeConnector( this );
 
             Dragger = new CircuitDragger( this );
+
+            Bin = new Bin( this );
         }
 
         #region Draw / Update

@@ -16,6 +16,10 @@ namespace Circuitry.Components
             }
         }
 
+        /// <summary>
+        /// Returns true if the cursor is not inside UI.
+        /// </summary>
+        /// <returns>True if the mouse is outside UI, false otherwise.</returns>
         protected bool MouseCanSelect( )
         {
             return !Manager.MouseInsideUI( );

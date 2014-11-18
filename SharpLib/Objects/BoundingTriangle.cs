@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using SharpLib2D.Math;
 
 namespace SharpLib2D.Objects
 {
@@ -42,7 +43,27 @@ namespace SharpLib2D.Objects
 
         public override bool Contains( Vector2 Position )
         {
-            return false;
+            Vector2 AB = ( this.Corner2 - this.Corner1 );
+            Vector2 BC = ( this.Corner3 - this.Corner2 );
+            Vector2 CA = ( this.Corner1 - this.Corner3 );
+
+            Vector2 AP = ( Position - this.Corner1 );
+            Vector2 BP = ( Position - this.Corner2 );
+            Vector2 CP = ( Position - this.Corner3 );
+
+            int C1 = ( int ) Vector.Cross( AP, AB );
+            if ( C1 != 0 )
+                C1 /= System.Math.Abs( C1 );
+
+            int C2 = ( int ) Vector.Cross( BP, BC );
+            if ( C2 != 0 )
+                C2 /= System.Math.Abs( C2 );
+
+            int C3 = ( int ) Vector.Cross( CP, CA );
+            if ( C3 != 0 )
+                C3 /= System.Math.Abs( C3 );
+
+            return C1 == C2 && C2 == C3;
         }
     }
 }

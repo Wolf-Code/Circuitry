@@ -34,12 +34,17 @@ namespace Circuitry.Components.Circuits
             get;
         }
 
+        /// <summary>
+        /// Snaps <paramref name="SnapPosition"/> to the grid.
+        /// </summary>
+        /// <param name="SnapPosition">The position to snap.</param>
+        /// <returns>The snapped position.</returns>
         public Vector2 SnapPositionToGrid( Vector2 SnapPosition )
         {
-            float X = ( float )Math.Floor( SnapPosition.X / GridSize ) * GridSize;
-            float Y = ( float )Math.Floor( SnapPosition.Y / GridSize ) * GridSize;
+            float NewX = ( float )Math.Floor( SnapPosition.X / GridSize ) * GridSize;
+            float NewY = ( float )Math.Floor( SnapPosition.Y / GridSize ) * GridSize;
 
-            return new Vector2( X, Y );
+            return new Vector2( NewX, NewY );
         }
 
         private void DrawGrid( )
