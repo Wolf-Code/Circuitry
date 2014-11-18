@@ -96,11 +96,14 @@
     <Compile Include="States\State.cs" />
     <Compile Include="UI\CategoryList.cs" />
     <Compile Include="UI\Checkbox.cs" />
+    <Compile Include="UI\Interfaces\IMinMaxValue.cs" />
     <Compile Include="UI\Interfaces\ISizeToContentable.cs" />
     <Compile Include="UI\Interfaces\ITextControl.cs" />
     <Compile Include="UI\Internal\CategoryHeader.cs" />
+    <Compile Include="UI\Internal\DirectionalControl.cs" />
     <Compile Include="UI\Internal\InvisiblePanel.cs" />
     <Compile Include="UI\Internal\ScrollablePanel.cs" />
+    <Compile Include="UI\Internal\Slider.cs" />
     <Compile Include="UI\VerticalScrollbar.cs" />
     <Compile Include="UI\HorizontalScrollbar.cs" />
     <Compile Include="UI\Internal\Scrollbar\Scrollbar.cs" />

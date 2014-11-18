@@ -1,9 +1,10 @@
 ﻿using OpenTK;
 using SharpLib2D.Info;
+using SharpLib2D.UI.Interfaces;
 
 namespace SharpLib2D.UI.Internal.Scrollbar
 {
-    public abstract class Scrollbar : Control
+    public abstract class Scrollbar : DirectionalControl, IMinMaxValue
     {
         public event SharpLibUIEventHandler<Scrollbar> OnValueChanged;
         public event SharpLibUIEventHandler<Scrollbar> OnMinValueChanged;
@@ -59,39 +60,16 @@ namespace SharpLib2D.UI.Internal.Scrollbar
         private double MinValue1;
         private double MaxValue1;
 
-        protected bool Horizontal { set; get; }
-
         private float RequiredThickness
         {
             get { return Buttons[ 0 ].Size.X; }
         }
 
-        protected internal Vector2 LengthVector
-        {
-            get { return Horizontal ? Vector2.UnitX : Vector2.UnitY; }
-        }
-
-        protected internal Vector2 ThicknessVector
-        {
-            get { return Horizontal ? Vector2.UnitY : Vector2.UnitX; }
-        }
-
-        private float Length
-        {
-            get { return Horizontal ? Width : Height; }
-        }
-
-        protected internal float Thickness
-        {
-            get { return Horizontal ? Height : Width; }
-        }
-
-        protected Scrollbar( bool Horizontal )
+        protected Scrollbar( bool Horizontal ) : base( Horizontal )
         {
             MinValue = 0;
             MaxValue = 100;
 
-            this.Horizontal = Horizontal;
             if ( Horizontal )
                 Buttons = new [ ]
                 { new ScrollbarButton( Directions.Direction.Left ), new ScrollbarButton( Directions.Direction.Right ) };

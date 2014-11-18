@@ -77,6 +77,9 @@ namespace SharpLib2D.UI.Internal
         #endregion
 
         private bool m_Opened;
+        /// <summary>
+        /// Indicates whether the category is open.
+        /// </summary>
         public bool Opened
         {
             private set
@@ -98,6 +101,9 @@ namespace SharpLib2D.UI.Internal
             get { return m_Opened; }
         }
 
+        /// <summary>
+        /// The title of the category header.
+        /// </summary>
         public string Title
         {
             set { TitleBar.SetText( value ); }
