@@ -31,6 +31,16 @@ namespace SharpLib2D.Entities
             return Children.OfType<T>( );
         }
 
+        /// <summary>
+        /// Returns a <see cref="List{T}"/> containing children, ordered by their Z-value.
+        /// </summary>
+        /// <typeparam name="T">The type of children to return.</typeparam>
+        /// <returns>A <see cref="List{T}"/> containing all children of type <typeparamref name="T"/>, ordered by their Z-value.</returns>
+        protected List<T> OrderedEntities<T>( ) where T : UpdatableEntity
+        {
+            return Children.OfType<T>( ).OrderByDescending( O => O.Z ).ToList( );
+        }
+
         public void SetParent( ParentableEntity NewParent )
         {
             if ( HasParent )
@@ -83,21 +93,8 @@ namespace SharpLib2D.Entities
                 SetParent( null );
                 Unlist( );
             }
-            else
-            {
-                if ( State.ActiveState.Entities.Contains( this ) )
-                    Unlist( );
-            }
-        }
-
-        /// <summary>
-        /// Returns a <see cref="List{T}"/> containing children, ordered by their Z-value.
-        /// </summary>
-        /// <typeparam name="T">The type of children to return.</typeparam>
-        /// <returns>A <see cref="List{T}"/> containing all children of type <typeparamref name="T"/>, ordered by their Z-value.</returns>
-        protected List<T> OrderedEntities<T>( ) where T : UpdatableEntity
-        {
-            return Children.OfType<T>( ).OrderByDescending( O => O.Z ).ToList( );
+            else if ( State.ActiveState.Entities.Contains( this ) )
+                Unlist( );
         }
 
         public override void Update( FrameEventArgs e )

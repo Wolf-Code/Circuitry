@@ -40,9 +40,33 @@ namespace Circuitry.Renderers
             Action<float> Drawer = Width =>
             {
                 if ( Positions.Count > 2 )
-                    Line.DrawCubicBezierPath( Positions, 8, 0.3f, Width );
+                {
+                    if ( Circuit.Connector.ConnectingNodes )
+                        Line.DrawCubicBezierPath( Positions, 16, 0.3f, Width );
+                    else
+                    {
+                        float StartDiff = Math.Abs( Positions[ 0 ].X - Positions[ 1 ].X );
+                        float EndDiff = Math.Abs( Positions[ Positions.Count - 1 ].X - Positions[ Positions.Count - 2 ].X );
+                        Line.DrawCubicBezierPath(
+                            Start.ToWorld( new Vector2( StartDiff, 0 ) ),
+                            Start.LastNode.ToWorld( new Vector2( -EndDiff, 0 ) ),
+                            Positions, 16, 0.3f, Width );
+                    }
+                }
                 else if ( Positions.Count > 1 )
-                    Line.Draw( Positions[ 0 ], Positions[ 1 ], Width );
+                {
+                    if ( Circuit.Connector.ConnectingNodes )
+                        Line.Draw( Positions[ 0 ], Positions[ 1 ], Width );
+                    else
+                    {
+                        float Diff = Math.Abs( Positions[ 0 ].Y - Positions[ 1 ].Y );
+                        Vector2 CP1 = Start.ToWorld( new Vector2( Diff, 0 ) );
+                        Vector2 CP2 = Start.NextNode.ToWorld( new Vector2( -Diff, 0 ) );
+
+                        Line.DrawCubicBezierCurve( Positions[ 0 ], Positions[ 1 ], CP1,
+                            CP2, 16, Width );
+                    }
+                }
             };
 
             Color.Set( Color4.DimGray );

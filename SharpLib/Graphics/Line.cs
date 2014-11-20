@@ -138,6 +138,16 @@ namespace SharpLib2D.Graphics
             }
         }
 
+        public static void DrawCubicBezierPath( Vector2 StartControlPoint, Vector2 EndControlPoint, List<Vector2> Positions, int Points, float Scale = 0.3f, float Width = 1f )
+        {
+            Texture.EnableTextures( false );
+            List<BezierCurveCubic> Cubics = Interpolation.CubicBezierPath( StartControlPoint, EndControlPoint, Positions, Scale );
+            foreach ( BezierCurveCubic Cubic in Cubics )
+            {
+                DrawCubicBezierCurve( Cubic, Points, Width );
+            }
+        }
+
         #endregion
     }
 }

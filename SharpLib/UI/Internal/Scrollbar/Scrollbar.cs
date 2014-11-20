@@ -44,8 +44,9 @@ namespace SharpLib2D.UI.Internal.Scrollbar
         {
             set
             {
-                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 double Val = System.Math.Min( this.MaxValue, System.Math.Max( this.MinValue, value ) );
+
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if ( m_Value == Val ) return;
 
                 m_Value = Val;
