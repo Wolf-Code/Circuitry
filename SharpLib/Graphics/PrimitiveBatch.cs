@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -45,19 +46,21 @@ namespace SharpLib2D.Graphics
 
         private static void Flush( )
         {
-            foreach ( KeyValuePair<PrimitiveType, List<Vertex>> Pair in Vertices )
+            foreach ( var Pair in Vertices )
             {
-                GL.Begin( Pair.Key );
-                {
-                    foreach ( Vertex V in Pair.Value )
+                //if ( Pair.Value.Any( O => Info.Screen.IsVisible( O.Position ) ) )
+                //{
+                    GL.Begin( Pair.Key );
                     {
-                        GL.TexCoord2( V.UV );
-                        GL.Color4( V.Color );
-                        GL.Vertex2( V.Position );
+                        foreach ( Vertex V in Pair.Value )
+                        {
+                            GL.TexCoord2( V.UV );
+                            GL.Color4( V.Color );
+                            GL.Vertex2( V.Position );
+                        }
                     }
-                }
-                GL.End( );
-
+                    GL.End( );
+                //}
                 Pair.Value.Clear( );
             }
         }

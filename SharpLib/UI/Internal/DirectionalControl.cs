@@ -26,7 +26,7 @@ namespace SharpLib2D.UI.Internal
             }
         }
 
-        protected float Length
+        public float Length
         {
             get
             {
@@ -34,7 +34,7 @@ namespace SharpLib2D.UI.Internal
             }
         }
 
-        protected internal float Thickness
+        public float Thickness
         {
             get
             {

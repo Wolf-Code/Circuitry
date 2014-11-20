@@ -30,13 +30,14 @@ namespace SharpLib2D.Graphics
             else
             {
                 Vector2 Normal = Vector.Normal( Start, End );
+                float HalfWidth = Width * 0.5f;
 
                 PrimitiveBatch.Begin( );
                 {
-                    PrimitiveBatch.AddVertex( Start + Normal * Width * 0.5f, Color.ActiveColor, Vector2.Zero );
-                    PrimitiveBatch.AddVertex( End + Normal * Width * 0.5f, Color.ActiveColor, Vector2.Zero );
-                    PrimitiveBatch.AddVertex( Start - Normal * Width * 0.5f, Color.ActiveColor, Vector2.Zero );
-                    PrimitiveBatch.AddVertex( End - Normal * Width * 0.5f, Color.ActiveColor, Vector2.Zero );
+                    PrimitiveBatch.AddVertex( Start + Normal * HalfWidth, Color.ActiveColor, Vector2.Zero );
+                    PrimitiveBatch.AddVertex( End + Normal * HalfWidth, Color.ActiveColor, Vector2.Zero );
+                    PrimitiveBatch.AddVertex( Start - Normal * HalfWidth, Color.ActiveColor, Vector2.Zero );
+                    PrimitiveBatch.AddVertex( End - Normal * HalfWidth, Color.ActiveColor, Vector2.Zero );
                 }
                 PrimitiveBatch.End( );
             }

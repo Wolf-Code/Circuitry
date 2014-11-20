@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using SharpLib2D.States;
 
 namespace SharpLib2D.Info
 {
@@ -18,6 +19,16 @@ namespace SharpLib2D.Info
             {
                 return new Vector2( Input.Game.ClientSize.Width, Input.Game.ClientSize.Height );
             }
+        }
+
+        /// <summary>
+        /// Checks to see if a position is visible with the currently active camera.
+        /// </summary>
+        /// <param name="WorldPosition"></param>
+        /// <returns></returns>
+        public static bool IsVisible( Vector2 WorldPosition )
+        {
+            return State.ActiveState.Camera.ContainsPosition( WorldPosition );
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System;
+using OpenTK;
 using OpenTK.Graphics;
 using SharpLib2D.Graphics;
 using SharpLib2D.Graphics.Objects;
@@ -142,12 +143,39 @@ namespace SharpLib2D.UI.Skin
 
         public override void DrawSlider( Slider S )
         {
+            double Ticks = S.MaxValue - S.MinValue;
+
             Vector2 Center = S.TopLeft + S.Size / 2f;
             float GripThickness = ( S.ThicknessVector * S.Grip.Size * 0.5f ).Length;
+            float MaxDist = S.Length - ( S.LengthVector * GripThickness * 2f ).Length;
             Vector2 Start = Center - S.LengthVector * S.Size * 0.5f + S.LengthVector * GripThickness;
-                            
+            Vector2 End = Start + S.LengthVector * MaxDist;
             Color.Set( 0, 0, 0, 255 );
-            Line.Draw( Start, Start + S.LengthVector * S.Size - S.LengthVector * GripThickness * 2f, 2f );
+            Line.Draw( Start, End, 2 );
+
+            if ( Ticks >= S.Length / 2f )
+                return;
+
+            double Max = Ticks;
+            for ( int X = 0; X < Max + 1; X++ )
+            {
+                float Progress = X / ( float ) Max;
+                Vector2 Pos = Start + S.LengthVector * MaxDist * Progress;
+                float Mul = 0.5f;
+                if ( X == 0 || X == Max )
+                {
+                    Pos -= S.ThicknessVector * S.Thickness * 0.5f;
+                    Mul = 1f;
+                }
+                else
+                {
+                    Pos -= S.ThicknessVector * S.Thickness * 0.25f;
+                }
+
+                End = Pos + S.ThicknessVector * S.Thickness * Mul;
+
+                Line.Draw( Pos, End, 2 );
+            }
         }
 
         public override void DrawSliderGrip( Slider.SliderGrip G )

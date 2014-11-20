@@ -45,7 +45,7 @@ namespace SharpLib2D.UI.Internal
             {
                 Graphics.Text.SetAlignments( HorizontalAlignment, VerticalAlignment );
                 Graphics.Text.DrawString( this.Text, "Arial", 9f, this.Position + this.Size / 2f,
-                    this.GetParent<CategoryHeader>( ).Opened ? Color4.Black : Color4.Gray );
+                    this.GetParent<CategoryHeader>( ).Opened ? Color4.LightGray : Color4.Gray );
             }
         }
 
