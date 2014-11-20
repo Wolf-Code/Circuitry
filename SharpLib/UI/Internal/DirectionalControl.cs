@@ -4,7 +4,7 @@ namespace SharpLib2D.UI.Internal
 {
     public abstract class DirectionalControl : Control
     {
-        protected bool Horizontal
+        public bool Horizontal
         {
             private set;
             get;

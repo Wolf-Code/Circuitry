@@ -38,6 +38,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\UserSettingAttribute.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="Entities\Camera\ScreenCamera.cs" />
@@ -75,7 +76,9 @@
     <Compile Include="Info\Directions.cs" />
     <Compile Include="Math\BoundingVolumes.cs" />
     <Compile Include="Math\Random.cs" />
+    <Compile Include="Resources\Config.cs" />
     <Compile Include="Resources\Font.cs" />
+    <Compile Include="Resources\Loaders\Config.cs" />
     <Compile Include="Resources\Loaders\Font.cs" />
     <Compile Include="Resources\Loaders\ResourceLoader.cs" />
     <Compile Include="Resources\Texture.cs" />
@@ -96,6 +99,7 @@
     <Compile Include="States\State.cs" />
     <Compile Include="UI\CategoryList.cs" />
     <Compile Include="UI\Checkbox.cs" />
+    <Compile Include="UI\HorizontalSlider.cs" />
     <Compile Include="UI\Interfaces\IMinMaxValue.cs" />
     <Compile Include="UI\Interfaces\ISizeToContentable.cs" />
     <Compile Include="UI\Interfaces\ITextControl.cs" />
@@ -119,6 +123,7 @@
     <Compile Include="UI\Control.cs" />
     <Compile Include="UI\Skin\DefaultSkin.cs" />
     <Compile Include="UI\Skin\Skin.cs" />
+    <Compile Include="UI\VerticalSlider.cs" />
     <Compile Include="UI\Window.cs" />
   </ItemGroup>
   <ItemGroup>

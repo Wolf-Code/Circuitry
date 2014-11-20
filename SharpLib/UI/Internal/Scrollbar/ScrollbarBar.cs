@@ -74,7 +74,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             if ( Canvas.Dragger.IsDragging<ScrollbarBarDragger>( ) && Canvas.Dragger.DraggingEntity == Dragger )
                 return;
 
-            if ( Control.Value <= 0 )
+            if ( Control.Value <= this.Scrollbar.MinValue )
             {
                 Dragger.SetPosition( 0, 0 );
                 return;

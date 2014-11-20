@@ -109,5 +109,15 @@ namespace SharpLib2D.UI.Skin
         {
             throw new NotImplementedException( );
         }
+
+        public override void DrawSlider( Slider S )
+        {
+            throw new NotImplementedException( );
+        }
+
+        public override void DrawSliderGrip( Slider.SliderGrip G )
+        {
+            throw new NotImplementedException( );
+        }
     }
 }

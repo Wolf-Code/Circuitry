@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics;
+﻿using OpenTK;
+using OpenTK.Graphics;
 using SharpLib2D.Graphics;
 using SharpLib2D.Graphics.Objects;
 using SharpLib2D.Info;
@@ -24,10 +25,12 @@ namespace SharpLib2D.UI.Skin
             NinePatch_Buttons = NinePatch.CreateNinePatches( 480, 0, 31, 31, 2, 2, 2, 2, 4, false, true, 1 ),
             NinePatch_CloseButtons = NinePatch.CreateNinePatches( 3, 225, 21, 17, 4, 1, 4, 4, 4, true, true, 11 ),
             NinePatch_CheckBox_Enabled = NinePatch.CreateNinePatches( 448, 32, 15, 15, 2, 2, 2, 2, 2, true, true, 1 ),
-            NinePatch_ScrollbarButtons_Normal = NinePatch.CreateNinePatches( 464, 208, 15, 15, 2, 2, 2, 2, 4, false,true, 1 ),
-            NinePatch_ScrollbarButtons_Hover = NinePatch.CreateNinePatches( 480, 208, 15, 15, 2, 2, 2, 2, 4, false, true,1 ),
-            NinePatch_ScrollbarButtons_Down = NinePatch.CreateNinePatches( 464, 272, 15, 15, 2, 2, 2, 2, 4, false, true,1 ),
-            NinePatch_Scrollbars = NinePatch.CreateNinePatches( 384, 208, 15, 127, 2, 2, 2, 2, 5, true, true, 1 );
+            NinePatch_ScrollbarButtons_Normal = NinePatch.CreateNinePatches( 464, 208, 15, 15, 2, 2, 2, 2, 4, false, true, 1 ),
+            NinePatch_ScrollbarButtons_Hover = NinePatch.CreateNinePatches( 480, 208, 15, 15, 2, 2, 2, 2, 4, false, true, 1 ),
+            NinePatch_ScrollbarButtons_Down = NinePatch.CreateNinePatches( 464, 272, 15, 15, 2, 2, 2, 2, 4, false, true, 1 ),
+            NinePatch_Scrollbars = NinePatch.CreateNinePatches( 384, 208, 15, 127, 2, 2, 2, 2, 5, true, true, 1 ),
+            NinePatch_SliderGrips_Horizontal = NinePatch.CreateNinePatches( 418, 33, 11, 14, 2, 2, 2, 5, 4, false, true, 2 ),
+            NinePatch_SliderGrips_Vertical = NinePatch.CreateNinePatches( 433, 34, 14, 11, 2, 2, 5, 2, 4, false, true, 5 );
 
         public GwenTextureSkin( Texture GwenTexture )
         {
@@ -135,6 +138,22 @@ namespace SharpLib2D.UI.Skin
             }
 
             DrawControl( B, Col );
+        }
+
+        public override void DrawSlider( Slider S )
+        {
+            Vector2 Center = S.TopLeft + S.Size / 2f;
+            float GripThickness = ( S.ThicknessVector * S.Grip.Size * 0.5f ).Length;
+            Vector2 Start = Center - S.LengthVector * S.Size * 0.5f + S.LengthVector * GripThickness;
+                            
+            Color.Set( 0, 0, 0, 255 );
+            Line.Draw( Start, Start + S.LengthVector * S.Size - S.LengthVector * GripThickness * 2f, 2f );
+        }
+
+        public override void DrawSliderGrip( Slider.SliderGrip G )
+        {
+            DrawButtonDefault( G,
+                G.Slider.Horizontal ? NinePatch_SliderGrips_Horizontal : NinePatch_SliderGrips_Vertical );
         }
     }
 }

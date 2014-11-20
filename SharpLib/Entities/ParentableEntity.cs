@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using OpenTK;
 using SharpLib2D.States;
 
 namespace SharpLib2D.Entities
@@ -87,6 +88,25 @@ namespace SharpLib2D.Entities
                 if ( State.ActiveState.Entities.Contains( this ) )
                     Unlist( );
             }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="List{T}"/> containing children, ordered by their Z-value.
+        /// </summary>
+        /// <typeparam name="T">The type of children to return.</typeparam>
+        /// <returns>A <see cref="List{T}"/> containing all children of type <typeparamref name="T"/>, ordered by their Z-value.</returns>
+        protected List<T> OrderedEntities<T>( ) where T : UpdatableEntity
+        {
+            return Children.OfType<T>( ).OrderByDescending( O => O.Z ).ToList( );
+        }
+
+        public override void Update( FrameEventArgs e )
+        {
+            List<UpdatableEntity> Ents = OrderedEntities<UpdatableEntity>( );
+
+            // ReSharper disable once ForCanBeConvertedToForeach
+            for ( int Q = 0; Q < Ents.Count; Q++ )
+                Ents[ Q ].Update( e );
         }
     }
 }

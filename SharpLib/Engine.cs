@@ -16,6 +16,7 @@ namespace SharpLib2D
         protected Engine( )
         {
             Input.Initialize( this );
+            this.VSync = VSyncMode.Off;
         }
 
         protected override void OnLoad( EventArgs e )

@@ -27,16 +27,6 @@ namespace SharpLib2D.Entities
         }
 
         /// <summary>
-        /// Returns a <see cref="List{T}"/> containing children, ordered by their Z-value.
-        /// </summary>
-        /// <typeparam name="T">The type of children to return.</typeparam>
-        /// <returns>A <see cref="List{T}"/> containing all children of type <typeparamref name="T"/>, ordered by their Z-value.</returns>
-        protected List<T> OrderedEntities<T>( ) where T : UpdatableEntity
-        {
-            return Children.OfType<T>( ).OrderByDescending( O => O.Z ).ToList( );
-        }
-
-        /// <summary>
         /// Gets the latest added child at <paramref name="WorldPosition"/>.
         /// </summary>
         /// <param name="WorldPosition">The world position to check for.</param>

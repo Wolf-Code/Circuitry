@@ -53,6 +53,17 @@ namespace SharpLib2D.Entities
             return Dragging && DraggingEntity is T;
         }
 
+        /// <summary>
+        /// Returns true if we're dragging the <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the entity.</typeparam>
+        /// <param name="Entity">The entity to check for.</param>
+        /// <returns></returns>
+        public bool IsDragging<T>( T Entity ) where T : Entity
+        {
+            return IsDragging<T>( ) && DraggingEntity == Entity;
+        }
+
         protected virtual Vector2 TransformPosition( Vector2 NewEntityPosition )
         {
             return NewEntityPosition;
