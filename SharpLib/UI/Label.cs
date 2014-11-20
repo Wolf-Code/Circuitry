@@ -31,7 +31,7 @@ namespace SharpLib2D.UI
         public Label( )
         {
             Font = "Arial";
-            FontSize = 12;
+            FontSize = 10;
             Text = string.Empty;
             IgnoreMouseInput = true;
             PreventLeavingParent = false;

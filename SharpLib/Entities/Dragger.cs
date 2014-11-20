@@ -88,13 +88,14 @@ namespace SharpLib2D.Entities
         {
             if ( !Dragging )
                 return;
-
-            if ( OnDrop != null )
-                OnDrop( this, DraggingEntity );
+            Entity Drag = DraggingEntity;
 
             Dragging = false;
             DraggingEntity = null;
             LocalGrabPoint = Vector2.Zero;
+
+            if ( OnDrop != null )
+                OnDrop( this, Drag );
         }
     }
 }

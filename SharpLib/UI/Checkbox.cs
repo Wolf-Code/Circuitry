@@ -8,8 +8,19 @@ namespace SharpLib2D.UI
         /// <summary>
         /// Returns whether or not the checkbox is checked.
         /// </summary>
-        public bool Checked { private set; get; }
+        public bool Checked
+        {
+            set
+            {
+                Checked1 = value;
+                if ( OnCheckedChanged != null )
+                    OnCheckedChanged( this );
+            }
+            get { return Checked1; }
+        }
+
         protected readonly Label Label;
+        private bool Checked1;
 
         /// <summary>
         /// Gets called whenever the checkbox is checked or unchecked.
@@ -43,7 +54,7 @@ namespace SharpLib2D.UI
 
         private void LeftClick( Control Control )
         {
-            SetChecked( !Checked );
+            Checked = !Checked;
         }
 
         public void SetText( string NewText )
@@ -52,14 +63,6 @@ namespace SharpLib2D.UI
             Label.SizeToContents( );
             Label.SetPosition( Width, 0 );
             Label.SetSize( Label.Width, Height );
-        }
-
-        public void SetChecked( bool NewChecked )
-        {
-            Checked = NewChecked;
-
-            if ( OnCheckedChanged != null )
-                OnCheckedChanged( this );
         }
 
         protected override void DrawSelf( )

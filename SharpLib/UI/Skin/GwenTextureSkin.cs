@@ -143,16 +143,18 @@ namespace SharpLib2D.UI.Skin
 
         public override void DrawSlider( Slider S )
         {
-            double Ticks = S.MaxValue - S.MinValue;
+            Texture.EnableTextures( false );
 
             Vector2 Center = S.TopLeft + S.Size / 2f;
             float GripThickness = ( S.ThicknessVector * S.Grip.Size * 0.5f ).Length;
             float MaxDist = S.Length - ( S.LengthVector * GripThickness * 2f ).Length;
             Vector2 Start = Center - S.LengthVector * S.Size * 0.5f + S.LengthVector * GripThickness;
             Vector2 End = Start + S.LengthVector * MaxDist;
-            Color.Set( 0, 0, 0, 255 );
-            Line.Draw( Start, End, 2 );
 
+            Color.Set( Color4.Gray );
+            Line.Draw( Start, End, 2f );
+
+            double Ticks = S.MaxValue - S.MinValue;
             if ( Ticks >= S.Length / 2f )
                 return;
 
@@ -162,15 +164,13 @@ namespace SharpLib2D.UI.Skin
                 float Progress = X / ( float ) Max;
                 Vector2 Pos = Start + S.LengthVector * MaxDist * Progress;
                 float Mul = 0.5f;
-                if ( X == 0 || X == Max )
+                if ( X == 0 || X == ( int ) Max )
                 {
-                    Pos -= S.ThicknessVector * S.Thickness * 0.5f;
+                    Pos -= S.ThicknessVector * S.Thickness * Mul;
                     Mul = 1f;
                 }
                 else
-                {
-                    Pos -= S.ThicknessVector * S.Thickness * 0.25f;
-                }
+                    Pos -= S.ThicknessVector * S.Thickness * Mul * 0.5f;
 
                 End = Pos + S.ThicknessVector * S.Thickness * Mul;
 

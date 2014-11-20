@@ -31,7 +31,7 @@ namespace SharpLib2D.UI.Internal
             protected override void OnReposition( Vector2 OldPosition, Vector2 NewPosition )
             {
                 base.OnReposition( OldPosition, NewPosition );
-
+                
                 float MaxDist = this.Slider.Length - ( this.Size * this.Slider.LengthVector ).Length;
                 this.Slider.Value = this.Slider.MinValue +
                                     ( this.Slider.MaxValue - this.Slider.MinValue ) *
@@ -92,7 +92,9 @@ namespace SharpLib2D.UI.Internal
             set
             {
                 // ReSharper disable once CompareOfFloatsByEqualityOperator
-                double Val = System.Math.Min( this.MaxValue, System.Math.Max( this.MinValue, value ) );
+                double Val =
+                    System.Math.Round( System.Math.Min( this.MaxValue, System.Math.Max( this.MinValue, value ) ),
+                        RoundDigits );
 
                 if ( m_Value == Val ) return;
 
@@ -130,12 +132,17 @@ namespace SharpLib2D.UI.Internal
             this.OnMinValueChanged += Slider_OnMinValueChanged;
             this.OnMaxValueChanged += Slider_OnMaxValueChanged;
             this.OnValueChanged += Slider_OnValueChanged;
+            Canvas.Dragger.OnDrop += ( Dragger, Entity ) =>
+            {
+                if( Entity == this.Grip )
+                    Slider_OnValueChanged( this );
+            };
         }
 
         private void Slider_OnValueChanged( Slider Control )
         {
-           // if ( Canvas.Dragger.IsDragging( Grip ) )
-            //    return;
+            if ( Canvas.Dragger.IsDragging( Grip ) )
+                return;
 
             if ( Control.Value <= MinValue )
             {
@@ -143,7 +150,7 @@ namespace SharpLib2D.UI.Internal
                 return;
             }
 
-            this.MoveGrip( Control.MinValue, Control.MaxValue, System.Math.Round( Control.Value, this.RoundDigits ) );
+            this.MoveGrip( Control.MinValue, Control.MaxValue, Control.Value );
         }
 
         private void Slider_OnMaxValueChanged( Slider Control )
@@ -158,7 +165,7 @@ namespace SharpLib2D.UI.Internal
 
         private void MoveGrip( double Min, double Max, double Val )
         {
-            double Div = Val / ( Min + Max );
+            double Div = ( Val - Min ) / ( Max - Min );
             float MaxMovement = Length - ( this.Grip.Size * this.LengthVector ).Length;
 
             Grip.SetPosition( this.LengthVector * ( float )( MaxMovement * Div ) );
