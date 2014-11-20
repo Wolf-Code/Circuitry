@@ -14,10 +14,9 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             }
         }
 
-        public ScrollbarBarDragger( ScrollbarBar Bar )
+        public ScrollbarBarDragger( ScrollbarBar Bar ) : base( Bar )
         {
             this.Bar = Bar;
-            SetParent( Bar );
             PreventLeavingParent = true;
         }
 
@@ -53,10 +52,9 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             get { return ( Scrollbar.LengthVector * Size ).Length; }
         }
 
-        public ScrollbarBar( Scrollbar Scrollbar )
+        public ScrollbarBar( Scrollbar Scrollbar ) : base( Scrollbar )
         {
             this.Scrollbar = Scrollbar;
-            SetParent( this.Scrollbar );
             Dragger = new ScrollbarBarDragger( this );
             this.Scrollbar.OnValueChanged += Scrollbar_OnValueChanged;
             SharpLibUIEventHandler<Scrollbar> MinMaxChange = Scrollbar1 =>

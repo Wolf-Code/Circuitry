@@ -42,7 +42,7 @@ namespace SharpLib2D.UI.Internal
             }
         }
 
-        protected DirectionalControl( bool Horizontal )
+        protected DirectionalControl( Control Parent, bool Horizontal ) : base( Parent )
         {
             this.Horizontal = Horizontal;
         }

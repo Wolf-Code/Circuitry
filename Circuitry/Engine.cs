@@ -24,7 +24,7 @@ namespace Circuitry
 
             Loader.CacheFolder( "Resources" );
 
-            State.StartState<Game>( );
+            State.StartState<Game2>( );
 
             base.OnLoad( e );
         }

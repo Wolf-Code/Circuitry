@@ -6,7 +6,7 @@ namespace SharpLib2D.UI.Internal.Scrollbar
     {
         public Directions.Direction Direction { private set; get; }
 
-        public ScrollbarButton( Directions.Direction Direction )
+        public ScrollbarButton( Scrollbar Bar, Directions.Direction Direction ) : base( Bar )
         {
             this.Direction = Direction;
             SetSize( 15, 15 );

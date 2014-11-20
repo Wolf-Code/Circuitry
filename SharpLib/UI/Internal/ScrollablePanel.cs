@@ -57,16 +57,16 @@ namespace SharpLib2D.UI.Internal
             get { return ScrollValues1; }
         }
 
-        protected ScrollablePanel( )
+        protected ScrollablePanel( Control Parent ) : base( Parent )
         {
             this.ShowHorizontalScrollbar = false;
             this.ShowVerticalScrollbar = true;
-            this.ContentPanel = new InvisiblePanel( );
+            this.ContentPanel = new InvisiblePanel( this );
             this.ContentPanel.SetParent( this );
             this.ContentPanel.SetSize( this.Size );
             this.ContentPanel.SetVisibleRegion( this.VisibleRectangle );
 
-            this.HorizontalScrollBar = new HorizontalScrollbar
+            this.HorizontalScrollBar = new HorizontalScrollbar( this )
             {
                 Value = 0,
                 MinValue = 0,
@@ -75,7 +75,7 @@ namespace SharpLib2D.UI.Internal
             this.HorizontalScrollBar.SetParent( this );
             this.HorizontalScrollBar.OnValueChanged += OnBarValueChanged;
 
-            this.VerticalScrollBar = new VerticalScrollbar
+            this.VerticalScrollBar = new VerticalScrollbar( this )
             {
                 Value = 0,
                 MinValue = 0,

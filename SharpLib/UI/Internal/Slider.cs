@@ -1,5 +1,4 @@
-﻿using System;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Input;
 using SharpLib2D.UI.Interfaces;
 
@@ -14,10 +13,9 @@ namespace SharpLib2D.UI.Internal
                 get { return this.GetParent<Slider>( ); }
             }
 
-            public SliderGrip( Slider S )
+            public SliderGrip( Slider S ) : base( S )
             {
                 this.PreventLeavingParent = true;
-                this.SetParent( S );
             }
 
             public override void OnButtonPressed( MouseButton Button )
@@ -122,7 +120,7 @@ namespace SharpLib2D.UI.Internal
         private const float SliderThickness = 15;
         private const float GripThickness = 12;
 
-        protected Slider( bool Horizontal ) : base( Horizontal )
+        protected Slider( Control Parent, bool Horizontal ) : base( Parent, Horizontal )
         {
             this.Grip = new SliderGrip( this );
             this.Grip.SetSize( this.ThicknessVector * SliderThickness + this.LengthVector * GripThickness );

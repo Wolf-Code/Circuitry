@@ -6,6 +6,7 @@ using Circuitry.Components.Circuits;
 using SharpLib2D.Resources;
 using SharpLib2D.States;
 using SharpLib2D.UI;
+using SharpLib2D.UI.Internal;
 using SharpLib2D.UI.Skin;
 
 namespace Circuitry.States
@@ -18,6 +19,10 @@ namespace Circuitry.States
             get;
         }
 
+        protected Window ControlWindow { private set; get; }
+        protected Window GateWindow { private set; get; }
+        protected CategoryList GateList { private set; get; }
+
         protected override void OnStart( )
         {
             base.OnStart( );
@@ -27,16 +32,13 @@ namespace Circuitry.States
 
             #region Control Window
 
-            Window ControlWindow = new Window( "Controls", Canvas )
+            ControlWindow = new Window( "Controls", Canvas )
             {
-                Height = 150,
-                Width = 600,
-                ShowCloseButton = false,
-                PreventLeavingParent = true
+                Height = 230,
+                ShowCloseButton = false
             };
             
-            Button Mode = new Button( "Set Active" );
-            Mode.SetParent( ControlWindow );
+            Button Mode = new Button( ControlWindow, "Set Active" );
             Mode.SetPosition( 10,10 );
             
             Mode.OnClick += sender =>
@@ -45,25 +47,22 @@ namespace Circuitry.States
                 Circuit.ToggleState( );
             };
 
-            Checkbox SnapToGrid = new Checkbox { Checked = Circuit.SnapToGrid };
-            SnapToGrid.SetParent( ControlWindow );
+            Checkbox SnapToGrid = new Checkbox( ControlWindow ) { Checked = Circuit.SnapToGrid };
             SnapToGrid.SetText( "Snap to grid" );
             SnapToGrid.OnCheckedChanged += sender => { Circuit.SnapToGrid = SnapToGrid.Checked; };
             SnapToGrid.AlignLeft( Mode );
             SnapToGrid.MoveBelow( Mode, 5 );
 
-            Checkbox ShowGrid = new Checkbox { Checked = Circuit.ShowGrid };
+            Checkbox ShowGrid = new Checkbox( ControlWindow ) { Checked = Circuit.ShowGrid };
             ShowGrid.OnCheckedChanged += sender =>
             {
                 Circuit.ShowGrid = ShowGrid.Checked;
             };
-            ShowGrid.SetParent( ControlWindow );
             ShowGrid.AlignLeft( SnapToGrid );
             ShowGrid.MoveBelow( SnapToGrid, 5 );
             ShowGrid.SetText( "Show grid" );
 
-            Checkbox ShowGateLabels = new Checkbox { Checked = Circuit.ShowLabels };
-            ShowGateLabels.SetParent( ControlWindow );
+            Checkbox ShowGateLabels = new Checkbox( ControlWindow ) { Checked = Circuit.ShowLabels };
             ShowGateLabels.OnCheckedChanged += sender =>
             {
                 Circuit.ShowLabels = ShowGateLabels.Checked;
@@ -72,13 +71,12 @@ namespace Circuitry.States
             ShowGateLabels.AlignLeft( ShowGrid );
             ShowGateLabels.MoveBelow( ShowGrid, 5 );
 
-            Label GridSliderLabel = new Label( );
-            GridSliderLabel.SetParent( ControlWindow );
+            Label GridSliderLabel = new Label( ControlWindow );
             GridSliderLabel.SetText( "Grid size: " + Circuit.GridSize );
             GridSliderLabel.SizeToContents( );
             GridSliderLabel.MoveRightOf( Mode, 40 );
 
-            HorizontalSlider GridSize = new HorizontalSlider
+            HorizontalSlider GridSize = new HorizontalSlider( ControlWindow )
             {
                 MinValue = 3,
                 MaxValue = 7,
@@ -93,27 +91,23 @@ namespace Circuitry.States
             GridSize.AlignLeft( GridSliderLabel );
             GridSize.MoveBelow( GridSliderLabel );
             GridSize.SetSize( 150, 20 );
-            GridSize.SetParent( ControlWindow );
 
             #endregion
-            /*
+            
             #region Gate Window
 
-            WindowControl GateWindow = new WindowControl( GwenCanvas, "Gates" )
+            GateWindow = new Window( "Gates", Canvas )
             {
                 Width = 150,
-                Dock = Pos.Left,
-                IsClosable = false
+                ShowCloseButton = false
             };
 
-            CollapsibleList GateList = new CollapsibleList( GateWindow )
-            {
-                Dock = Pos.Fill
-            };
+            GateList = new CategoryList( GateWindow );
+            GateList.SetSize( GateWindow.Size );
 
             #region Adding Gates and Categories
 
-            Dictionary<string, CollapsibleCategory> Categories = new Dictionary<string, CollapsibleCategory>( );
+            Dictionary<string, CategoryHeader> Categories = new Dictionary<string, CategoryHeader>( );
 
             foreach ( Type T in Assembly.GetExecutingAssembly( ).GetTypes( ) )
             {
@@ -123,24 +117,42 @@ namespace Circuitry.States
 
                 // ReSharper disable once PossibleNullReferenceException
                 if ( !Categories.ContainsKey( G.Category ) )
-                    Categories.Add( G.Category, GateList.Add( G.Category ) );
+                    Categories.Add( G.Category, GateList.AddCategory( G.Category ) );
 
-                Button GateButton = Categories[ G.Category ].Add( G.Name );
+                Button GateButton = Categories[ G.Category ].AddButton( G.Name );
                 GateButton.UserData = T;
-                GateButton.Clicked += GateButton_Clicked;
+                GateButton.OnClick += GateButton_Clicked;
                 G.Remove( );
             }
 
             #endregion
 
-            #endregion*/
+            #endregion
+
+            LayoutWindows( );
         }
-        /*
-        void GateButton_Clicked( Base control )
+
+        private void LayoutWindows( )
+        {
+            ControlWindow.SetWidth( this.Canvas.Width );
+            ControlWindow.SetPosition( 0, this.Canvas.Height - ControlWindow.Height );
+
+            GateWindow.SetHeight( this.Canvas.Height - ControlWindow.TitleBar.BoundingVolume.Height );
+            GateList.SetSize( GateWindow.Size );
+        }
+
+        protected override void OnResize( )
+        {
+            base.OnResize( );
+
+            LayoutWindows( );
+        }
+
+        void GateButton_Clicked( Button control )
         {
             if ( Circuit.CurrentState == Circuit.State.Active ) return;
 
             Circuit.StartGatePlacing( control.UserData as Type );
-        }*/
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Input;
+using SharpLib2D.Info;
 using SharpLib2D.Objects;
 
 namespace SharpLib2D.UI.Internal
@@ -9,15 +10,17 @@ namespace SharpLib2D.UI.Internal
         protected readonly Window Window;
         public readonly WindowCloseButton Button;
         protected readonly Label Label;
+        public bool Draggable { set; get; }
 
-        public WindowTitleBar( string Title, Window W )
+        public WindowTitleBar( string Title, Window W ) : base( null )
         {
             Window = W;
             Button = new WindowCloseButton( this );
-            Label = new Label( );
+            Label = new Label( this );
             Label.SetParent( this );
             Label.SetText( Title );
-            SetSize( 100, 23 );
+            Label.VerticalAlignment = Directions.VerticalAlignment.Center;
+            SetSize( W.Width, 23 );
         }
 
         protected override void OnResize( Vector2 OldSize, Vector2 NewSize )
@@ -30,7 +33,7 @@ namespace SharpLib2D.UI.Internal
 
         public override void OnButtonPressed( MouseButton Button )
         {
-            if ( Button == MouseButton.Left )
+            if ( Button == MouseButton.Left && Draggable )
                 Canvas.Dragger.StartDragging( this );
         }
 

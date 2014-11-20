@@ -104,14 +104,6 @@ namespace SharpLib2D.UI
 
         #endregion
 
-        protected Control( )
-        {
-            Visible = true;
-            PreventLeavingParent = false;
-            PreventDrawingOutsideVisibleArea = true;
-            SetParent( ( ( UIState ) State.ActiveState ).Canvas );
-        }
-
         protected Control( Control Parent )
         {
             Visible = true;

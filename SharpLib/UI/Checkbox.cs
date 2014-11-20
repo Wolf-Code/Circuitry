@@ -38,10 +38,10 @@ namespace SharpLib2D.UI
             get { return this.Label.Text; }
         }
 
-        public Checkbox( string Text = "" )
+        public Checkbox( Control Parent, string Text = "" ) : base( Parent )
         {
             SetSize( 15, 15 );
-            Label = new Label( );
+            Label = new Label( this );
             Label.SetParent( this );
             Label.IgnoreMouseInput = false;
             Label.FontSize = 10;

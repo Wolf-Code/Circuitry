@@ -7,8 +7,8 @@ namespace SharpLib2D.UI
     /// </summary>
     public class VerticalScrollbar : Scrollbar
     {
-        public VerticalScrollbar( )
-            : base( false )
+        public VerticalScrollbar( Control Parent )
+            : base( Parent, false )
         {
 
         }

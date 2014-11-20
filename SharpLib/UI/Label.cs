@@ -28,7 +28,7 @@ namespace SharpLib2D.UI
         /// </summary>
         public Directions.VerticalAlignment VerticalAlignment { set; get; }
 
-        public Label( )
+        public Label( Control Parent ) : base( Parent )
         {
             Font = "Arial";
             FontSize = 10;

@@ -7,7 +7,7 @@ namespace SharpLib2D.UI
     /// </summary>
     public class HorizontalScrollbar : Scrollbar
     {
-        public HorizontalScrollbar( ) : base( true )
+        public HorizontalScrollbar( Control Parent ) : base( Parent, true )
         {
 
         }

@@ -4,7 +4,7 @@ namespace SharpLib2D.UI
 {
     public class HorizontalSlider : Slider
     {
-        public HorizontalSlider( ) : base( true )
+        public HorizontalSlider( Control Parent ) : base( Parent, true )
         {
 
         }

@@ -2,6 +2,9 @@
 {
     public class Panel : Control
     {
+        public Panel( Control Parent ) : base( Parent )
+        {
 
+        }
     }
 }

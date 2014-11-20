@@ -19,6 +19,11 @@ namespace SharpLib2D.UI.Internal
             this.VisRect = Size;
         }
 
+        public InvisiblePanel( Control Parent ) : base( Parent )
+        {
+
+        }
+
         protected override void DrawSelf( )
         {
 

@@ -141,7 +141,7 @@ namespace SharpLib2D.Graphics
             TextObject O = TextObjectContainer.GetTextObject( Text, Font, Size );
             O.Texture.Bind( );
 
-            Vector2 S = MeasureString( Text, Font, Size );
+            Vector2 S = new Vector2( O.Width, O.Height );
 
             switch ( HorAlignment )
             {

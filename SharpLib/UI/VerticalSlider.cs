@@ -4,7 +4,7 @@ namespace SharpLib2D.UI
 {
     public class VerticalSlider : Slider
     {
-        public VerticalSlider( ) : base( false )
+        public VerticalSlider( Control Parent ) : base( Parent, false )
         {
 
         }

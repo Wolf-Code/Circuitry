@@ -5,10 +5,9 @@ namespace SharpLib2D.UI.Internal
     {
         public WindowTitleBar TitleBar { private set; get; }
 
-        public WindowCloseButton( WindowTitleBar Bar )
+        public WindowCloseButton( WindowTitleBar Bar ) : base( Bar )
         {
             TitleBar = Bar;
-            SetParent( TitleBar );
             SetSize( 21, 17 );
             OnClick += Control => TitleBar.Remove( );
         }

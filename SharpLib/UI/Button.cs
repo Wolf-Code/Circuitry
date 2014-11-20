@@ -15,7 +15,7 @@ namespace SharpLib2D.UI
         /// </summary>
         public event SharpLibUIEventHandler<Button> OnClick;
 
-        public Button( string Text = "" )
+        public Button( Control Parent, string Text = "" ) : base( Parent )
         {
             IgnoreMouseInput = false;
             HorizontalAlignment = Directions.HorizontalAlignment.Center;

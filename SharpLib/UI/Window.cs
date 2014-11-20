@@ -11,6 +11,15 @@ namespace SharpLib2D.UI
         public WindowTitleBar TitleBar { private set; get; }
 
         /// <summary>
+        /// Indicates if the window can be dragged.
+        /// </summary>
+        public bool IsDraggable
+        {
+            set { this.TitleBar.Draggable = value; }
+            get { return this.TitleBar.Draggable; }
+        }
+
+        /// <summary>
         /// Whether to show the close button.
         /// </summary>
         public bool ShowCloseButton
@@ -19,10 +28,11 @@ namespace SharpLib2D.UI
             get { return this.TitleBar.Visible; }
         }
 
-        public Window( string Title, Canvas Cnv )
+        public Window( string Title, Canvas Cnv ) : base( null )
         {
             TitleBar = new WindowTitleBar( Title, this );
             TitleBar.SetParent( Cnv );
+            TitleBar.PreventLeavingParent = true;
             SetParent( TitleBar );
             SetSize( 100, 100 );
             SetPosition( 0, 0 );

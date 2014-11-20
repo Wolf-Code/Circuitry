@@ -28,10 +28,10 @@ namespace SharpLib2D.Graphics.Objects
                 using ( System.Drawing.Graphics G = System.Drawing.Graphics.FromImage( B ) )
                 {
                     G.TextRenderingHint = TextRenderingHint.AntiAlias;
-                    G.Clear( System.Drawing.Color.Transparent );
+                    G.Clear( System.Drawing.Color.FromArgb( 0 ) );
                     G.DrawString( Text,
                         Graphics.Text.GetFont( Font, Size ),
-                        Brushes.White,
+                        new SolidBrush( System.Drawing.Color.White ), 
                         PointF.Empty );
                 }
 

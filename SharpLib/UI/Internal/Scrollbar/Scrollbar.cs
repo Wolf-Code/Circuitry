@@ -66,17 +66,17 @@ namespace SharpLib2D.UI.Internal.Scrollbar
             get { return Buttons[ 0 ].Size.X; }
         }
 
-        protected Scrollbar( bool Horizontal ) : base( Horizontal )
+        protected Scrollbar( Control Parent, bool Horizontal ) : base( Parent, Horizontal )
         {
             MinValue = 0;
             MaxValue = 100;
 
             if ( Horizontal )
                 Buttons = new [ ]
-                { new ScrollbarButton( Directions.Direction.Left ), new ScrollbarButton( Directions.Direction.Right ) };
+                { new ScrollbarButton( this, Directions.Direction.Left ), new ScrollbarButton( this, Directions.Direction.Right ) };
             else
                 Buttons = new [ ]
-                { new ScrollbarButton( Directions.Direction.Up ), new ScrollbarButton( Directions.Direction.Down ) };
+                { new ScrollbarButton( this, Directions.Direction.Up ), new ScrollbarButton( this, Directions.Direction.Down ) };
 
             for ( int Index = 0; Index < Buttons.Length; Index++ )
             {
@@ -85,8 +85,6 @@ namespace SharpLib2D.UI.Internal.Scrollbar
                     B.OnClick += OnClickBack;
                 else
                     B.OnClick += OnClickForward;
-
-                B.SetParent( this );
             }
 
             Bar = new ScrollbarBar( this );

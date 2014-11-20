@@ -5,6 +5,11 @@ namespace SharpLib2D.UI
 {
     public class CategoryList : ScrollablePanel
     {
+        public CategoryList( Control Parent ) : base( Parent )
+        {
+
+        }
+
         /// <summary>
         /// Adds a category to the category list and returns the new header.
         /// </summary>
@@ -12,7 +17,7 @@ namespace SharpLib2D.UI
         /// <returns>A new <see cref="CategoryHeader"/>.</returns>
         public CategoryHeader AddCategory( string Title )
         {
-            CategoryHeader Header = new CategoryHeader( Title );
+            CategoryHeader Header = new CategoryHeader( this, Title );
 
             Header.SetWidth( this.ContentPanel.Width );
             Header.SetParent( this.ContentPanel );
